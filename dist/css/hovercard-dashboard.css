@@ -1,0 +1,10 @@
+.card{
+    background-color: transparent
+    
+}
+
+.card:hover{
+    background-color: #005dd6;
+    color: white;
+    transition: 0.7s;
+}

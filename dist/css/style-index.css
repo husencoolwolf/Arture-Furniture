@@ -1,0 +1,107 @@
+#topJumpBtn{
+	position: fixed;
+        width:50px;
+        height: 50px;
+	right: 50px; 
+	bottom: 50px;
+       color: white;
+}
+
+#topJumpBtn.btn{
+    background-color: rgba(0, 123, 255,0.8);
+}
+#topJumpBtn.btn:hover{
+    background-color: rgba(0, 123, 255,1);
+}
+
+#tutorBtn{
+	float: right;
+}
+
+#tutorText{
+	float: left;
+	padding-left: 60px;
+}
+
+#Tutor{
+	display: block;
+}
+
+.jumbotron{
+	background-color: rgb(141, 101, 101);
+	height: 600px;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-image: url(../../assets/gambar/pexels-pixabay-262978-2.jpg);
+	
+}
+div.jumbotron{
+	height: 100%;
+	
+}
+#BrandName{
+	justify-content: center;
+	font-size: 120%;
+}
+
+#closeNavBawah{
+	margin-left: 10px;
+}
+
+.contact-button > button{
+	background-color:black;
+	border-color: white;
+	color: rgb(79, 206, 93);
+}
+
+#contact-us{
+	background-color: lightgrey;
+}
+#topJumpBtn{
+	position: fixed; 
+	right: 50px; 
+	bottom: 50px;
+}
+
+.card-img-top{
+	min-height: 180px;
+}
+
+
+.card{
+
+	min-height: 100%;
+} 
+
+@media screen and (max-width: 935px) {
+	div#tutorText{
+		padding-left: 0px;
+		align-items: center;
+		text-align: center;
+	}
+	div#tutorBtn{
+		float: none;
+		text-align: center;
+
+	}
+
+	.orderButton{
+		justify-content: center;
+	}
+
+	#BrandName{
+		font-size: 150%;
+	}
+
+	#topJumpBtn{
+		bottom: 100px;
+		
+	}
+}
+
+@media screen and (max-width: 770px) {
+	#topJumpBtn{
+		bottom: 130px;
+	}
+}
