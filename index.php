@@ -32,7 +32,7 @@
           <img class="" src="/fargasa/assets/Fargasa Logo Circle.png" alt="Dashboard" style="width: 80px">
         </a>
       </ul>
-      <ul class="navbar-nav mx-auto">
+      <ul class="navbar-nav ml-auto">
         <li class="nav-item px-3 ml-0">
           <a class="nav-link active" href="#catalog">CATALOG <span class="sr-only">(current)</span></a>
         </li>
