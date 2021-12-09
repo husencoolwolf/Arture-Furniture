@@ -1,0 +1,25 @@
+/* navbar ats */
+#navbar-atas.navbar {
+    background-color: #d0b10e;
+}
+
+
+.badge.cart-notification {
+    border-radius: 50%;
+    left: -10px;
+    top: -10px;
+}
+
+ul.link-navbar-atas>li>a {
+    color: white;
+    font-weight: bold;
+}
+
+ul.link-navbar-atas>li>a:hover {
+    color: #483b39 !important;
+    font-weight: bold;
+}
+
+/* #navbar-bawah.navbar {
+    background-color: #483b39;
+} */
