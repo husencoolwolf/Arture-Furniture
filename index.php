@@ -8,7 +8,7 @@
   <title>Arture Furniture</title>
   <link rel="stylesheet" href="dist/css/bootstrap.css">
   <link rel="stylesheet" href="dist/font-awesome-4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dist/css/pages/navbar-index.css">
 </head>
 
 <body class="bg-light">
@@ -27,7 +27,7 @@
             <a class="nav-link" href="#profil">Daftar</a>
           </li>
           <li class="nav-item px-3">
-            <a class="nav-link" href="#contact">Login</a>
+              <a class="nav-link" href="pages/login.php">Login</a>
           </li>
           <li>
             <button class="btn px-0 pl-1">
