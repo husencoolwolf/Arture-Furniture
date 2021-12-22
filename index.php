@@ -6,9 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arture Furniture</title>
-  <link rel="stylesheet" href="dist/css/bootstrap.css">
-  <link rel="stylesheet" href="dist/font-awesome-4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="dist/css/pages/navbar-index.css">
+  <link rel="stylesheet" href="/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="/dist/font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/dist/css/pages/navbar-index.css">
 </head>
 
 <body class="bg-light">
@@ -24,10 +24,10 @@
         <!--   Show this only lg screens and up   -->
         <ul class="navbar-nav ml-auto link-navbar-atas">
           <li class="nav-item px-3 border-right">
-            <a class="nav-link" href="#profil">Daftar</a>
+            <a class="nav-link" href="/pages/daftar.php">Daftar</a>
           </li>
           <li class="nav-item px-3">
-              <a class="nav-link" href="pages/login.php">Login</a>
+              <a class="nav-link" href="/pages/login.php">Login</a>
           </li>
           <li>
             <button class="btn px-0 pl-1">
@@ -46,7 +46,7 @@
 
       <!--  Show this only on mobile to medium screens  -->
       <a class="navbar-brand d-lg-none" href="#">
-        <img class="" src="assets/material/Arture-header-transparent.png" alt="Arture Furniture" style="width: 100px">
+        <img class="" src="/assets/material/Arture-header-transparent.png" alt="Arture Furniture" style="width: 100px">
       </a>
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
@@ -60,7 +60,7 @@
         <!--   Show this only lg screens and up   -->
         <ul class="navbar-nav">
       <a class="navbar-brand d-none d-lg-block" href="/fargasa/">
-        <img class="" src="assets/material/Arture-header-transparent.png" alt="Arture Furniture" style="width: 200px">
+        <img class="" src="/assets/material/Arture-header-transparent.png" alt="Arture Furniture" style="width: 200px">
       </a>
     </ul>
         <ul class="navbar-nav ml-auto">
