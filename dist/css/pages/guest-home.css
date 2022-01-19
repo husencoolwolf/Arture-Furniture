@@ -1,0 +1,33 @@
+/* navbar ats */
+#navbar-atas.navbar {
+    background-color: #d0b10e;
+}
+
+.badge.cart-notification {
+    border-radius: 50%;
+    left: -10px;
+    top: -10px;
+}
+
+ul.link-navbar-atas>li>a {
+    color: white;
+    font-weight: bold;
+}
+
+ul.link-navbar-atas>li>a:hover {
+    color: #483b39 !important;
+    font-weight: bold;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+
+/* #navbar-bawah.navbar {
+    background-color: #483b39;
+} */
+
+.cariProduk-input-grup {
+    width: 20rem;
+}
