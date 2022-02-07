@@ -20,7 +20,7 @@
           } ?>
           <form id="formInput" action="/app/proses.php?aksi=login" method="post" enctype="multipart/form-data">
             <div class="form-floating mb-3">
-              <input type="username" class="form-control" name="inputUsername" id="inputUsername" placeholder="Username" required>
+              <input type="username" class="form-control" name="inputUsername" id="inputUsername" placeholder="Username" required autofocus>
               <label for="inputUsername">Username</label>
             </div>
             <div class="form-floating mb-3">

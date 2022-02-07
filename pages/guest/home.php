@@ -8,6 +8,7 @@ if (isset($_GET['cari'])) {
   $dataProduk = $db->getDataProdukCariKategori($_GET['kategori']);
 }
 ?>
+
 <div class="continer">
 
   <div class="mb-4 w-100 d-flex align-content-end">
@@ -74,10 +75,10 @@ if (isset($_GET['cari'])) {
             <div class="col-lg-4 col-md-4 col-sm-6 mb-3">
               <a class="text-decoration-none text-dark" href="/?page=produk&produk=<?= $x['id_produk'] ?>">
                 <div class="card h-100 border-dark">
-                  <img src="/assets/produk/login-bg-old.jpg" class="card-img-top" alt="...">
+                  <img src="/assets/produk/<?= $x['gambar'] ?>" class="card-img-top" alt="<?= $x['nama_produk'] ?>">
                   <div class="card-body">
                     <h5 class="card-title"><?= $x['nama_produk'] ?></h5>
-                    <p class="text-primary"><?= $x['harga_produk'] ?></p>
+                    <p class="text-primary"><?= $db->intToRupiah($x['harga_produk']) ?></p>
                     <p class="card-text"><?= $x['deskripsi'] ?></p>
                   </div>
                 </div>

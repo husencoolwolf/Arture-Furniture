@@ -4,13 +4,15 @@ class controller
     var $aktorcss = array("guest", "klien", "administrator", "marketing", "produksi", "finance");
     var $halamancss = array(
         array("home", "login", "daftar", "produk"),
-        array("home")
+        array("home"),
+        array("dashboard", "tambah-produk", "edit-produk")
     );
 
-    var $aktorjs = array("guest", "klien");
+    var $aktorjs = array("guest", "klien", "administrator");
     var $halamanjs = array(
         array("daftar", "produk"),
-        array()
+        array(),
+        array("dashboard", "produk", "tambah-produk", "edit-produk")
     );
 
     function __construct()

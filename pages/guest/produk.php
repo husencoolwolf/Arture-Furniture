@@ -6,15 +6,15 @@ if ($detailProduk <> false) {
     <div class="mb-4"></div>
 
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-lg-8 mb-4">
         <div class="row mx-auto">
           <img src="/assets/produk/<?= $x['gambar'] ?>" class="mx-auto produk" alt="Responsive image">
         </div>
       </div>
 
-      <div class="col-lg-4">
+      <div class="col-lg-4 mb-4">
         <div class="container">
-          <div id="info-produk" class="border border-secondary">
+          <div id="info-produk" class="border border-secondary mr-4">
 
             <div class="text-white text-center bg-arture-emas p-4" id="header-info-produk">
               <h4 class=""><?= $x['nama_produk'] ?></h4>
@@ -38,12 +38,12 @@ if ($detailProduk <> false) {
               </div>
               <div class="mb-4"></div>
               <div class="order-tab">
-                <div class="btn bg-arture-emas" id="minus-quantity"><i class="fa fa-minus" aria-hidden="true"></i></div>
+                <div class="btn bg-arture-emas quantity-control" id="minus-quantity"><i class="fa fa-minus" aria-hidden="true"></i></div>
                 <span>
                   <input type="number" name="quantity" id="quantity" class="input text-center " style="width: 40px;line-height: 32px;" value="1" min="1" max="10">
                 </span>
 
-                <div class="btn bg-arture-emas" id="plus-quantity"><i class="fa fa-plus" aria-hidden="true"></i></div>
+                <div class="btn bg-arture-emas quantity-control" id="plus-quantity"><i class="fa fa-plus" aria-hidden="true"></i></div>
                 <div class="mb-4"></div>
                 <div class="row">
                   <div class="col">

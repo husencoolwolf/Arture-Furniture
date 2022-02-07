@@ -48,3 +48,6 @@
     </div>
   </div>
 </div>
+
+<script src="/dist/js/jquery-validate/jquery.validate.min.js"></script>
+<script src="/dist/js/jquery-validate/additional-methods.min.js"></script>

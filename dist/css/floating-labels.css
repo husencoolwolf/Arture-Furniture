@@ -1,3 +1,18 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
 .form-signin {
   width: 100%;
   max-width: 420px;
@@ -16,89 +31,93 @@
   padding: .75rem;
 }
 
-
-.bd-placeholder-img {
-  font-size: 1.125rem;
-  text-anchor: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-@media (min-width: 768px) {
-  .bd-placeholder-img-lg {
-    font-size: 3.5rem;
-  }
-}
-
-
 .form-label-group label {
   position: absolute;
   top: 0;
   left: 0;
   display: block;
   width: 100%;
-  margin-bottom: 0; /* Override default `<label>` margin */
+  margin-bottom: 0;
+  /* Override default `<label>` margin */
   line-height: 1.5;
   color: #495057;
   pointer-events: none;
-  cursor: text; /* Match the input under the label */
+  cursor: text;
+  /* Match the input under the label */
   border: 1px solid transparent;
   border-radius: .25rem;
   transition: all .1s ease-in-out;
 }
 
-.form-label-group input::-webkit-input-placeholder {
+.form-label-group input::-webkit-input-placeholder,
+.form-label-group textarea::-webkit-input-placeholder {
   color: transparent;
 }
 
-.form-label-group input::-moz-placeholder {
+.form-label-group input::-moz-placeholder,
+.form-label-group textarea::-moz-placeholder {
   color: transparent;
 }
 
-.form-label-group input:-ms-input-placeholder {
+.form-label-group input:-ms-input-placeholder,
+.form-label-group textarea:-ms-input-placeholder {
   color: transparent;
 }
 
-.form-label-group input::-ms-input-placeholder {
+.form-label-group input::-ms-input-placeholder,
+.form-label-group textarea::-ms-input-placeholder {
   color: transparent;
 }
 
-.form-label-group input::placeholder {
+.form-label-group input::placeholder,
+.form-label-group textarea::placeholder {
   color: transparent;
 }
 
-.form-label-group input:not(:-moz-placeholder-shown) {
+.form-label-group input:not(:-moz-placeholder-shown),
+.form-label-group textarea:not(:-moz-placeholder-shown) {
   padding-top: 1.25rem;
   padding-bottom: .25rem;
 }
 
-.form-label-group input:not(:-ms-input-placeholder) {
+.form-label-group input:not(:-ms-input-placeholder),
+.form-label-group textarea:not(:-ms-input-placeholder) {
   padding-top: 1.25rem;
   padding-bottom: .25rem;
 }
 
-.form-label-group input:not(:placeholder-shown) {
+.form-label-group input:not(:placeholder-shown),
+.form-label-group textarea:not(:placeholder-shown) {
   padding-top: 1.25rem;
   padding-bottom: .25rem;
 }
 
-.form-label-group input:not(:-moz-placeholder-shown) ~ label {
+.form-label-group input:not(:-moz-placeholder-shown)~label,
+.form-label-group textarea:not(:-moz-placeholder-shown)~label {
   padding-top: .25rem;
   padding-bottom: .25rem;
   font-size: 12px;
   color: #777;
 }
 
-.form-label-group input:not(:-ms-input-placeholder) ~ label {
+.form-label-group input:not(:-ms-input-placeholder)~label,
+.form-label-group textarea:not(:-ms-input-placeholder)~label {
   padding-top: .25rem;
   padding-bottom: .25rem;
   font-size: 12px;
   color: #777;
 }
 
-.form-label-group input:not(:placeholder-shown) ~ label {
+.form-label-group input:not(:placeholder-shown)~label,
+.form-label-group textarea:not(:placeholder-shown)~label {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  font-size: 12px;
+  color: #777;
+}
+
+.form-label-group input:-webkit-autofill~label,
+.form-label-group textarea:-webkit-autofill~label {
   padding-top: .25rem;
   padding-bottom: .25rem;
   font-size: 12px;
@@ -119,7 +138,8 @@
     position: static;
   }
 
-  .form-label-group input::-ms-input-placeholder {
+  .form-label-group input::-ms-input-placeholder,
+  .form-label-group textarea::-ms-input-placeholder {
     color: #777;
   }
 }

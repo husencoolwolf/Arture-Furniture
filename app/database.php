@@ -17,6 +17,42 @@ class database
         return $this->koneksi;
     }
 
+    function generateID($tabel, $field)
+    {
+        $queryCheck = "SELECT $field from $tabel;";
+        $dataID = mysqli_query($this->koneksi, $queryCheck);
+        $daftar_ID = array();
+        while ($row = mysqli_fetch_array($dataID)) {
+            $daftar_ID[] = $row[$field];
+        }
+
+        $newID = rand(0, 999999);
+        while (in_array($newID, $daftar_ID)) {
+            $newID = rand(0, 999999);
+        }
+
+        return $newID;
+    }
+
+    function rupiahToInt($string)
+    {
+        $string = str_replace("Rp.", "", $string);
+        $string = str_replace(".", "", $string);
+        return $string;
+    }
+
+    function intToRupiah($angka)
+    {
+        $hasil_rupiah = "Rp." . number_format($angka, 0, ',', '.');
+        return $hasil_rupiah;
+    }
+
+    function brToEnter($string)
+    {
+        $string = str_replace("<br>", "", $string);
+        return $string;
+    }
+
     function verified_login($username, $pass)
     {
         $cekuser = mysqli_query($this->koneksi, "SELECT * FROM akun WHERE username = '$username'");
@@ -60,6 +96,60 @@ class database
         }
     }
 
+    function tambahKategori($data)
+    {
+        $query = "Insert into kategori values('', '" . $data['inputKategori'] . "')";
+        $inputKategori = mysqli_query($this->koneksi, $query);
+        if ($inputKategori) {
+            return "0";
+        } else {
+            return mysqli_error($this->koneksi);
+        }
+    }
+
+    function tambahProduk($data, $gambar)
+    {
+        $idProduk = $this->generateID("produk", "id_produk");
+        $deskripsi = $data['inputDeskripsi'];
+        $deskripsi = str_replace("\n", "<br>", $deskripsi);
+        $query = "INSERT INTO produk values ('$idProduk', '" . $data['selectKategori'] . "', '" . $data['inputNamaProduk'] . "', '" . $this->rupiahToInt($data['inputHargaProduk']) . "', '" . $deskripsi . "', '$gambar')";
+        $inputProduk = mysqli_query($this->koneksi, $query);
+        if ($inputProduk) {
+            return "0";
+        } else {
+            return mysqli_error($this->koneksi);
+        }
+    }
+
+    function editProduk($data, $gambar, $idProduk)
+    {
+        $deskripsi = $data['inputDeskripsi'];
+        $deskripsi = str_replace("\n", "<br>", $deskripsi);
+        $query = "";
+        if ($gambar == false) {
+            $query = "UPDATE produk set nama_produk='" . $data['inputNamaProduk'] . "', id_kategori='" . $data['selectKategori'] . "', harga_produk='" . $this->rupiahToInt($data['inputHargaProduk']) . "', deskripsi='$deskripsi' where id_produk='$idProduk';";
+        } else {
+            $query = "UPDATE produk set nama_produk='" . $data['inputNamaProduk'] . "', id_kategori='" . $data['selectKategori'] . "', harga_produk='" . $this->rupiahToInt($data['inputHargaProduk']) . "', deskripsi='$deskripsi', gambar='$gambar' where id_produk='$idProduk';";
+        }
+        $editProduk = mysqli_query($this->koneksi, $query);
+        if ($editProduk) {
+            return "0";
+        } else {
+            return mysqli_error($this->koneksi);
+        }
+    }
+
+    function hapusProduk($id)
+    {
+        $query = "DELETE FROM produk where id_produk='$id'";
+        $deleteProduk = mysqli_query($this->koneksi, $query);
+        if ($deleteProduk) {
+            return "0";
+        } else {
+            return mysqli_error($this->koneksi);
+        }
+    }
+
     function checkUsername($username)
     {
         $cekusername = mysqli_query($this->koneksi, "SELECT username FROM akun WHERE username = '$username'");
@@ -92,7 +182,7 @@ class database
 
     function getDataProduk()
     {
-        $query = "SELECT * from produk";
+        $query = "SELECT * from produk p inner join kategori k on p.id_kategori=k.id_kategori ORDER by p.id_produk;";
         $dataProduk = mysqli_query($this->koneksi, $query);
         if ($dataProduk) {
             if (mysqli_num_rows($dataProduk) > 0) {

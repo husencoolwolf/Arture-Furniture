@@ -5,12 +5,14 @@ $db = new database;
 $ctr = new controller;
 $getPage = "";
 $getHakAkses = "";
+
 if (isset($_GET['page'])) {
   $getPage = $_GET['page'];
 }
 if (isset($_SESSION['id_hak_akses'])) {
   $getHakAkses = $_SESSION['id_hak_akses'];
 }
+$getPageStatus = "";
 
 ?>
 <!DOCTYPE html>
@@ -19,7 +21,7 @@ if (isset($_SESSION['id_hak_akses'])) {
 <head>
   <meta charset="UTF-8">
   <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Arture Furniture</title>
   <link rel="stylesheet" href="/dist/css/bootstrap.css">
   <link rel="stylesheet" href="/dist/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -29,6 +31,10 @@ if (isset($_SESSION['id_hak_akses'])) {
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/dist/css/font-setting.css">
   <?php echo ($ctr->cssImporter($getPage, $getHakAkses)); ?>
+
+  <script src="/dist/js/jquery-3.5.1.js"></script>
+  <script src="/dist/js/bootstrap.js"></script>
+
 </head>
 
 <body class="bg-light">
@@ -46,23 +52,51 @@ if (isset($_SESSION['id_hak_akses'])) {
       if (isset($_GET['produk'])) {
         include $_SERVER['DOCUMENT_ROOT'] . '/pages/guest/produk.php';
       } else {
-        include $_SERVER['DOCUMENT_ROOT'] . '/pages/guest/home.php';
+        header("Location: /");
       }
+    } else {
+      header("Location: /");
     }
-  } elseif ($getHakAkses == "1") {
+    //--------------end of guest pages ---------------------
+  } elseif ($getHakAkses == "1") { //klien
     //--------------klien pages ---------------------
-    if (empty($getPage || $getPage == "home")) {
+    if (empty($getPage) || $getPage == "home") {
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/home.php';
+    } else {
+      header("Location: /");
     }
+    //--------------end of klien pages ---------------------
+  } elseif ($getHakAkses == "2") { // admin
+    //--------------admin pages ---------------------
+    if (empty($getPage) || $getPage == "dashboard") {
+      $getPageStatus = "dashboard";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/dashboard.php';
+    } elseif ($getPage == "produk") {
+      $getPageStatus = "produk";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/produk.php';
+    } elseif ($getPage == "tambah-produk") {
+      $getPageStatus = "produk";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/tambah-produk.php';
+    } elseif ($getPage == "edit-produk") {
+      if (isset($_GET['produk'])) {
+        $getPageStatus = "produk";
+        include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/edit-produk.php';
+      } else {
+        $getPageStatus = "dashboard";
+        // include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/dashboard.php';
+        header("Location: /");
+      }
+    } else {
+      $getPageStatus = "dashboard";
+      header("Location: /");
+    }
+    //--------------end of admin pages ---------------------
   }
   ?>
 
 </body>
-<script src="/dist/js/jquery-3.5.1.js"></script>
-<script src="/dist/js/jquery-validate/jquery.validate.min.js"></script>
-<script src="/dist/js/jquery-validate/additional-methods.min.js"></script>
-<script src="/dist/js/bootstrap.js"></script>
-<script src="/dist/DataTables/datatables.min.js"></script>
+
+
 <?php echo ($ctr->jsImporter($getPage, $getHakAkses)); ?>
 
 </html>
