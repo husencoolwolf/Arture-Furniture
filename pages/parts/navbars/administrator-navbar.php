@@ -27,6 +27,18 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">
+          <span data-feather="list"></span>
+          Orders
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
+          <span data-feather="credit-card"></span>
+          Payments
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">
           <span data-feather="bar-chart-2"></span>
           Reports
         </a>

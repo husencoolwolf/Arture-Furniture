@@ -16,7 +16,7 @@
         <li>
             <button class="btn px-0 pl-1">
                 <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
-                <span class="badge badge-light cart-notification">1</span>
+                <span class="badge badge-light cart-notification">0</span>
             </button>
         </li>
     </ul>

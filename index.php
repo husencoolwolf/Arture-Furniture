@@ -62,6 +62,10 @@ $getPageStatus = "";
     //--------------klien pages ---------------------
     if (empty($getPage) || $getPage == "home") {
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/home.php';
+    } elseif ($getPage == "produk") {
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/produk.php';
+    } elseif ($getPage == "keranjang") {
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/keranjang.php';
     } else {
       header("Location: /");
     }

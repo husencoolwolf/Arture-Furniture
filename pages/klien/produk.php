@@ -1,8 +1,22 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/pages/parts/navbars/guest-navbar.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/pages/parts/navbars/klien-navbar.php';
 $detailProduk = $db->getDetailProduk($_GET['produk']);
 if ($detailProduk <> false) {
   while ($x = mysqli_fetch_array($detailProduk)) { ?>
+    <script src="/dist/js/url-param-getter.js"></script>
+    <!-- toast -->
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
+      <div class="toast-header">
+        <!-- <img src="" class="rounded mr-2" alt="..."> -->
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+
+      </div>
+    </div>
+
     <div class="mb-4"></div>
 
     <div class="row">
@@ -62,11 +76,11 @@ if ($detailProduk <> false) {
                 <hr>
 
                 <div class="mb-4"></div>
-                <div class="btn btn-secondary w-100" data-toggle="modal" data-target="#warningPesanan">
+                <div class="btn btn-secondary w-100" id="orderBtn">
                   Pesan Sekarang
                 </div>
                 <div class="mb-2"></div>
-                <div class="btn btn-secondary w-100" data-toggle="modal" data-target="#warningPesanan">
+                <div class="btn btn-secondary w-100" id="keranjangBtn">
                   Masukkan Keranjang
                 </div>
                 <div class="mb-2"></div>

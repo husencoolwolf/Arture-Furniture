@@ -76,9 +76,9 @@ if ($aksi == "daftarKlien") {
     if (!file_exists($_FILES['inputGambar']['tmp_name']) || !is_uploaded_file($_FILES['inputGambar']['tmp_name'])) {
         $respon = $db->editProduk($_POST, false, $_GET['id']);
         if ($respon == "0") {
-            header("Location: /?page=produk&produk=".$_GET['id']);
+            header("Location: /?page=produk&produk=" . $_GET['id']);
         } else {
-            header("Location: /?page=edit-produk&produk=".$_GET['id']."&error=1");
+            header("Location: /?page=edit-produk&produk=" . $_GET['id'] . "&error=1");
         }
     } else {
         // ada file
@@ -89,13 +89,13 @@ if ($aksi == "daftarKlien") {
         if ($respon == "0") {
             if (move_uploaded_file($_FILES['inputGambar']['tmp_name'], $uploadfile)) {
                 // echo "File is valid, and was successfully uploaded.\n";
-                header("Location: /?page=produk&produk=".$_GET['id']);
+                header("Location: /?page=produk&produk=" . $_GET['id']);
             } else {
-                header("Location: /?page=edit-produk&produk=".$_GET['id']."&error=2");
+                header("Location: /?page=edit-produk&produk=" . $_GET['id'] . "&error=2");
                 // echo "Upload failed";
             }
         } else {
-            header("Location: /?page=edit-produk&produk=".$_GET['id']."&error=1"); //db error
+            header("Location: /?page=edit-produk&produk=" . $_GET['id'] . "&error=1"); //db error
         }
     }
 } elseif ($aksi == "hapus-produk") {
@@ -108,6 +108,23 @@ if ($aksi == "daftarKlien") {
         }
     } else {
         header("Location: /?page=produk");
+    }
+} elseif ($aksi == "tambah-keranjang") {
+    if (isset($_POST['id']) && isset($_SESSION['id_akun'])) {
+        $respon = $db->tambahKeranjang($_POST['id'], $_SESSION['id_akun'], $_POST['quantity']);
+        if ($respon == "0") {
+            echo ('<div class="alert alert-success" role="alert">
+        Keranjang Berhasil ditambahkan!!!
+        </div>');
+        } else {
+            echo ('<div class="alert alert-danger" role="alert">
+        Ada yang salah pada sistem query!!! harap laporkan masalah ini pada administrator!!!
+        </div>');
+        }
+    } else {
+        echo ('<div class="alert alert-warning" role="alert">
+        Terjadi kesalahan 404: parameter hilang!
+        </div>');
     }
 }
 // request
@@ -122,5 +139,12 @@ if ($request == "updateKategori") {
             $data[$x['id_kategori']] = $x['kategori'];
         }
         echo json_encode($data);
+    }
+} elseif ($request == "update-keranjang") {
+    $respon = $db->getJumlahKeranjangUser($_SESSION['id_akun']);
+    if ($respon == false) { //kalau gagal
+        echo "!";
+    } else {
+        echo $respon;
     }
 }

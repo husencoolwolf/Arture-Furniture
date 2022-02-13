@@ -1,0 +1,65 @@
+/* input number penambahan dihilangkan */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* navbar ats */
+#navbar-atas.navbar {
+  background-color: #d0b10e;
+}
+
+.badge.cart-notification {
+  border-radius: 50%;
+  left: -10px;
+  top: -10px;
+}
+
+ul.link-navbar-atas>li>a {
+  color: white;
+  font-weight: bold;
+}
+
+ul.link-navbar-atas>li>a:hover {
+  color: #483b39 !important;
+  font-weight: bold;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.produk {
+
+  width: 500px;
+  height: 500px;
+}
+
+.produk-thumbnail {
+  width: 150px;
+  height: 150px;
+
+}
+
+.bg-arture-emas {
+  background-color: #d0b10e;
+}
+
+td {
+  padding: 10px
+}
+
+.toast {
+  left: 50%;
+  top: 50%;
+  position: fixed;
+  transform: translate(-50%, -100px);
+  z-index: 9999;
+}

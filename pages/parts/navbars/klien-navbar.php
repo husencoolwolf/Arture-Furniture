@@ -13,15 +13,17 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="/logout.php">Logout</a>
-                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Profil</a>
                 <a class="dropdown-item" href="#">else</a>
             </div>
         </li>
         <li>
-            <button class="btn px-0 pl-1">
-                <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
-                <span class="badge badge-light cart-notification">1</span>
-            </button>
+            <a href="/?page=keranjang">
+                <button class="btn px-0 pl-1">
+                    <i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>
+                    <span class="badge badge-light cart-notification" id="jmlKeranjang">0</span>
+                </button>
+            </a>
         </li>
     </ul>
 
