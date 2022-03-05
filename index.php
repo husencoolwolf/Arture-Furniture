@@ -66,6 +66,10 @@ $getPageStatus = "";
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/produk.php';
     } elseif ($getPage == "keranjang") {
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/keranjang.php';
+    } elseif ($getPage == "profil") {
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/profil.php';
+    } elseif ($getPage == "checkout") {
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/checkout.php';
     } else {
       header("Location: /");
     }

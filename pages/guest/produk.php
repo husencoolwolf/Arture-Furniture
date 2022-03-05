@@ -103,7 +103,7 @@ if ($detailProduk <> false) {
 <?php
   }
 } else {
-  echo "<h1>Maaf Data yang anda cari tidak ditemukan dalam data kami.</h1><br>
+  echo "<h1>Maaf Data yang anda cari tidak ditemukan / sedang tidak tersedia.</h1><br>
         <a class='btn btn-dark' href='/'>Kembali</a>";
 }
 

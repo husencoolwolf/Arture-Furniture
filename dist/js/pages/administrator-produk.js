@@ -15,6 +15,7 @@ $(document).ready( function () {
 
   $('.hapusBtn').click(function(){
     // console.log();
+    event.preventDefault();
     var idProduk = $(this).parent().parent().find('td').eq(0).html();
     var namaProduk = $(this).parent().parent().find('td').eq(2).html()
     if (confirm('Anda yakin hapus '+namaProduk+' ['+idProduk+'] ??')) {
@@ -22,4 +23,21 @@ $(document).ready( function () {
     } else {
     }
   });
-} );
+
+  $('.tersediaBtn').click(function(){
+    event.preventDefault();
+    var idProduk = $(this).parent().parent().find('td').eq(0).html();
+    console.log($(this).children().data('feather'));
+    // $.ajax({
+    //   url: '/app/proses.php?aksi=set-tersedia',
+    //   type: post,
+    //   data: {id: idProduk},
+    //   success: function (response) {
+    //     $(this).html(response);
+    //   },
+    //   error: function(XMLHttpRequest, textStatus, errorThrown) { 
+    //     alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+    //   }
+    // });
+  });
+});

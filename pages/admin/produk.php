@@ -1,5 +1,5 @@
 <?php
-$dataProduk = $db->getDataProduk();
+$dataProduk = $db->getDataProdukAdmin();
 ?>
 <link href="/dist/dashboard.css" rel="stylesheet">
 
@@ -64,7 +64,7 @@ $dataProduk = $db->getDataProduk();
 
 
       <!-- <h2>daftar produk</h2> -->
-      <div class="table-responsive">
+      <div class="table-responsive my-3">
         <a href="/?page=tambah-produk">
           <button class="btn btn-dark">Tambah Data</button>
         </a>
@@ -102,8 +102,17 @@ $dataProduk = $db->getDataProduk();
                     <a href="/?page=edit-produk&produk=<?= $x['id_produk'] ?>" class="btn btn-success btn-sm">
                       <span data-feather="edit"></span>
                     </a>
-                    <a href="#" class="btn btn-danger btn-sm hapusBtn">
+                    <a href="" class="btn btn-danger btn-sm hapusBtn">
                       <span data-feather="trash"></span>
+                    </a>
+                    <a href="" class="btn btn-dark btn-sm tersediaBtn">
+                      <span data-tersedia="tes" data-feather="<?php
+                                                              if ($x['tersedia'] == 1) {
+                                                                echo ('eye');
+                                                              } else {
+                                                                echo ('eye-off');
+                                                              }
+                                                              ?>"></span>
                     </a>
                   </td>
                 </tr>

@@ -9,6 +9,7 @@ for (var i = 0; i < uang.length; i++) { // loop over them
   }
 
 
+
 /* Fungsi formatRupiah */
 function formatRupiah(angka, prefix){
 var number_string = angka.replace(/[^,\d]/g, '').toString(),

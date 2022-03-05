@@ -1,6 +1,6 @@
 <?php
 $dataKategori = $db->getDataKategori();
-$dataProduk = $db->getDetailProduk($_GET['produk']);
+$dataProduk = $db->getDetailProdukAdmin($_GET['produk']);
 $detailProduk = array();
 while ($row = mysqli_fetch_array($dataProduk)) {
   $detailProduk = $row;
@@ -66,6 +66,11 @@ while ($row = mysqli_fetch_array($dataProduk)) {
           </button> -->
         </div>
       </div>
+      <?php
+      if ($detailProduk['tersedia'] == 0) {
+        echo ('<div class="alert alert-warning">Produk ini dalam mode tersembunyi / tidak tersedia !!!<br>Jangan lupa menonaktifkan mode tersembunyi agar kostumer dapat melihat perubahan!!!</div');
+      }
+      ?>
 
 
       <!-- <h2>daftar produk</h2> -->

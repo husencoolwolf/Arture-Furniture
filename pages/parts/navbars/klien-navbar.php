@@ -13,7 +13,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <a class="dropdown-item" href="/logout.php">Logout</a>
-                <a class="dropdown-item" href="#">Profil</a>
+                <a class="dropdown-item" href="/?page=profil">Profil</a>
                 <a class="dropdown-item" href="#">else</a>
             </div>
         </li>
@@ -54,16 +54,16 @@
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item px-3 ml-auto">
-                <a class="nav-link active" href="#catalog">CATALOG <span class="sr-only">(current)</span></a>
+                <a class="nav-link smooth-scroll" href="/?page=home#catalog">CATALOG <span class="sr-only">(current)</span></a>
+            </li>
+            <!-- <li class="nav-item px-3 ml-auto">
+                <a class="nav-link smooth-scroll" href="#carouselExampleControls">PROMO</a>
+            </li> -->
+            <li class="nav-item px-3 ml-auto">
+                <a class="nav-link smooth-scroll" href="#profil">PROFIL</a>
             </li>
             <li class="nav-item px-3 ml-auto">
-                <a class="nav-link" href="#carouselExampleControls">PROMO</a>
-            </li>
-            <li class="nav-item px-3 ml-auto">
-                <a class="nav-link" href="#profil">PROFIL</a>
-            </li>
-            <li class="nav-item px-3 ml-auto">
-                <a class="nav-link" href="#contact">HUBUNGI KAMI</a>
+                <a class="nav-link smooth-scroll" href="#contact">HUBUNGI KAMI</a>
             </li>
         </ul>
 
