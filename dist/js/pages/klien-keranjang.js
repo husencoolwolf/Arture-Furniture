@@ -100,6 +100,8 @@ $('input[name="checkedProduk[]"]:checked').each(function(){
     event.preventDefault();
     var listParent = $(this).parent().parent().parent().parent().parent();
     var idProduk = listParent.data('id');
+    var indexDelete = produkChecked.indexOf(idProduk);
+    
     if(confirm("Hapus produk ini dari keranjang?")){
       $.ajax({
         url: "/app/proses.php?aksi=hapus-keranjang-user",
@@ -110,6 +112,10 @@ $('input[name="checkedProduk[]"]:checked').each(function(){
         success: function (response) {
           $('.toast > .toast-body').html(response);
           $('.toast').toast('show');
+          if(indexDelete>-1){
+            produkChecked.splice(indexDelete,1);
+            jmlProdukChecked.splice(indexDelete,1);
+          }
           listParent.remove();
           updateKeranjang();
         }

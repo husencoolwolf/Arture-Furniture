@@ -4,14 +4,14 @@ class controller
     var $aktorcss = array("guest", "klien", "administrator", "marketing", "produksi", "finance");
     var $halamancss = array(
         array("home", "login", "daftar", "produk"),
-        array("home", "produk", "keranjang", "checkout"),
+        array("home", "produk", "keranjang", "checkout", "co-sukses", "co-gagal"),
         array("dashboard", "tambah-produk", "edit-produk")
     );
 
     var $aktorjs = array("guest", "klien", "administrator");
     var $halamanjs = array(
         array("daftar", "produk"),
-        array("produk", "keranjang"),
+        array("produk", "keranjang", "co-sukses"),
         array("dashboard", "produk", "tambah-produk", "edit-produk")
     );
 

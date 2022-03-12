@@ -54,7 +54,7 @@ if (isset($_GET['cari'])) {
           } else {
             while ($x = mysqli_fetch_array($dataKategori)) {
             ?>
-              <a href="/?kategori=<?= $x['kategori'] ?>" class="list-group-item list-group-item-action"><?= $x['kategori'] ?></a>
+              <a href="/?kategori=<?= $x['kategori'] ?>#catalog" class="list-group-item list-group-item-action"><?= $x['kategori'] ?></a>
           <?php
             }
           }

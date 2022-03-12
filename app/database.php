@@ -81,7 +81,7 @@ class database
         $query = "insert into akun values ('" . $data['id'] . "', 
         '" . $data['nama'] . "', 
         '" . $data['username'] . "', 
-        '" . $data['password'] . "', 
+        '" . md5($data['password']) . "', 
             '1');";
         $query2 = "INSERT INTO detail_klien VALUES('" . $data['id'] . "',
         '" . $data['id'] . "',
@@ -152,9 +152,9 @@ class database
     function tambahPesanan($data)
     {
         $produk = explode(",", $data['produk']);
-        $jumlah = explode(",", $data['jml']);
+        $jumlah = explode(",", $data['jumlah']);
         $detailPesananSuccess = 0;
-        $query1 = "INSERT INTO pesanan values('" . $data['id'] . "', '" . $data['akun'] . "', now())";
+        $query1 = "INSERT INTO pesanan values('" . $data['id'] . "', '" . $data['akun'] . "', now(), '" . $data['metode'] . "')";
         $query2 = array();
         for ($i = 0; $i < count($produk); $i++) {
             $query2[] = "INSERT INTO detail_pesanan values('', '" . $data['id'] . "', '" . $produk[$i] . "', '" . $jumlah[$i] . "')";
@@ -488,6 +488,21 @@ class database
             }
         } else {
             return $query;
+        }
+    }
+
+    function getDetailPesanan($idPesanan, $idKlien)
+    {
+        $query = "select produk.nama_produk, produk.gambar, detail_pesanan.jumlah, produk.harga_produk, pesanan.tanggal, pesanan.metode, pesanan.id_akun FROM detail_pesanan inner JOIN pesanan on detail_pesanan.id_pesanan=pesanan.id_pesanan inner join produk on detail_pesanan.id_produk=produk.id_produk where pesanan.id_pesanan='$idPesanan' AND pesanan.id_akun='$idKlien'";
+        $dataDetailPesanan =  mysqli_query($this->koneksi, $query);
+        if ($dataDetailPesanan) {
+            if (mysqli_num_rows($dataDetailPesanan) > 0) {
+                return $dataDetailPesanan;
+            } else {
+                return "-1";
+            }
+        } else {
+            return false;
         }
     }
 }

@@ -70,6 +70,19 @@ $getPageStatus = "";
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/profil.php';
     } elseif ($getPage == "checkout") {
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/checkout.php';
+    } elseif ($getPage == "co-sukses") {
+      if (isset($_GET['pesanan'])) {
+        include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/co-sukses.php';
+      } else {
+  ?>
+        <script>
+          alert("Maaf pesanan yang anda cari tidak ada!");
+          window.location.href = "/";
+        </script>
+  <?php
+      }
+    } elseif ($getPage == "co-gagal") {
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/co-gagal.php';
     } else {
       header("Location: /");
     }

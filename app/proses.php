@@ -144,11 +144,13 @@ if ($aksi == "daftarKlien") {
     "id" => $controller->pembuatIDUnik($db->getKoneksi(), "pesanan", "id_pesanan"),
     "akun" => $_SESSION['id_akun'],
     "produk" => $_POST['id'],
-    "jumlah" => $_POST['jml']
+    "jumlah" => $_POST['jml'],
+    "metode" => $_POST['metode']
   );
   $respon = $db->tambahPesanan($data);
+  // var_dump($data);
   if ($respon) {
-    header("Location:/?page=co-sukses");
+    header("Location:/?page=co-sukses&pesanan=" . $data['id']);
   } elseif (!$respon) {
     header("Location:/?page=co-gagal");
   } else {
@@ -172,7 +174,7 @@ if ($request == "updateKategori") {
 } elseif ($request == "update-keranjang") {
   $respon = $db->getJumlahKeranjangUser($_SESSION['id_akun']);
   if ($respon == false) { //kalau gagal
-    echo "!";
+    echo "0";
   } else {
     echo $respon;
   }
