@@ -491,6 +491,23 @@ class database
         }
     }
 
+    function getDataPesanan($idPesanan, $idKlien)
+    {
+        $query = "SELECT * FROM pesanan where id_pesanan='$idPesanan' AND id_akun='$idKlien'";
+        $dataPesanan = array();
+        $data = mysqli_query($this->koneksi, $query);
+        if ($data) {
+            if (mysqli_num_rows($data) > 0) {
+                $dataPesanan = mysqli_fetch_array($data);
+                return $dataPesanan;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     function getDetailPesanan($idPesanan, $idKlien)
     {
         $query = "select produk.nama_produk, produk.gambar, detail_pesanan.jumlah, produk.harga_produk, pesanan.tanggal, pesanan.metode, pesanan.id_akun FROM detail_pesanan inner JOIN pesanan on detail_pesanan.id_pesanan=pesanan.id_pesanan inner join produk on detail_pesanan.id_produk=produk.id_produk where pesanan.id_pesanan='$idPesanan' AND pesanan.id_akun='$idKlien'";
