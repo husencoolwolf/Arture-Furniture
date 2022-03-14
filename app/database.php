@@ -179,6 +179,23 @@ class database
         }
     }
 
+    function tambahInfoPembayaran($data)
+    {
+        $queryMasuk = "INSERT INTO pembayaran VALUES('" . $data['id'] . "', '" . $data['pesanan'] . "', '" . $data['bank'] . "', '" . $data['norek'] . "', '" . $data['nasabah'] . "')";
+        $responMasuk = mysqli_query($this->koneksi, $queryMasuk);
+        if ($responMasuk) {
+            $queryStatus = "INSERT INTO status_pesanan VALUES('', '" . $data['pesanan'] . "', 'menunggu verifikasi bayar', now(), '')";
+            $responStatus = mysqli_query($this->koneksi, $queryStatus);
+            if ($responStatus) {
+                return true;
+            } else {
+                return mysqli_error($this->koneksi);
+            }
+        } else {
+            return mysqli_error($this->koneksi);
+        }
+    }
+
     function checkAlamatUser($idKlien)
     {
         $query = "SELECT alamat from akun where id_produk='$idKlien'";
@@ -493,7 +510,7 @@ class database
 
     function getDataPesanan($idPesanan, $idKlien)
     {
-        $query = "SELECT * FROM pesanan where id_pesanan='$idPesanan' AND id_akun='$idKlien'";
+        $query = "SELECT p.id_pesanan, s.id_pesanan, p.tanggal as tanggal_pesan, p.metode, s.status FROM pesanan p inner join status_pesanan s ON p.id_pesanan=s.id_pesanan where p.id_pesanan='$idPesanan' AND p.id_akun='$idKlien' AND s.tanggal=(SELECT max(tanggal) from status_pesanan s where s.id_pesanan='$idPesanan');";
         $dataPesanan = array();
         $data = mysqli_query($this->koneksi, $query);
         if ($data) {

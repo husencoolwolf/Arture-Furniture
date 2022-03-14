@@ -157,6 +157,20 @@ if ($aksi == "daftarKlien") {
     header("Location:/?page=co-gagal");
   }
   // var_dump($_POST);
+} elseif ($aksi == "buat-pembayaran") {
+  $data = array(
+    "id" => $controller->pembuatIDUnik($db->getKoneksi(), "pembayaran", "id_pembayaran"),
+    "pesanan" => $_GET['pesanan'],
+    "bank" => $_POST['selectBank'],
+    "norek" => $_POST['inputNorek'],
+    "nasabah" => $_POST['inputNasabah']
+  );
+  $respon = $db->tambahInfoPembayaran($data);
+  // var_dump($data);
+  if ($respon) {
+    header("Location:/?page=co-sukses&pesanan=" . $data['pesanan']);
+  }
+  // var_dump($_POST);
 }
 // request
 

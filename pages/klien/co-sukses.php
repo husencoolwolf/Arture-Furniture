@@ -11,6 +11,7 @@ while ($x = mysqli_fetch_array($data)) {
 }
 ?>
 
+
 <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
   <div class="toast-header">
     <!-- <img src="" class="rounded mr-2" alt="..."> -->
@@ -22,6 +23,15 @@ while ($x = mysqli_fetch_array($data)) {
 
   </div>
 </div>
+<?php
+if ($dataPesan['status'] == "menunggu info bank") {
+?>
+  <div class="alert alert-info">
+    <h6>Harap mengisi informasi Bank anda dengan menekan tombol "Bayar Sekarang" di bawah</h6>
+  </div>
+<?php
+}
+?>
 
 <div class="container">
   <div class="mb-4"></div>
@@ -29,7 +39,8 @@ while ($x = mysqli_fetch_array($data)) {
     <div class="col-6">
       <p><strong>No.Pesanan</strong> : <?= $_GET['pesanan'] ?></p>
       <p><strong>Pemesan</strong> : <?= $dataKlien['nama'] ?></p>
-      <p><strong>Tanggal</strong> : <?= $dataPesan['tanggal'] ?></p>
+      <p><strong>Tanggal</strong> : <?= $dataPesan['tanggal_pesan'] ?></p>
+      <p><strong>Status</strong> : <?= ucwords($dataPesan['status']) ?></p>
     </div>
     <div class="col-6">
       <p class="font-weight-bold">Tujuan Pengiriman :</p>
@@ -58,7 +69,6 @@ while ($x = mysqli_fetch_array($data)) {
               window.location.href = "/";
             </script>
           <?php
-
           } elseif (!$dataPesanan) {
           ?>
             <tr>
@@ -115,44 +125,59 @@ while ($x = mysqli_fetch_array($data)) {
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="pembayaran" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-info">
-        <h5 class="modal-title" id="exampleModalLabel">Input Info Pembayaran</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="" method="post">
-
-          <label for="selectKategori">Kategori<span class="text-danger">*</span></label>
-          <select name="selectKategori" id="selectKategori" class="form-control mb-2" required>
-            <option value="">--Pilih Bank--</option>
-            <option value="bri">BRI</option>
-            <option value="mandiri">Mandiri</option>
-            <option value="bca">BCA</option>
-            <option value="bni">BNI</option>
-          </select>
-
+<form action="/app/proses.php?aksi=buat-pembayaran&pesanan=<?= $_GET['pesanan'] ?>" method="post" id="formBayar">
+  <div class="modal fade" id="pembayaran" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-arture-emas">
+          <h5 class="modal-title" id="exampleModalLabel">Input Info Pembayaran</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
           <div class="form-floating mb-3">
-            <label for="inputNorek">No.Rekening</label>
-            <input type="number" class="form-control" name="inputNorek" id="inputNorek" placeholder="No. Rekening Anda">
+            <label for="selectBank">Kategori<span class="text-danger">*</span></label>
+            <select name="selectBank" id="selectBank" class="form-control mb-2" required>
+              <option value="">--Pilih Bank--</option>
+              <option value="bri">BRI</option>
+              <option value="mandiri">Mandiri</option>
+              <option value="bca">BCA</option>
+              <option value="bni">BNI</option>
+            </select>
           </div>
           <div class="form-floating mb-3">
-            <label for="inputNasabah">Nama Nasabah</label>
-            <input type="text" class="form-control" name="inputNama" id="inputNama" placeholder="Example John Kenny">
+            <label for="inputNorek">No.Rekening<span class="text-danger">*</span></label>
+            <input type="number" class="form-control" name="inputNorek" id="inputNorek" placeholder="No. Rekening Anda" required>
           </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-        <a href="/?page=login"><button type="button" class="btn btn-primary">Login</button></a>
-        <a href="/?page=daftar"><button type="button" class="btn btn-primary">Daftar</button></a>
+          <div class="form-floating mb-3">
+            <label for="inputNasabah">Nama Nasabah<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" name="inputNasabah" id="inputNasabah" placeholder="Example John Kenny" required>
+          </div>
+          <div class="d-flex alert alert-info justify-content-between mb-3">
+            <p class="font-weight-bolder">DP (50%) Grand Total : </p>
+            <p class="font-weight-bolder"><?= $db->intToRupiah(($grandtotal + $ongkir) / 2) ?></p>
+          </div>
+          <div class="alert alert-info mb-3">
+            <p class="font-weight-bolder">Harap tambahkan No.Pesanan di berita transaksi</p>
+            <div class="">
+              <p id="targetSalin"><?= $_GET['pesanan'] ?></p>
+              <div class="btn btn-light btn-sm" data-clipboard-action="copy" data-clipboard-target="#targetSalin" id="salinKode">Salin Kode</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+          <input class="btn btn-primary" type="submit" value="Bayar Sekarang">
+        </div>
       </div>
     </div>
   </div>
-</div>
+</form>
 
+
+<script src="/dist/js/url-param-getter.js"></script>
+<script src="/dist/js/copyToClipboard.js"></script>
+<script src="/dist/js/jquery-validate/jquery.validate.min.js"></script>
+<script src="/dist/js/jquery-validate/additional-methods.min.js"></script>
 <script src="/dist/DataTables/datatables.min.js"></script>
