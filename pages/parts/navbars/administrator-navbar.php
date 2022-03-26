@@ -8,12 +8,6 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapse" href="#">
-          <span data-feather="users"></span>
-          Orders
-        </a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link<?php if ($getPageStatus == "produk") echo (" active"); ?>" href="/?page=produk">
           <span data-feather="shopping-cart"></span>
           Products

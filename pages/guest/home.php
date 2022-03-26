@@ -23,93 +23,90 @@ if (isset($_GET['cari'])) {
 
   </div>
 
-
-  <!-- Cari Produk -->
-  <section id="catalog">
-    <div class="mb-4 w-100 d-flex align-content-end bg-light">
-      <form action="" method="get">
-        <div class="input-group cariProduk-input-grup mt-3 ml-3 mr-3">
-
-          <input type="search" class="form-control border-arture-coklat" name="cari" id="cariProduk" aria-label="Searching" placeholder="Cari Produk">
-          <div class="input-group-append">
-            <button type="submit" class="input-group-text btn"><i class="fa fa-search" aria-hidden="true"></i></button>
-          </div>
-
-        </div>
-      </form>
-    </div>
-    <div class="row">
-      <div class="d-none d-lg-block col-lg-2 p-0 mx-auto">
-        <div class="list-group">
-          <?php
-
-          if ($dataKategori == false) {
-          ?>
-            <tr>
-              <td>
-                <div class="alert alert-danger">KATEGORI BELUM TERSEDIA, HARAP PERIKSA KEMBALI NANTI!</div>
-              </td>
-            </tr>
-            <?php
-          } else {
-            while ($x = mysqli_fetch_array($dataKategori)) {
-            ?>
-              <a href="/?kategori=<?= $x['kategori'] ?>#catalog" class="list-group-item list-group-item-action"><?= $x['kategori'] ?></a>
-          <?php
-            }
-          }
-          ?>
-        </div>
-      </div>
-      <div class="col-lg-9 col-md-12 col-sm-12 mx-auto">
-        <div class="row">
-
-
-          <?php
-
-          if (isset($_GET['cari']) && $dataProduk == false) {
-          ?>
-            <tr>
-              <td>
-                <div class="alert alert-danger w-100 text-center"><i class="fa fa-frown-o fa-2x" aria-hidden="true"></i>
-                  MAAF, PRODUK YANG ANDA CARI SAAT INI BELUM TERSEDIA.</div>
-              </td>
-            </tr>
-          <?php
-          } elseif ($dataProduk == false) {
-          ?>
-            <tr>
-              <td>
-                <div class="alert alert-danger">STOK BELUM TERSEDIA, HARAP PERIKSA KEMBALI NANTI!</div>
-              </td>
-            </tr>
-            <?php
-          } else {
-            while ($x = mysqli_fetch_array($dataProduk)) {
-            ?>
-              <div class="col-lg-4 col-md-4 col-sm-6 mb-3">
-                <a class="text-decoration-none text-dark" href="/?page=produk&produk=<?= $x['id_produk'] ?>">
-                  <div class="card h-100 border-dark">
-                    <img src="/assets/produk/<?= $x['gambar'] ?>" class="card-img-top" alt="<?= $x['nama_produk'] ?>">
-                    <div class="card-body">
-                      <h4 class="card-title font-weight-bold"><?= $x['nama_produk'] ?></h4>
-                      <p class="font-weight-bold"><?= $db->intToRupiah($x['harga_produk']) ?></p>
-
-                    </div>
-                    <div class="card-footer">
-                      <p class="card-text"><?= $x['deskripsi'] ?></p>
-                    </div>
-                  </div>
-                </a>
+  <section id="jasa" class="mt-5 mb-5 bg-bg-primary">
+    <div class="container">
+      <h1 class="mb-5 text-center">Jasa Layanan Kami</h1>
+      <div class="row">
+        <div class="col-md p-0 mt-2">
+          <div class="card bg-dark text-white border-0">
+            <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
+            <div class="jasa-card" id="furniture">
+              <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
+                <h2 class="text-dark">Furniture</h2>
               </div>
-          <?php
-            }
-          }
-          ?>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md p-0 mt-2">
+          <div class="card bg-dark text-white border-0">
+            <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
+            <div class="jasa-card" id="building">
+              <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
+                <h2 class="text-dark">Building</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md p-0 mt-2">
+          <div class="card bg-dark text-white border-0">
+            <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
+            <div class="jasa-card" id="interior">
+              <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
+                <h2 class="text-dark text-center">Design Interior</h2>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md p-0 mt-2">
+          <div class="card bg-dark text-white border-0">
+            <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
+            <div class="jasa-card" id="iot">
+              <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
+                <h2 class="text-dark">IOT</h2>
+              </div>
+
+            </div>
+          </div>
         </div>
       </div>
+
+
+
     </div>
   </section>
+
+
+  <section id="whyus" class="mt-5 bg-white shadow">
+    <div class="container">
+      <h2 class="text-center my-5 py-5 text-emas-arture font-weight-bolder">Kenapa Harus Memilih Kami?</h1>
+        <div class="my-5"></div>
+        <div class="row py-5 text-center">
+          <div class="col-md">
+            <h4 class="text-emas-arture mb-4 font-weight-bold">Free Survey & Estimating</h4>
+            <p>Free for our first step to start and estimate in some places and cities in Indonesia. And we can estimate cost so fast.</p>
+          </div>
+          <div class="col-md">
+            <h4 class="text-emas-arture mb-4 font-weight-bold">Free Consultations</h4>
+            <p>Meeting or discuss with a professional or expert for purposes of gaining information, or the act or process of formally discussing and collaborating on something for free and low cost.</p>
+          </div>
+          <div class="col-md">
+            <h4 class="text-emas-arture mb-4 font-weight-bold">Guarantee Services</h4>
+            <p>We promise or assurance that something is of specified our quality, content, benefit, etc. for our products, or that it will perform satisfactorily for a given length of time.</p>
+          </div>
+          <div class="col-md">
+            <h4 class="text-emas-arture mb-4 font-weight-bold">High Quality & Low Price</h4>
+            <p>When you’re choosing products to buy, you have to consider the tradeoffs between price and quality. But in us, we can give you both.</p>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- <div style="height: 1000px;"></div> -->
+
+
+
 
 </div>
 
@@ -136,3 +133,8 @@ if (isset($_GET['cari'])) {
     </div>
   </div>
 </div>
+
+<button type="button" id="waContact" class="btn btn-white border rounded-circle p-0">
+  <span class="fa fa-whatsapp fa-3x text-success text-center" role="button">
+  </span>
+</button>

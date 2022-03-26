@@ -48,7 +48,7 @@
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item px-3 ml-auto">
-                <a class="nav-link smooth-scroll" href="#catalog">CATALOG</a>
+                <a class="nav-link smooth-scroll" href="#jasa">JASA KAMI</a>
             </li>
             <!-- <li class="nav-item px-3 ml-auto">
                 <a class="nav-link smooth-scroll" href="#">PROMO</a>

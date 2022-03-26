@@ -111,7 +111,19 @@ if ($dataPesan['status'] == "menunggu info bank") {
             </tr>
             <tr>
               <td colspan="5">
-                <button class="w-100  btn btn-arture-emas font-weight-bolder mt-3" data-toggle="modal" data-target="#pembayaran">Bayar Sekarang</button>
+                <?php
+                if ($dataPesan['status'] == "menunggu info bank") {
+                ?>
+                  <button class="w-100  btn btn-arture-emas font-weight-bolder mt-3" data-toggle="modal" data-target="#pembayaran">Bayar Sekarang</button>
+                <?php
+                } elseif ($dataPesan['status'] == "menunggu verifikasi bayar") {
+                ?>
+                  <button class="w-100  btn btn-arture-emas font-weight-bolder mt-3" data-toggle="modal" data-target="#pembayaran">Update Info Pembayaran</button>
+                <?php
+                }
+                ?>
+
+                <button class="w-100  btn btn-danger font-weight-bolder mt-3" data-toggle="modal" data-target="#pembayaran">Batalkan Pesanan</button>
               </td>
             </tr>
           <?php
@@ -168,7 +180,18 @@ if ($dataPesan['status'] == "menunggu info bank") {
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-          <input class="btn btn-primary" type="submit" value="Bayar Sekarang">
+          <?php
+          if ($dataPesan['status'] == "menunggu info bank") {
+          ?>
+            <input class="btn btn-primary" type="submit" value="Bayar Sekarang">
+          <?php
+          } elseif ($dataPesan['status'] == "menunggu verifikasi bayar") {
+          ?>
+            <input class="btn btn-primary" type="submit" value="Update">
+          <?php
+
+          }
+          ?>
         </div>
       </div>
     </div>

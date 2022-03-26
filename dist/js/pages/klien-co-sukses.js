@@ -20,7 +20,6 @@ $(function () {
     },
 
     submitHandler: function (form) {
-      console.log(test);
       $.ajax({
         url: form.action,
         type: form.method,
@@ -40,11 +39,29 @@ $(function () {
 
 $(document).ready(function () {
   // new ClipboardJS('#salinKode');
-
-
+  Init($("#targetSalin").html());
 
   $('#salinKode').click(function () {
     copyToClipboard($("#targetSalin").html());
     alert('kode pesanan disalin');
   });
+
+
+
+  function Init(idTarget) {
+    $.ajax({
+      url: "/app/proses.php?request=cek-status-pesanan",
+      type: "post",
+      data: {
+        id: idTarget
+      },
+      success: function (response) {
+        setDataController(response);
+      }
+    });
+  }
+
+  function setDataController(statusPesanan) {
+
+  }
 });
