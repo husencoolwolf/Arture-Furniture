@@ -2,6 +2,7 @@
 include $_SERVER['DOCUMENT_ROOT'] . '/pages/parts/navbars/klien-navbar.php';
 $data = $db->getDataKlien($_SESSION['id_akun']);
 $dataPesan = $db->getDataPesanan($_GET['pesanan'], $_SESSION['id_akun']);
+var_dump($dataPesan);
 $dataPesanan = $db->getDetailPesanan($_GET['pesanan'], $_SESSION['id_akun']);
 $dataKlien = array();
 while ($x = mysqli_fetch_array($data)) {
@@ -23,30 +24,24 @@ while ($x = mysqli_fetch_array($data)) {
 
   </div>
 </div>
-<?php
-if ($dataPesan['status'] == "menunggu info bank") {
-?>
-  <div class="alert alert-info">
-    <h6>Harap mengisi informasi Bank anda dengan menekan tombol "Bayar Sekarang" di bawah</h6>
-  </div>
-<?php
-}
-?>
+<div class="info-warning">
+
+</div>
 
 <div class="container">
   <div class="mb-4"></div>
   <div class="row justify-content-between">
     <div class="col-6">
-      <p><strong>No.Pesanan</strong> : <?= $_GET['pesanan'] ?></p>
-      <p><strong>Pemesan</strong> : <?= $dataKlien['nama'] ?></p>
-      <p><strong>Tanggal</strong> : <?= $dataPesan['tanggal_pesan'] ?></p>
-      <p><strong>Status</strong> : <?= ucwords($dataPesan['status']) ?></p>
+      <p><strong>No.Pesanan</strong> : <span class="pesanan-data" data-type="noPesanan">-</span></p>
+      <p><strong>Pemesan</strong> : <span class="pesanan-data" data-type="namaPemesan">-</span></p>
+      <p><strong>Tanggal</strong> : <span class="pesanan-data" data-type="tanggalPesanan">-</span></p>
+      <p><strong>Status</strong> : <span class="pesanan-data" data-type="statusPesanan">-</span></p>
     </div>
     <div class="col-6">
       <p class="font-weight-bold">Tujuan Pengiriman :</p>
       <div>
-        <p><?= $dataKlien['alamat'] ?></p>
-        <p><?= $dataKlien['nomor_hp'] ?></p>
+        <p><span class="pesanan-data" data-type="alamat">-</span></p>
+        <p><span class="pesanan-data" data-type="nope">-</span></p>
       </div>
     </div>
   </div>

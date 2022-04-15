@@ -167,9 +167,7 @@ if ($aksi == "daftarKlien") {
   );
   $respon = $db->tambahInfoPembayaran($data);
   // var_dump($data);
-  if ($respon) {
-    header("Location:/?page=co-sukses&pesanan=" . $data['pesanan']);
-  }
+  return $respon;
   // var_dump($_POST);
 }
 // request
@@ -210,6 +208,14 @@ if ($request == "updateKategori") {
   } else {
     echo ("0");
   }
+} elseif ($request == "get-data-pesanan") {
+  $respon = $db->getDataPesanan($_POST['id'], $_SESSION['id_akun']);
+  if ($respon) {
+    echo (json_encode($respon));
+  } else {
+    echo ("0");
+  }
+  // echo $respon;
 }
 
 if ($aksi = "" && $request == "") {

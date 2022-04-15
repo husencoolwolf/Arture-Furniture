@@ -513,13 +513,14 @@ class database
 
     function getDataPesanan($idPesanan, $idKlien)
     {
-        $query = "SELECT p.id_pesanan, s.id_pesanan, p.tanggal as tanggal_pesan, p.metode, s.status FROM pesanan p inner join status_pesanan s ON p.id_pesanan=s.id_pesanan where p.id_pesanan='$idPesanan' AND p.id_akun='$idKlien' AND s.tanggal=(SELECT max(tanggal) from status_pesanan s where s.id_pesanan='$idPesanan');";
+        $query = "SELECT p.id_pesanan, s.id_pesanan, p.tanggal as tanggal_pesan, p.metode, s.status, k.alamat, k.email, k.nomor_hp, a.nama FROM pesanan p inner join status_pesanan s ON p.id_pesanan=s.id_pesanan inner join detail_klien k ON k.id_akun=p.id_akun inner JOIN akun a ON a.id_akun=p.id_akun where p.id_pesanan='$idPesanan' AND p.id_akun='$idKlien' AND s.tanggal=(SELECT max(tanggal) from status_pesanan s where s.id_pesanan='$idPesanan');";
         $dataPesanan = array();
         $data = mysqli_query($this->koneksi, $query);
         if ($data) {
             if (mysqli_num_rows($data) > 0) {
                 $dataPesanan = mysqli_fetch_array($data);
                 return $dataPesanan;
+                // return $query;
             } else {
                 return false;
             }
