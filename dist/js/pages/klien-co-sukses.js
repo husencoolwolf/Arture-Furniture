@@ -4,46 +4,7 @@ To DO :
   Contoh : Button Bayar di bawah kalau status masih awal (menunggu info bank), Tulisan "Bayar Sekarang", sedangkan kalau sudah status ke 2 (menunggu verifikasi bayar), berubah jadi update info bayar
 */
 
-$(function () {
-  $.validator.addMethod("letterandspace", function (value, element) {
-    return this.optional(element) || value == value.match(/^[a-zA-Z\s]+$/);
-  }, "Hanya Huruf diperbolehkan!");
 
-  $('#formBayar').validate({
-
-    rules: {
-      inputNorek: {
-        required: true,
-        number: true,
-      },
-      selectBank: {
-        required: true,
-      },
-      inputNasabah: {
-        required: true,
-        letterandspace: true
-      }
-    },
-
-    submitHandler: function (form) {
-      $.ajax({
-        url: form.action,
-        type: form.method,
-        data: $(form).serialize(),
-        success: function (response) {
-          if (response == true) {
-            // kalau berhasil, Jalanin init lagi yang setting info dalam page
-            // harap ganti
-            // window.location.href = window.location.href;
-          } else {
-            $('.toast-body').html("<div class='alert alert-danger'>" + response + "</div");
-            $('.toast').toast('show');
-          }
-        }
-      });
-    }
-  });
-});
 
 $(document).ready(function () {
   // new ClipboardJS('#salinKode');
@@ -67,9 +28,11 @@ $(document).ready(function () {
         if (response == "0") {
           alert("ERROR ! : Terjadi Kesalahan dalam pengambilan data pesanan anda!");
           window.location.replace("/");
-        } else {
+        } else { //kasus berhasil
           // console.log(response);
+          response = JSON.parse(response);
           setDataController(response);
+          setKondisiPagePesanan(response["status"]);
         }
 
       }
@@ -78,7 +41,6 @@ $(document).ready(function () {
 
   function setDataController(dataPesanan) {
     // set info dalam page ketika di panggil init
-    dataPesanan = JSON.parse(dataPesanan);
     console.log(dataPesanan);
     $(".pesanan-data").each(function () {
       console.log($(this).data("type"));
@@ -108,14 +70,107 @@ $(document).ready(function () {
     // console.log(dataHolder.eq(1).data("type"));
   }
 
+  function enableButtons() {
+    $(".actionBtn").each(function () {
+      $(this).removeAttr('disabled');
+      $(this).removeClass('animated-background');
+    });
+
+
+  }
+
   function setKondisiPagePesanan(statusPesanan) {
+    console.log(statusPesanan);
     switch (statusPesanan) {
-      case value:
-
+      case "menunggu info bank":
+        kondisiMenungguInfoBank();
         break;
-
+      case "menunggu verifikasi bayar":
+        kondisiMenungguVerifikasiBayar();
+        break;
       default:
+        console.log("Status pesanan tidak ditemukan");
         break;
     }
   }
+
+  function kondisiMenungguInfoBank() {
+    $(".info-warning").html("<div class='alert alert-info' role='alert'>Harap mengisi informasi pembayaran anda dengan klik tombol 'Bayar Sekarang' di bawah !!</div>");
+    $(".actionBtn").eq(0).html("Bayar Sekarang");
+    $(".actionBtn").eq(1).html("Batalkan Pesanan");
+    $("form#formBayar").attr("action", "/app/proses.php?aksi=buat-pembayaran&pesanan=" + GetURLParameter("pesanan"));
+    $(".actionBtn").eq(0).attr("data-target", "#pembayaran");
+    $("#submitModal").val("Bayar Sekarang");
+    enableButtons();
+  }
+
+  function kondisiMenungguVerifikasiBayar() {
+    $(".info-warning").html("<div class='alert alert-success' role='alert'>Silahkan cek cara pembayaran anda dengan klik tombol 'Cara Pembayaran'</div>");
+    $(".actionBtn").eq(0).html("Cara Pembayaran");
+    $(".actionBtn").eq(0).attr("data-target", "#pembayaran");
+    $(".actionBtn").eq(1).html("Batalkan Pesanan");
+    $(".modal-content.pembayaran .modal-header .modal-title").html("Cara Pembayaran")
+    // $("form#formBayar").attr("action", "/app/proses.php?aksi=update-pembayaran&pesanan=" + GetURLParameter("pesanan"));
+
+    $("#submitModal").hide();
+    enableButtons();
+
+    $.ajax({
+      url: "/app/proses.php?request=generate-cara-pembayaran",
+      type: "post",
+      data: {
+        id: GetURLParameter("pesanan")
+      },
+      success: function (response) {
+        $(".modal-content.pembayaran .modal-body").html(response);
+      }
+    });
+
+  }
+
+  $(function () {
+    $.validator.addMethod("letterandspace", function (value, element) {
+      return this.optional(element) || value == value.match(/^[a-zA-Z\s]+$/);
+    }, "Hanya Huruf diperbolehkan!");
+
+    $('#formBayar').validate({
+
+      rules: {
+        inputNorek: {
+          required: true,
+          number: true,
+        },
+        selectBank: {
+          required: true,
+        },
+        inputNasabah: {
+          required: true,
+          letterandspace: true
+        }
+      },
+
+      submitHandler: function (form) {
+        $.ajax({
+          url: form.action,
+          type: form.method,
+          data: $(form).serialize(),
+          success: function (response) {
+            console.log(response);
+            if (response == true) {
+              $('.toast-body').html("<div class='alert alert-success'>" + "Info Bank telah ditambahkan, silahkan melanjutkan pembayaran pada bank yang dipilih!" + "</div");
+              $('.toast').toast('show');
+              $('.modal').modal('hide');
+              Init($("#targetSalin").html());
+              // kalau berhasil, Jalanin init lagi yang setting info dalam page
+              // harap ganti
+              // window.location.href = window.location.href;
+            } else {
+              $('.toast-body').html("<div class='alert alert-danger'>" + response + "</div");
+              $('.toast').toast('show');
+            }
+          }
+        });
+      }
+    });
+  });
 });

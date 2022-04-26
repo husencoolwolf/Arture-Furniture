@@ -12,7 +12,7 @@ class controller
     var $halamanjs = array(
         array("daftar", "produk"),
         array("produk", "keranjang", "co-sukses"),
-        array("dashboard", "produk", "tambah-produk", "edit-produk")
+        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan")
     );
 
     function __construct()

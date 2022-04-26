@@ -167,7 +167,7 @@ if ($aksi == "daftarKlien") {
   );
   $respon = $db->tambahInfoPembayaran($data);
   // var_dump($data);
-  return $respon;
+  echo ($respon);
   // var_dump($_POST);
 }
 // request
@@ -216,6 +216,42 @@ if ($request == "updateKategori") {
     echo ("0");
   }
   // echo $respon;
+} elseif ($request == "generate-cara-pembayaran") {
+  $data = $db->getDataPembayaran($_POST['id'], $_SESSION['id_akun']);
+  echo ('<table class="table">
+    <tr>
+      <td>
+        Metode Pembayaran :
+      </td>
+      <td>
+        ' . $data['metode'] . '
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Bank :
+      </td>
+      <td>
+        ' . $data['bank_pemilik'] . '
+      </td>
+    </tr>
+    <tr>
+      <td>
+        No. Rekening :
+      </td>
+      <td>
+        ' . $data['no_rekening'] . '
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Nama Nasabah :
+      </td>
+      <td>
+        ' . $data['nama_pemilik'] . '
+      </td>
+    </tr>
+  </table>');
 }
 
 if ($aksi = "" && $request == "") {

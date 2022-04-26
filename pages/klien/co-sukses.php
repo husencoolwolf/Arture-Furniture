@@ -2,7 +2,6 @@
 include $_SERVER['DOCUMENT_ROOT'] . '/pages/parts/navbars/klien-navbar.php';
 $data = $db->getDataKlien($_SESSION['id_akun']);
 $dataPesan = $db->getDataPesanan($_GET['pesanan'], $_SESSION['id_akun']);
-var_dump($dataPesan);
 $dataPesanan = $db->getDetailPesanan($_GET['pesanan'], $_SESSION['id_akun']);
 $dataKlien = array();
 while ($x = mysqli_fetch_array($data)) {
@@ -11,6 +10,9 @@ while ($x = mysqli_fetch_array($data)) {
   $dataKlien['nomor_hp'] = $x['nomor_hp'];
 }
 ?>
+<link rel="stylesheet" href="/dist/css/skeleton-placeholder.css">
+
+<script src="/dist/js/url-param-getter.js"></script>
 
 
 <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
@@ -106,19 +108,9 @@ while ($x = mysqli_fetch_array($data)) {
             </tr>
             <tr>
               <td colspan="5">
-                <?php
-                if ($dataPesan['status'] == "menunggu info bank") {
-                ?>
-                  <button class="w-100  btn btn-arture-emas font-weight-bolder mt-3" data-toggle="modal" data-target="#pembayaran">Bayar Sekarang</button>
-                <?php
-                } elseif ($dataPesan['status'] == "menunggu verifikasi bayar") {
-                ?>
-                  <button class="w-100  btn btn-arture-emas font-weight-bolder mt-3" data-toggle="modal" data-target="#pembayaran">Update Info Pembayaran</button>
-                <?php
-                }
-                ?>
+                <button class="w-100  btn btn-arture-emas font-weight-bolder mt-3 actionBtn animated-background" data-toggle="modal" data-target="" disabled></button>
 
-                <button class="w-100  btn btn-danger font-weight-bolder mt-3" data-toggle="modal" data-target="#pembayaran">Batalkan Pesanan</button>
+                <button class="w-100  btn btn-danger font-weight-bolder mt-3 actionBtn animated-background" disabled></button>
               </td>
             </tr>
           <?php
@@ -132,10 +124,10 @@ while ($x = mysqli_fetch_array($data)) {
 </div>
 
 <!-- Modal -->
-<form action="/app/proses.php?aksi=buat-pembayaran&pesanan=<?= $_GET['pesanan'] ?>" method="post" id="formBayar">
+<form action="" method="post" id="formBayar">
   <div class="modal fade" id="pembayaran" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
+      <div class="modal-content pembayaran">
         <div class="modal-header bg-arture-emas">
           <h5 class="modal-title" id="exampleModalLabel">Input Info Pembayaran</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -175,18 +167,7 @@ while ($x = mysqli_fetch_array($data)) {
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-          <?php
-          if ($dataPesan['status'] == "menunggu info bank") {
-          ?>
-            <input class="btn btn-primary" type="submit" value="Bayar Sekarang">
-          <?php
-          } elseif ($dataPesan['status'] == "menunggu verifikasi bayar") {
-          ?>
-            <input class="btn btn-primary" type="submit" value="Update">
-          <?php
-
-          }
-          ?>
+          <input id="submitModal" class="btn btn-primary" type="submit" value="">
         </div>
       </div>
     </div>

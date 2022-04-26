@@ -81,10 +81,10 @@ class database
 
     function daftarKlien($data)
     {
-        $query = "insert into akun values ('" . $data['id'] . "', 
-        '" . $data['nama'] . "', 
-        '" . $data['username'] . "', 
-        '" . md5($data['password']) . "', 
+        $query = "insert into akun values ('" . $data['id'] . "',
+        '" . $data['nama'] . "',
+        '" . $data['username'] . "',
+        '" . md5($data['password']) . "',
             '1');";
         $query2 = "INSERT INTO detail_klien VALUES('" . $data['id'] . "',
         '" . $data['id'] . "',
@@ -173,7 +173,14 @@ class database
                 }
             }
             if ($detailPesananSuccess === count($produk)) {
-                return true;
+                $queryStatusAwal = "INSERT INTO status_pesanan VALUES ('', '". $data['id'] ."', 'menunggu info bank', now());";
+                $responStatus = mysqli_query($this->koneksi, $queryStatusAwal);
+                if($responStatus){
+                  return true;
+                }else{
+                  return false;
+                }
+
             } else {
                 return false;
             }
@@ -224,24 +231,23 @@ class database
 
     function setProdukTersedia($idProduk)
     {
-        $cekTersedia = mysqli_query($this->koneksi, "SELECT terseida from produk where id_produk='$idProduk'");
+        $cekTersedia = mysqli_query($this->koneksi, "SELECT tersedia from produk where id_produk='$idProduk'");
         if ($cekTersedia) {
             if (mysqli_num_rows($cekTersedia) > 0) {
-                while ($x = mysqli_fetch_array($cekTersedia)) {
-                    if ($x['tersedia'] == 0) {
-                        $setTersedia = mysqli_query($this->koneksi, "UPDATE produk set tersedia='1' where id_produk'$idProduk'");
-                        if ($setTersedia) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                $x = mysqli_fetch_array($cekTersedia);
+                if ($x['tersedia'] == 0) {
+                    $setTersedia = mysqli_query($this->koneksi, "UPDATE produk set tersedia='1' where id_produk='$idProduk'");
+                    if ($setTersedia) {
+                        return true;
                     } else {
-                        $setTersedia = mysqli_query($this->koneksi, "UPDATE produk set tersedia='0' where id_produk'$idProduk'");
-                        if ($setTersedia) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return false;
+                    }
+                } else {
+                    $setTersedia = mysqli_query($this->koneksi, "UPDATE produk set tersedia='0' where id_produk='$idProduk'");
+                    if ($setTersedia) {
+                        return true;
+                    } else {
+                        return false;
                     }
                 }
             } else {
@@ -334,7 +340,7 @@ class database
             return false;
         }
     }
-
+    // admin queries
     function getDataProdukAdmin()
     {
         $query = "SELECT * from produk p inner join kategori k on p.id_kategori=k.id_kategori ORDER by p.id_produk;";
@@ -349,6 +355,28 @@ class database
             return false;
         }
     }
+
+    function getDataPesananAdmin()
+    {
+        $query = "SELECT p.id_pesanan, p.tanggal as tanggal_dibuat, p.metode, COUNT(d.id_pesanan) as item FROM pesanan p LEFT JOIN detail_pesanan d USING(id_pesanan);";
+    }
+
+    function getDetailProdukAdmin($id)
+    {
+        $query = "SELECT p.id_kategori, p.nama_produk, p.harga_produk, p.deskripsi, p.gambar, p.tersedia, k.id_kategori, k.kategori from produk p INNER JOIN kategori k ON p.id_kategori = k.id_kategori where id_produk = '$id'";
+        $detailProduk =  mysqli_query($this->koneksi, $query);
+        if ($detailProduk) {
+            if (mysqli_num_rows($detailProduk) > 0) {
+                return $detailProduk;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    // end of admin queries
 
     function getDataProdukCariSearch($key)
     {
@@ -412,20 +440,6 @@ class database
         }
     }
 
-    function getDetailProdukAdmin($id)
-    {
-        $query = "SELECT p.id_kategori, p.nama_produk, p.harga_produk, p.deskripsi, p.gambar, p.tersedia, k.id_kategori, k.kategori from produk p INNER JOIN kategori k ON p.id_kategori = k.id_kategori where id_produk = '$id'";
-        $detailProduk =  mysqli_query($this->koneksi, $query);
-        if ($detailProduk) {
-            if (mysqli_num_rows($detailProduk) > 0) {
-                return $detailProduk;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
 
     function getJumlahKeranjangUser($idKlien)
     {
@@ -456,9 +470,23 @@ class database
     function getHargaProdukWithIDs($idProduk)
     {
         if (count($idProduk) > 0) {
-            $query = "SELECT harga_produk from produk where id_produk='$idProduk[0]'";
-            for ($i = 1; $i < count($idProduk); $i++) {
-                $query = $query . " OR id_produk='$idProduk[$i]'";
+            $query = "SELECT harga_produk from produk where id_produk in (";
+            for ($i = 0; $i < count($idProduk); $i++) {
+                $query = $query . "$idProduk[$i]";
+                if($i == count($idProduk)-1){
+                  $query .= ") ";
+                }else{
+                  $query .= ", ";
+                }
+            }
+            $query .= "ORDER BY FIELD(id_produk, ";
+            for($i = 0; $i < count($idProduk); $i++){
+              $query = $query . "$idProduk[$i]";
+              if($i == count($idProduk)-1){
+                $query .= ");";
+              }else{
+                $query .= ", ";
+              }
             }
             $dataHarga = mysqli_query($this->koneksi, $query);
             $returnHarga = array();
@@ -536,6 +564,21 @@ class database
         if ($dataDetailPesanan) {
             if (mysqli_num_rows($dataDetailPesanan) > 0) {
                 return $dataDetailPesanan;
+            } else {
+                return "-1";
+            }
+        } else {
+            return false;
+        }
+    }
+
+    function getDataPembayaran($idPesanan, $idKlien)
+    {
+        $query = "SELECT b.bank_pemilik, b.no_rekening, b.nama_pemilik, p.id_akun, p.metode from pembayaran b INNER JOIN pesanan p ON b.id_pesanan=p.id_pesanan WHERE p.id_akun='$idKlien' AND b.id_pesanan='$idPesanan';";
+        $dataPembayaran = mysqli_query($this->koneksi, $query);
+        if ($dataPembayaran) {
+            if (mysqli_num_rows($dataPembayaran) > 0) {
+                return mysqli_fetch_array($dataPembayaran);
             } else {
                 return "-1";
             }

@@ -27,6 +27,7 @@
 }
 
 .animated-background {
+  content: " ";
   animation-duration: 2s;
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
@@ -35,7 +36,7 @@
   background-color: #f6f7f8;
   background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
   background-size: 800px 104px;
-  height: 70px;
+  width: 100%;
   position: relative;
 }
 

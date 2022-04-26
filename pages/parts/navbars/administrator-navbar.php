@@ -20,7 +20,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link<?php if ($getPageStatus == "pesanan") echo (" active"); ?>" href="/?page=pesanan">
           <span data-feather="list"></span>
           Orders
         </a>

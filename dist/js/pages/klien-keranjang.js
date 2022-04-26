@@ -1,8 +1,8 @@
 $(document).ready(function () {
-//inisiasi semua produk jangan di check
-$('input[name="checkedProduk[]"]:checked').each(function(){
-  $(this).prop('checked', false);
-});
+  //inisiasi semua produk jangan di check
+  $('input[name="checkedProduk[]"]:checked').each(function () {
+    $(this).prop('checked', false);
+  });
 
   var hargaProduk = [];
   var jmlProduk = [];
@@ -27,10 +27,10 @@ $('input[name="checkedProduk[]"]:checked').each(function(){
     } else {
       if (quantity < 10) {
         quantity = quantity + 1;
-        inputNomor.val(quantity); 
+        inputNomor.val(quantity);
       }
     }
-    jmlProduk[indexBaris]=quantity;
+    jmlProduk[indexBaris] = quantity;
     $('input[name="checkedProduk[]"]:checked').each(function () {
       jmlProdukChecked.push(Number($(this).parent().parent().parent().find('div').eq(3).children().eq(1).children("span").children("input").val()));
     });
@@ -43,7 +43,7 @@ $('input[name="checkedProduk[]"]:checked').each(function(){
   });
 
   $('.input').change(function () {
-    jmlProdukChecked= [];
+    jmlProdukChecked = [];
     var indexBaris = $(this).parent().parent().parent().parent().parent().parent().index();
 
     var val = $(this).val();
@@ -57,7 +57,7 @@ $('input[name="checkedProduk[]"]:checked').each(function(){
     $('input[name="checkedProduk[]"]:checked').each(function () {
       jmlProdukChecked.push(Number($(this).parent().parent().parent().find('div').eq(3).children().eq(1).children("span").children("input").val()));
     });
-    
+
     setSubtotal();
     setGrandtotal()
     setTotal(indexBaris);
@@ -85,24 +85,23 @@ $('input[name="checkedProduk[]"]:checked').each(function(){
         setGrandtotal()
       }
     });
-    // console.log(produkChecked);
   });
 
-  $('.viewBtn').click(function(){
+  $('.viewBtn').click(function () {
     event.preventDefault();
     var listParent = $(this).parent().parent().parent().parent().parent();
     var idProduk = listParent.data('id');
 
-    window.location.href="/?page=produk&produk="+idProduk;
+    window.location.href = "/?page=produk&produk=" + idProduk;
   });
 
-  $('.hapusBtn').click(function(){
+  $('.hapusBtn').click(function () {
     event.preventDefault();
     var listParent = $(this).parent().parent().parent().parent().parent();
     var idProduk = listParent.data('id');
     var indexDelete = produkChecked.indexOf(idProduk);
-    
-    if(confirm("Hapus produk ini dari keranjang?")){
+
+    if (confirm("Hapus produk ini dari keranjang?")) {
       $.ajax({
         url: "/app/proses.php?aksi=hapus-keranjang-user",
         type: "post",
@@ -112,23 +111,22 @@ $('input[name="checkedProduk[]"]:checked').each(function(){
         success: function (response) {
           $('.toast > .toast-body').html(response);
           $('.toast').toast('show');
-          if(indexDelete>-1){
-            produkChecked.splice(indexDelete,1);
-            jmlProdukChecked.splice(indexDelete,1);
+          if (indexDelete > -1) {
+            produkChecked.splice(indexDelete, 1);
+            jmlProdukChecked.splice(indexDelete, 1);
           }
           listParent.remove();
           updateKeranjang();
         }
       });
 
-    }else{
-    }
-    
+    } else {}
+
   });
 
-  $('#checkout').click(function(){
+  $('#checkout').click(function () {
     event.preventDefault();
-    if(produkChecked.length>0){
+    if (produkChecked.length > 0) {
       // $.ajax({
       //   url: "/app/proses.php?aksi=checkout",
       //   type: "post",
@@ -139,15 +137,18 @@ $('input[name="checkedProduk[]"]:checked').each(function(){
       //     $('#formKeranjang').submit();
       //   }
       // });
-      $.redirect("/?page=checkout", {'id':produkChecked.toString(), 'jml':jmlProdukChecked.toString()});
-    }else{
+      $.redirect("/?page=checkout", {
+        'id': produkChecked.toString(),
+        'jml': jmlProdukChecked.toString()
+      });
+    } else {
       alert("Harap pilih produk yang akan di checkout!!");
     }
-    
+
   });
 
   //fungsi
-  function setSubtotal(){
+  function setSubtotal() {
     if (hrgProdukChecked.length > 0) {
       var total = 0;
       for (let i = 0; i < hrgProdukChecked.length; i++) {
@@ -159,7 +160,7 @@ $('input[name="checkedProduk[]"]:checked').each(function(){
     }
   }
 
-  function setGrandtotal(){
+  function setGrandtotal() {
     if (hrgProdukChecked.length > 0) {
       var total = 0;
       for (let i = 0; i < hrgProdukChecked.length; i++) {
@@ -171,7 +172,7 @@ $('input[name="checkedProduk[]"]:checked').each(function(){
     }
   }
 
-  function setHargaJumlahProduk(){
+  function setHargaJumlahProduk() {
     $.ajax({
       url: "/app/proses.php?request=req-harga-jml-produk",
       type: "post",
@@ -183,19 +184,19 @@ $('input[name="checkedProduk[]"]:checked').each(function(){
     });
   }
 
-  function setTotal(ind){
+  function setTotal(ind) {
     total = hargaProduk[ind] * jmlProduk[ind];
     // console.log("a");
     $('.totalHarga').eq(ind).html("Total : " + formatRupiah(total.toString(), 'Rp. '));
   }
-  
-  function updateKeranjang(){
-    $.ajax({  
+
+  function updateKeranjang() {
+    $.ajax({
       type: "GET",
-      url: "/app/proses.php?request=update-keranjang",             
-      dataType: "html",                
-      success: function(response){                    
-          $("#jmlKeranjang").html(response); 
+      url: "/app/proses.php?request=update-keranjang",
+      dataType: "html",
+      success: function (response) {
+        $("#jmlKeranjang").html(response);
       }
     });
   }

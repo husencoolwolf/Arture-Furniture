@@ -107,6 +107,9 @@ $getPageStatus = "";
         // include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/dashboard.php';
         header("Location: /");
       }
+    } elseif ($getPage == "pesanan") {
+      $getPageStatus = "pesanan";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/pesanan.php';
     } else {
       $getPageStatus = "dashboard";
       header("Location: /");
