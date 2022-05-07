@@ -1,5 +1,5 @@
 <?php
-$dataProduk = $db->getDataProdukAdmin();
+$dataPesanan = $db->getDataPesananAdmin();
 ?>
 <link href="/dist/dashboard.css" rel="stylesheet">
 
@@ -71,49 +71,44 @@ $dataProduk = $db->getDataProdukAdmin();
         <table class="table table-striped table-sm table-bordered" id="tabelProduk">
           <thead class="thead-dark">
             <tr>
-              <th class="text-center">ID Produk</th>
-              <th class="text-center">Gambar</th>
-              <th class="text-center">Nama Produk</th>
-              <th class="text-center">Kategori</th>
-              <th class="text-center">Harga</th>
-              <th class="text-center">Deskripsi</th>
+              <th class="text-center">ID Pesanan</th>
+              <th class="text-center">Tanggal Dibuat</th>
+              <th class="text-center">Metode</th>
+              <th class="text-center">Banyak Item</th>
+              <th class="text-center">Pembeli</th>
+              <th class="text-center">Status</th>
               <th class="text-center">aksi</th>
             </tr>
           </thead>
           <tbody>
             <?php
-            if (!$dataProduk) {
+            if (!$dataPesanan) {
             ?>
               <tr>
                 <td class="text-center alert-danger" colspan="100%">Belum Ada Produk</td>
               </tr>
               <?php
             } else {
-              while ($x = mysqli_fetch_array($dataProduk)) {
+              while ($x = mysqli_fetch_array($dataPesanan)) {
               ?>
                 <tr>
-                  <td><?= $x['id_produk'] ?></td>
-                  <td><img src="/assets/produk/<?= $x['gambar'] ?>" width="100px" height="100px"></td>
-                  <td><?= $x['nama_produk'] ?></td>
-                  <td><?= $x['kategori'] ?></td>
-                  <td><?= $db->intToRupiah($x['harga_produk']) ?></td>
-                  <td><?= $x['deskripsi'] ?></td>
+                  <td><?= $x['id_pesanan'] ?></td>
+                  <td><?= $x['tanggal_dibuat'] ?></td>
+                  <td><?= $x['metode'] ?></td>
+                  <td><?= $x['item'] ?></td>
+                  <td><?= $x['nama'] ?></td>
+                  <td><?= $x['status'] ?></td>
                   <td class="text-center">
-                    <a href="/?page=edit-produk&produk=<?= $x['id_produk'] ?>" class="btn btn-success btn-sm">
+                    <a href="/?page=edit-produk&produk=<?= $x['id_pesanan'] ?>" class="btn btn-success btn-sm">
                       <span data-feather="edit"></span>
                     </a>
                     <a href="" class="btn btn-danger btn-sm hapusBtn">
                       <span data-feather="trash"></span>
                     </a>
-                    <a href="" class="btn btn-dark btn-sm tersediaBtn" data-tersedia="<?= $x['tersedia'] ?>" data-produk="<?= $x['id_produk'] ?>">
-                      <span data-feather="<?php
-                                          if ($x['tersedia'] == 1) {
-                                            echo ('eye');
-                                          } else {
-                                            echo ('eye-off');
-                                          }
-                                          ?>"></span>
+                    <a href="" class="btn btn-info btn-sm detailBtn">
+                      <span data-feather="eye"></span>
                     </a>
+
                   </td>
                 </tr>
             <?php

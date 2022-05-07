@@ -173,14 +173,13 @@ class database
                 }
             }
             if ($detailPesananSuccess === count($produk)) {
-                $queryStatusAwal = "INSERT INTO status_pesanan VALUES ('', '". $data['id'] ."', 'menunggu info bank', now());";
+                $queryStatusAwal = "INSERT INTO status_pesanan VALUES ('', '" . $data['id'] . "', 'menunggu info bank', now());";
                 $responStatus = mysqli_query($this->koneksi, $queryStatusAwal);
-                if($responStatus){
-                  return true;
-                }else{
-                  return false;
+                if ($responStatus) {
+                    return true;
+                } else {
+                    return false;
                 }
-
             } else {
                 return false;
             }
@@ -358,7 +357,17 @@ class database
 
     function getDataPesananAdmin()
     {
-        $query = "SELECT p.id_pesanan, p.tanggal as tanggal_dibuat, p.metode, COUNT(d.id_pesanan) as item FROM pesanan p LEFT JOIN detail_pesanan d USING(id_pesanan);";
+        $query = "SELECT p.id_pesanan, p.tanggal as tanggal_dibuat, p.metode, (SELECT COUNT(id_pesanan) FROM detail_pesanan d2 WHERE d2.id_pesanan=p.id_pesanan) as item, a.nama, s.status FROM pesanan p INNER JOIN akun a ON a.id_akun=p.id_akun LEFT JOIN status_pesanan s ON s.id_pesanan=p.id_pesanan WHERE s.tanggal=(SELECT max(tanggal) FROM status_pesanan s2 WHERE s2.id_pesanan=p.id_pesanan);";
+        $dataPesanan = mysqli_query($this->koneksi, $query);
+        if ($dataPesanan) {
+            if (mysqli_num_rows($dataPesanan) > 0) {
+                return $dataPesanan;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     function getDetailProdukAdmin($id)
@@ -473,20 +482,20 @@ class database
             $query = "SELECT harga_produk from produk where id_produk in (";
             for ($i = 0; $i < count($idProduk); $i++) {
                 $query = $query . "$idProduk[$i]";
-                if($i == count($idProduk)-1){
-                  $query .= ") ";
-                }else{
-                  $query .= ", ";
+                if ($i == count($idProduk) - 1) {
+                    $query .= ") ";
+                } else {
+                    $query .= ", ";
                 }
             }
             $query .= "ORDER BY FIELD(id_produk, ";
-            for($i = 0; $i < count($idProduk); $i++){
-              $query = $query . "$idProduk[$i]";
-              if($i == count($idProduk)-1){
-                $query .= ");";
-              }else{
-                $query .= ", ";
-              }
+            for ($i = 0; $i < count($idProduk); $i++) {
+                $query = $query . "$idProduk[$i]";
+                if ($i == count($idProduk) - 1) {
+                    $query .= ");";
+                } else {
+                    $query .= ", ";
+                }
             }
             $dataHarga = mysqli_query($this->koneksi, $query);
             $returnHarga = array();
