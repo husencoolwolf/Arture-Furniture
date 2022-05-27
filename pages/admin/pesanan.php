@@ -2,8 +2,9 @@
 $dataPesanan = $db->getDataPesananAdmin();
 ?>
 <link href="/dist/dashboard.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/misc/loading.css">
 
-<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
+<div class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
   <div class="toast-header">
     <!-- <img src="" class="rounded mr-2" alt="..."> -->
     <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
@@ -12,6 +13,120 @@ $dataPesanan = $db->getDataPesananAdmin();
   </div>
   <div class="toast-body">
 
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="detailPesananModal" tabindex="-1" role="dialog" aria-labelledby="detailPesananModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailPesananModalLabel">Detail Pesanan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <div class="modal-isi text-left">
+          <div class="table-responsive">
+            <table id="table-detail-pesanan" class="table table-sm w-100" style="max-width: none !important;">
+              <tr>
+                <td>No.Pesanan</td>
+                <td>: <span data-setter="idPesanan"></span></td>
+              </tr>
+              <tr>
+                <td>Tanggal Pesanan</td>
+                <td>: <span data-setter="tanggalPesanan"></span></td>
+              </tr>
+              <tr class="bg-dark text-white">
+                <td class="align-middle">Detail Pemesan</td>
+                <td><button class="btn btn-light btn-sm" type="button" data-toggle="collapse" data-target="#detailKlien" aria-expanded="false" aria-controls="detailKlien">Lihat Detail <span data-feather="chevron-down"></span></button></td>
+
+              </tr>
+              <tr class="collapse" id="detailKlien">
+                <td colspan="2" class="p-0">
+                  <table class="table table-sm m-0 table-dark table-striped">
+                    <tr>
+                      <td class="align-middle">ID Pelanggan</td>
+                      <td>: <span data-setter="idKlien"></span></td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle">Nama</td>
+                      <td>: <span data-setter="namaKlien"></span></td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle">Alamat</td>
+                      <td>: <span data-setter="alamatKlien"></span></td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle">E-mail</td>
+                      <td>: <span data-setter="emailKlien"></span></td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle">Nomor Hp/Telp</td>
+                      <td>: <span data-setter="nopeKlien"></span></td>
+                    </tr>
+
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td>Metode Pembelian</td>
+                <td>: <span data-setter="metodePesanan"></span></td>
+              </tr>
+              <tr>
+                <td>Status</td>
+                <td>: <span data-setter="statusPesanan"></span></td>
+              </tr>
+              <tr class="bg-dark text-white">
+                <td class="align-middle">History Status</td>
+                <td><button class="btn btn-light btn-sm" type="button" data-toggle="collapse" data-target="#historyStatus" aria-expanded="false" aria-controls="historyStatus">Lihat History <span data-feather="chevron-down"></span></button></td>
+              </tr>
+              <tr class="collapse" id="historyStatus">
+                <td colspan="2" class="p-0">
+                  <table class="table table-sm m-0 table-dark table-striped" id="tabelHistoryStatus">
+                    <thead>
+                      <th>Status</th>
+                      <th>Tanggal</th>
+                      <th>Keterangan</th>
+                    </thead>
+                    <tbody>
+                      <tr></tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="p-0">
+                  <table class="table table-sm m-0 table-light table-striped my-2" id="tabelDetailProdukPesanan">
+                    <thead class="thead-dark">
+                      <th>Gambar</th>
+                      <th>Nama Produk</th>
+                      <th>Jumlah</th>
+                      <th>Harga Produk</th>
+                      <th>SubTotal</th>
+                    </thead>
+                    <tbody>
+                      <tr></tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -64,17 +179,32 @@ $dataPesanan = $db->getDataPesananAdmin();
 
 
       <!-- <h2>daftar produk</h2> -->
-      <div class="table-responsive my-3">
+      <div class="table-responsive my-3 overflow-hidden">
         <a href="/?page=tambah-produk">
           <button class="btn btn-dark">Tambah Data</button>
         </a>
-        <table class="table table-striped table-sm table-bordered" id="tabelProduk">
+        <hr>
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label class="form-check-label" for="tanggalDari">Dari</label>
+              <input class="form-control filterTabel" type="date" name="tanggalDari" id="tanggalDari" placeholder="Tanggal Dari">
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label class="form-check-label" for="tanggalSampai">Sampai</label>
+              <input class="form-control filterTabel" type="date" name="tanggalSampai" id="tanggalSampai" placeholder="Tanggall Sampai">
+            </div>
+          </div>
+        </div>
+        <table class="table table-striped table-sm table-bordered" id="tabelPesanan">
           <thead class="thead-dark">
             <tr>
               <th class="text-center">ID Pesanan</th>
               <th class="text-center">Tanggal Dibuat</th>
               <th class="text-center">Metode</th>
-              <th class="text-center">Banyak Item</th>
+              <th class="text-center">Qty Item</th>
               <th class="text-center">Pembeli</th>
               <th class="text-center">Status</th>
               <th class="text-center">aksi</th>
@@ -85,7 +215,7 @@ $dataPesanan = $db->getDataPesananAdmin();
             if (!$dataPesanan) {
             ?>
               <tr>
-                <td class="text-center alert-danger" colspan="100%">Belum Ada Produk</td>
+                <td class="text-center alert-danger" colspan="100%">Belum Ada Pesanan</td>
               </tr>
               <?php
             } else {
@@ -105,7 +235,7 @@ $dataPesanan = $db->getDataPesananAdmin();
                     <a href="" class="btn btn-danger btn-sm hapusBtn">
                       <span data-feather="trash"></span>
                     </a>
-                    <a href="" class="btn btn-info btn-sm detailBtn">
+                    <a href="" data-id="<?= $x['id_pesanan'] ?>" class="btn btn-info btn-sm detailBtn" data-toggle="modal" data-target="#detailPesananModal">
                       <span data-feather="eye"></span>
                     </a>
 

@@ -252,6 +252,22 @@ if ($request == "updateKategori") {
       </td>
     </tr>
   </table>');
+} elseif ($request == "update-tabel-pesanan-admin") {
+  $dari = $_POST['dari'];
+  $sampai = $_POST['sampai'];
+  $respon = $db->updateDataTabelPesananAdmin($dari, $sampai);
+  if ($respon) {
+    echo (json_encode($respon));
+  } elseif ($respon == "-1") {
+    echo ($respon);
+  } else {
+    echo ("0");
+  }
+} elseif ($request == "get-detail-pesananan-modal-admin") {
+  $idPesanan = $_POST['id'];
+  $idKlien = $_SESSION['id_akun'];
+  $respon = $db->getDataDetailPesananModalAdmin($idPesanan, $idKlien);
+  echo (json_encode($respon));
 }
 
 if ($aksi = "" && $request == "") {

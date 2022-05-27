@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "..\\..\\Xampp artureliving\\htdocs"
 		}
 	],
 	"settings": {}

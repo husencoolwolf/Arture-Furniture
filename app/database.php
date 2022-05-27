@@ -370,6 +370,7 @@ class database
         }
     }
 
+
     function getDetailProdukAdmin($id)
     {
         $query = "SELECT p.id_kategori, p.nama_produk, p.harga_produk, p.deskripsi, p.gambar, p.tersedia, k.id_kategori, k.kategori from produk p INNER JOIN kategori k ON p.id_kategori = k.id_kategori where id_produk = '$id'";
@@ -384,6 +385,85 @@ class database
             return false;
         }
     }
+
+    function getDataDetailPesananModalAdmin($idPesanan)
+    {
+        $dataSets = array();
+        $query = "SELECT p.id_pesanan, p.id_akun as id_klien, s.id_pesanan, p.tanggal as tanggal_pesan, p.metode, s.status, k.alamat, k.email, k.nomor_hp, a.nama FROM pesanan p inner join status_pesanan s ON p.id_pesanan=s.id_pesanan inner join detail_klien k ON k.id_akun=p.id_akun inner JOIN akun a ON a.id_akun=p.id_akun where p.id_pesanan='$idPesanan' AND s.tanggal=(SELECT max(tanggal) from status_pesanan s where s.id_pesanan='$idPesanan');";
+        $temp = array();
+        $data = mysqli_query($this->koneksi, $query);
+        if ($data) {
+            if (mysqli_num_rows($data) > 0) {
+                $data = mysqli_fetch_assoc($data);
+
+                $dataSets["detail_pesanan"] = $data;
+                $query2 = "SELECT * FROM status_pesanan where id_pesanan='$idPesanan';";
+                $data2 = mysqli_query($this->koneksi, $query2);
+                if ($data2) {
+                    if (mysqli_num_rows($data2) > 0) {
+                        $temp = array();
+                        while ($x = mysqli_fetch_assoc($data2)) {
+                            $temp[] = $x;
+                        }
+                        $dataSets["history_status"] = $temp;
+                        $query3 = "select produk.nama_produk, produk.gambar, detail_pesanan.jumlah, produk.harga_produk, pesanan.tanggal, pesanan.metode, pesanan.id_akun FROM detail_pesanan inner JOIN pesanan on detail_pesanan.id_pesanan=pesanan.id_pesanan inner join produk on detail_pesanan.id_produk=produk.id_produk where pesanan.id_pesanan='$idPesanan'";
+                        $data3 = mysqli_query($this->koneksi, $query3);
+                        if ($data3) {
+                            if (mysqli_num_rows($data3) > 0) {
+                                $temp = array();
+                                while ($x = mysqli_fetch_assoc($data3)) {
+                                    $temp[] = $x;
+                                }
+                                $dataSets["produk_pesanan"] = $temp;
+                                return $dataSets;
+                            } else {
+                                return false;
+                            }
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        false;
+                    }
+                } else {
+                    return false;
+                }
+                // return $query;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    function updateDataTabelPesananAdmin($dari, $sampai)
+    {
+        $query = "SELECT p.id_pesanan, p.tanggal as tanggal_dibuat, p.metode, (SELECT COUNT(id_pesanan) FROM detail_pesanan d2 WHERE d2.id_pesanan=p.id_pesanan) as item, a.nama, s.status FROM pesanan p INNER JOIN akun a ON a.id_akun=p.id_akun LEFT JOIN status_pesanan s ON s.id_pesanan=p.id_pesanan WHERE s.tanggal=(SELECT max(tanggal) FROM status_pesanan s2 WHERE s2.id_pesanan=p.id_pesanan)";
+        if (isset($dari) && $dari != '') {
+            $dari = date('Y-m-d', strtotime($dari));
+            $query .= " AND p.tanggal>='$dari'";
+        }
+        if (isset($sampai) && $sampai != '') {
+            $sampai = date('Y-m-d', strtotime($sampai));
+            $query .= " AND p.tanggal<='$sampai 23:59:21'";
+        }
+        $dataPesanan = mysqli_query($this->koneksi, $query);
+        if ($dataPesanan) {
+            if (mysqli_num_rows($dataPesanan) > 0) {
+                $datareturn = array();
+                while ($x = mysqli_fetch_array($dataPesanan)) {
+                    $datareturn[] = $x;
+                }
+                return $datareturn;
+            } else {
+                return "-1"; //tidak ada hasil / hasil tidak ditemukan
+            }
+        } else {
+            return false;
+        }
+    }
+
 
     // end of admin queries
 
