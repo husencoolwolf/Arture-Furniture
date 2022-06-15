@@ -20,21 +20,41 @@ class database
         return $this->koneksi;
     }
 
-    function generateID($tabel, $field)
+    // fungsi di bawah kurang efisien dalam mengecek apakah id sudah ada di tabel atau blm
+    // function generateID($tabel, $field)
+    // {
+    //     $queryCheck = "SELECT $field from $tabel;";
+    //     $dataID = mysqli_query($this->koneksi, $queryCheck);
+    //     $daftar_ID = array();
+    //     while ($row = mysqli_fetch_array($dataID)) {
+    //         $daftar_ID[] = $row[$field];
+    //     }
+
+    //     $newID = rand(0, 999999);
+    //     while (in_array($newID, $daftar_ID)) {
+    //         $newID = rand(0, 999999);
+    //     }
+
+    //     return $newID;
+    // }
+
+    function pembuatIDUnik($connection, $tabelName, $fieldID, $id = null, $max = 6)
     {
-        $queryCheck = "SELECT $field from $tabel;";
-        $dataID = mysqli_query($this->koneksi, $queryCheck);
-        $daftar_ID = array();
-        while ($row = mysqli_fetch_array($dataID)) {
-            $daftar_ID[] = $row[$field];
+        if ($id == null) {
+            $id = '';
+            for ($i = 0; $i < $max; $i++) {
+                $id = $id . rand(0, 9);
+            }
         }
 
-        $newID = rand(0, 999999);
-        while (in_array($newID, $daftar_ID)) {
-            $newID = rand(0, 999999);
+        //
+        $cekid = mysqli_query($connection, "SELECT $fieldID FROM $tabelName WHERE $fieldID = '$id'");
+        if (mysqli_num_rows($cekid) == 0) {
+            return $id;
+        } else {
+            $id2 = createId(8);
+            $this->pembuatIDUnik($connection, $tabelName, $fieldID, $id);
         }
-
-        return $newID;
     }
 
     function rupiahToInt($string)
@@ -119,7 +139,7 @@ class database
 
     function tambahProduk($data, $gambar)
     {
-        $idProduk = $this->generateID("produk", "id_produk");
+        $idProduk = $this->pembuatIDUnik($this->koneksi, "produk", "id_produk");
         $deskripsi = $data['inputDeskripsi'];
         $deskripsi = str_replace("\n", "<br>", $deskripsi);
         $query = "INSERT INTO produk values ('$idProduk', '" . $data['selectKategori'] . "', '" . $data['inputNamaProduk'] . "', '" . $this->rupiahToInt($data['inputHargaProduk']) . "', '" . $deskripsi . "', '$gambar', '')";
@@ -173,7 +193,7 @@ class database
                 }
             }
             if ($detailPesananSuccess === count($produk)) {
-                $queryStatusAwal = "INSERT INTO status_pesanan VALUES ('', '" . $data['id'] . "', 'menunggu info bank', now());";
+                $queryStatusAwal = "INSERT INTO status_pesanan VALUES ('', '" . $data['id'] . "', 'menunggu info bank', now(), '');";
                 $responStatus = mysqli_query($this->koneksi, $queryStatusAwal);
                 if ($responStatus) {
                     return true;
@@ -355,9 +375,28 @@ class database
         }
     }
 
+    function getHargaProdukAdmin()
+    {
+        $query = "select p.id_produk, p.harga_produk from produk p";
+        $dataProduk = mysqli_query($this->koneksi, $query);
+        if ($dataProduk) {
+            if (mysqli_num_rows($dataProduk) > 0) {
+                $temp = array();
+                while ($x = mysqli_fetch_assoc($dataProduk)) {
+                    $temp[$x['id_produk']] = $x['harga_produk'];
+                }
+                return json_encode($temp);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     function getDataPesananAdmin()
     {
-        $query = "SELECT p.id_pesanan, p.tanggal as tanggal_dibuat, p.metode, (SELECT COUNT(id_pesanan) FROM detail_pesanan d2 WHERE d2.id_pesanan=p.id_pesanan) as item, a.nama, s.status FROM pesanan p INNER JOIN akun a ON a.id_akun=p.id_akun LEFT JOIN status_pesanan s ON s.id_pesanan=p.id_pesanan WHERE s.tanggal=(SELECT max(tanggal) FROM status_pesanan s2 WHERE s2.id_pesanan=p.id_pesanan);";
+        $query = "SELECT p.id_pesanan, p.tanggal as tanggal_dibuat, p.metode, (SELECT COUNT(id_pesanan) FROM detail_pesanan d2 WHERE d2.id_pesanan=p.id_pesanan) as item, a.nama, s.status FROM pesanan p INNER JOIN akun a ON a.id_akun=p.id_akun LEFT JOIN status_pesanan s ON s.id_pesanan=p.id_pesanan WHERE s.tanggal=(SELECT max(tanggal) FROM status_pesanan s2 WHERE s2.id_pesanan=p.id_pesanan) ORDER by p.tanggal DESC;";
         $dataPesanan = mysqli_query($this->koneksi, $query);
         if ($dataPesanan) {
             if (mysqli_num_rows($dataPesanan) > 0) {
@@ -370,6 +409,53 @@ class database
         }
     }
 
+    function getDataPesananAdminDetailed($idPesanan)
+    {
+        $query = "SELECT p.id_akun, p.id_pesanan, s.id_pesanan, p.tanggal as tanggal_pesan, p.metode, s.status, k.alamat, k.email, k.nomor_hp, a.nama FROM pesanan p inner join status_pesanan s ON p.id_pesanan=s.id_pesanan inner join detail_klien k ON k.id_akun=p.id_akun inner JOIN akun a ON a.id_akun=p.id_akun where p.id_pesanan='$idPesanan' AND s.tanggal=(SELECT max(tanggal) from status_pesanan s where s.id_pesanan='$idPesanan');";
+        $dataPesanan = array();
+        $data = mysqli_query($this->koneksi, $query);
+        if ($data) {
+            if (mysqli_num_rows($data) > 0) {
+                $dataPesanan = mysqli_fetch_assoc($data);
+                return $dataPesanan;
+                // return $query;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    function getDetailPesananAdmin($idPesanan)
+    {
+        $query = "select produk.id_produk, produk.nama_produk, produk.gambar, detail_pesanan.jumlah, produk.harga_produk, pesanan.tanggal, pesanan.metode, pesanan.id_akun FROM detail_pesanan inner JOIN pesanan on detail_pesanan.id_pesanan=pesanan.id_pesanan inner join produk on detail_pesanan.id_produk=produk.id_produk where pesanan.id_pesanan='$idPesanan'";
+        $dataDetailPesanan =  mysqli_query($this->koneksi, $query);
+        if ($dataDetailPesanan) {
+            if (mysqli_num_rows($dataDetailPesanan) > 0) {
+                return $dataDetailPesanan;
+            } else {
+                return "-1";
+            }
+        } else {
+            return false;
+        }
+    }
+
+    function getDataKlienAdmin()
+    {
+        $query = "SELECT * FROM akun INNER JOIN detail_klien ON akun.id_akun=detail_klien.id_akun";
+        $dataKlien =  mysqli_query($this->koneksi, $query);
+        if ($dataKlien) {
+            if (mysqli_num_rows($dataKlien) > 0) {
+                return $dataKlien;
+            } else {
+                return false;
+            }
+        } else {
+            return $query;
+        }
+    }
 
     function getDetailProdukAdmin($id)
     {
@@ -461,6 +547,46 @@ class database
             }
         } else {
             return false;
+        }
+    }
+
+    function tambahPesananAdmin($dataPesanan, $dataProduk)
+    {
+        //id pesanan costume sedangkan id detail pesanan increased
+        $idPesanan = $this->pembuatIDUnik($this->koneksi, "pesanan", "id_pesanan");
+        $queryPesanan = "INSERT INTO pesanan VALUES('$idPesanan', 
+        '" . $dataPesanan[0]['value'] . "',
+        now(), 
+        '" . $dataPesanan[1]['value'] . "')";
+        $inputPesanan = mysqli_query($this->koneksi, $queryPesanan);
+        if ($inputPesanan) {
+            $berhasilInputProduk = 0;
+            foreach ($dataProduk as $key => $value) {
+
+                $queryProduk = "INSERT INTO detail_pesanan VALUES('', 
+                '$idPesanan',
+                '$key',
+                '$value' )";
+                $responProduk = mysqli_query($this->koneksi, $queryProduk);
+                if ($responProduk) {
+                    $berhasilInputProduk++;
+                } else {
+                    break;
+                }
+            }
+            if ($berhasilInputProduk == count($dataProduk)) {
+                $queryStatusAwal = "INSERT INTO status_pesanan VALUES ('', '" . $idPesanan . "', 'menunggu info bank', now(), 'input manual : " . $_SESSION['id_akun'] . "');";
+                $responStatus = mysqli_query($this->koneksi, $queryStatusAwal);
+                if ($responStatus) {
+                    return true;
+                } else {
+                    return "-3";
+                }
+            } else {
+                return "-2";
+            }
+        } else {
+            return "-1";
         }
     }
 

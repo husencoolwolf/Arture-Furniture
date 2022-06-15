@@ -164,7 +164,7 @@ $dataPesanan = $db->getDataPesananAdmin();
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Products</h1>
+        <h1 class="h2">Orders</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <!-- <div class="btn-group mr-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -180,7 +180,7 @@ $dataPesanan = $db->getDataPesananAdmin();
 
       <!-- <h2>daftar produk</h2> -->
       <div class="table-responsive my-3 overflow-hidden">
-        <a href="/?page=tambah-produk">
+        <a href="/?page=tambah-pesanan">
           <button class="btn btn-dark">Tambah Data</button>
         </a>
         <hr>
@@ -229,10 +229,10 @@ $dataPesanan = $db->getDataPesananAdmin();
                   <td><?= $x['nama'] ?></td>
                   <td><?= $x['status'] ?></td>
                   <td class="text-center">
-                    <a href="/?page=edit-produk&produk=<?= $x['id_pesanan'] ?>" class="btn btn-success btn-sm">
+                    <a href="/?page=edit-pesanan&pesanan=<?= $x['id_pesanan'] ?>" class="btn btn-success btn-sm">
                       <span data-feather="edit"></span>
                     </a>
-                    <a href="" class="btn btn-danger btn-sm hapusBtn">
+                    <a href="" data-id="<?= $x['id_pesanan'] ?>" class="btn btn-danger btn-sm hapusBtn">
                       <span data-feather="trash"></span>
                     </a>
                     <a href="" data-id="<?= $x['id_pesanan'] ?>" class="btn btn-info btn-sm detailBtn" data-toggle="modal" data-target="#detailPesananModal">
@@ -253,3 +253,4 @@ $dataPesanan = $db->getDataPesananAdmin();
 </div>
 <script src="/dist/js/feather.min.js"></script>
 <script src="/dist/DataTables/datatables.min.js"></script>
+<script src="/dist/js/integer-to-rupiah.js"></script>

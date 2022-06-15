@@ -33,6 +33,7 @@ $getPageStatus = "";
   <?php echo ($ctr->cssImporter($getPage, $getHakAkses)); ?>
 
   <script src="/dist/js/jquery-3.5.1.js"></script>
+  <script src="/dist/js/popper.min.js"></script>
   <script src="/dist/js/bootstrap.js"></script>
 
 </head>
@@ -110,6 +111,17 @@ $getPageStatus = "";
     } elseif ($getPage == "pesanan") {
       $getPageStatus = "pesanan";
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/pesanan.php';
+    } elseif ($getPage == "tambah-pesanan") {
+      $getPageStatus = "pesanan";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/tambah-pesanan.php';
+    } elseif ($getPage == "edit-pesanan") {
+      if (isset($_GET['pesanan'])) {
+        $getPageStatus = "pesanan";
+        include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/edit-pesanan.php';
+      } else {
+        $getPageStatus = "dashboard";
+        header("Location: /");
+      }
     } else {
       $getPageStatus = "dashboard";
       header("Location: /");

@@ -6,7 +6,7 @@
 $(document).ready(function () {
   let filterDari = $("#tanggalDari").val(),
     filterSampai = $("#tanggalSampai").val();
-  // $(".tersediaBtn").replaceWith(feather.icons['stop-circle'].toSvg());
+  reloadEventButtonTabel();
 
   var tabelVar = $('#tabelPesanan').DataTable({
     // opsi fungsi yang di pakai datatables
@@ -16,34 +16,15 @@ $(document).ready(function () {
     "scrollY": "500px",
     "sScrollX": "100%",
     "sScrollXInner": "100%",
-    "scrollCollapse": true
+    "scrollCollapse": true,
+    "order": [
+      [1, "desc"]
+    ]
   });
 
   $(".filterTabel").change(function () {
     updateTabel();
-    // console.log("berubah");
-
   });
-
-  $('.hapusBtn').click(function () {
-    // console.log();
-    event.preventDefault();
-    var idProduk = $(this).parent().parent().find('td').eq(0).html();
-    var namaProduk = $(this).parent().parent().find('td').eq(2).html()
-    if (confirm('Anda yakin hapus ' + namaProduk + ' [' + idProduk + '] ??')) {
-      window.location.href = '/app/proses.php?aksi=hapus-produk&id=' + idProduk;
-    } else {}
-  });
-
-  $('.detailBtn').click(function () {
-    $('#detailPesananModal .modal-body .lds-ring div').css("border-color", "#000000 transparent transparent transparent");
-    let loading = $('#detailPesananModal .modal-body .lds-ring').css("display", "inline-block");
-    let isiModal = $('#detailPesananModal .modal-body .modal-isi').hide();
-    let idPesanan = $(this).data("id")
-    setDetailPesananModal(idPesanan, loading, isiModal);
-  });
-
-
 
   function updateTabel() {
     filterDari = $("#tanggalDari").val();
@@ -76,7 +57,7 @@ $(document).ready(function () {
                 <a href='/?page=edit-produk&produk=" + element['id_pesanan'] + "' class='btn btn-success btn-sm'>\
                   <span data-feather='edit'></span>\
                 </a>\
-                <a href='' class='btn btn-danger btn-sm hapusBtn'>\
+                <a href='' data-id='" + element['id_pesanan'] + "' class='btn btn-danger btn-sm hapusBtn'>\
                   <span data-feather='trash'></span>\
                 </a>\
                 <a href='' data-id='" + element['id_pesanan'] + "' class='btn btn-info btn-sm detailBtn' data-toggle='modal' data-target='#detailPesananModal'>\
@@ -87,7 +68,9 @@ $(document).ready(function () {
 
           });
           $("table#tabelPesanan tbody").html(outputan);
-          reloadFrontAPI(tabelVar);
+          reloadFrontAPI();
+          reloadEventButtonTabel();
+          // tabelVar.draw();
         }
 
 
@@ -96,6 +79,25 @@ $(document).ready(function () {
         alert("Status: " + textStatus);
         alert("Error: " + errorThrown);
       }
+    });
+  }
+
+  function reloadEventButtonTabel() {
+    $('table#tabelPesanan tbody > tr > td .hapusBtn').click(function () {
+      // console.log();
+      event.preventDefault();
+      let idPesanan = $(this).data("id")
+      if (confirm('Anda yakin hapus ' + "data " + ' [' + idPesanan + '] ??')) {
+        window.location.href = '/app/proses.php?aksi=hapus-pesanan&id=' + idPesanan;
+      } else {}
+    });
+
+    $('table#tabelPesanan tbody > tr > td .detailBtn').on("click", function () {
+      $('#detailPesananModal .modal-body .lds-ring div').css("border-color", "#000000 transparent transparent transparent");
+      let loading = $('#detailPesananModal .modal-body .lds-ring').css("display", "inline-block");
+      let isiModal = $('#detailPesananModal .modal-body .modal-isi').hide();
+      let idPesanan = $(this).data("id")
+      setDetailPesananModal(idPesanan, loading, isiModal);
     });
   }
 
@@ -174,8 +176,8 @@ $(document).ready(function () {
       <td><img class='produk-thumbnail' src='/assets/produk/" + element['gambar'] + "'></td>\
       <td>" + element['nama_produk'] + "</td>\
       <td>" + element['jumlah'] + "</td>\
-      <td>" + element['harga_produk'] + "</td>\
-      <td>" + (parseInt(element['jumlah']) * parseInt(element['harga_produk'])).toString() + "</td>\
+      <td>" + formatRupiah(element['harga_produk'], "Rp. ") + "</td>\
+      <td>" + formatRupiah((parseInt(element['jumlah']) * parseInt(element['harga_produk'])).toString(), "Rp. ") + "</td>\
       </tr>\
       ";
     });

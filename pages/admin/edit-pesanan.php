@@ -1,13 +1,12 @@
 <?php
-$dataKategori = $db->getDataKategori();
-$dataProduk = $db->getDetailProdukAdmin($_GET['produk']);
-$detailProduk = array();
-while ($row = mysqli_fetch_array($dataProduk)) {
-  $detailProduk = $row;
-}
-// print_r($detailProduk);
+$dataProduk = $db->getDataProdukAdmin();
+$dataKlien = $db->getDataKlienAdmin();
+$detailPesanan = $db->getDetailPesananAdmin($_GET['pesanan']);
+$dataPesanan = $db->getDataPesananAdminDetailed($_GET['pesanan']);
+
 ?>
 <link href="/dist/dashboard.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/bootstrap-select/css/bootstrap-select.min.css">
 
 <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
   <div class="toast-header">
@@ -54,7 +53,7 @@ while ($row = mysqli_fetch_array($dataProduk)) {
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Edit Produk</h1>
+        <h1 class="h2">Edit Pesanan</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <!-- <div class="btn-group mr-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -66,72 +65,112 @@ while ($row = mysqli_fetch_array($dataProduk)) {
           </button> -->
         </div>
       </div>
-      <?php
-      if ($detailProduk['tersedia'] == 0) {
-        echo ('<div class="alert alert-warning">Produk ini dalam mode tersembunyi / tidak tersedia !!!<br>Jangan lupa menonaktifkan mode tersembunyi agar kostumer dapat melihat perubahan!!!</div');
-      }
-      ?>
 
 
       <!-- <h2>daftar produk</h2> -->
       <?php
       if (isset($_GET['error'])) {
-        if ($_GET['error'] == 1) {
-          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database</div>';
-        } else {
-          echo '<div class="alert alert-danger">Gambar Gagal diupload!!</div>';
+        if ($_GET['error'] == "-1") {
+          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Pesanan]</div>';
+        } else if ($_GET['error'] == "-2") {
+          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Produk - produk]</div>';
+        } else if ($_GET['error'] == "-3") {
+          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Status Awal]</div>';
         }
       }
       ?>
-      <form action="/app/proses.php?aksi=edit-produk&id=<?= $_GET['produk'] ?>" method="post" enctype="multipart/form-data">
+      <!--  -->
+      <form id="formPesanan" action="/app/proses.php?aksi=edit-pesanan-admin" method="post" enctype="multipart/form-data">
         <div class="form-group">
-          <div class="border border-dark text-center">
-            <div class="container-fluid">
-              <a href="/assets/produk/<?= $detailProduk['gambar'] ?>" id="fullImage" target="_blank" rel="noopener noreferrer">
-                <img class="img-preview" id="previewImage" src="/assets/produk/<?= $detailProduk['gambar'] ?>" alt="" style="display: inline-block">
-              </a>
-              <i class="border-dash img-preview m-2 p-2" id="uploadLogo" data-feather="upload-cloud" style="display: none;"></i>
+          <label for="selectKlien">Klien<span class="text-danger">*</span></label>
 
-            </div>
-          </div>
-          <input class="form-control" type="file" name="inputGambar" id="inputGambar">
-        </div>
-        <div class="form-group">
-          <label for="inputNamaProduk">Nama Produk<span class="text-danger">*</span></label>
-          <input class="form-control" type="text" name="inputNamaProduk" id="inputNamaProduk" value="<?= $detailProduk['nama_produk'] ?>" required>
-        </div>
-        <div class="form-group">
-          <label for="selectKategori">Kategori<span class="text-danger">*</span></label>
-          <select name="selectKategori" id="selectKategori" class="form-control mb-2" required>
-            <option value="">--Pilih Kategori--</option>
+          <select id="selectKlien" name="selectKlien" class="form-control selectpicker" data-live-search="true" title="-- Pilih Klien --">
             <?php
-            while ($x = mysqli_fetch_array($dataKategori)) {
-              if ($x['id_kategori'] == $detailProduk['id_kategori']) {
+            while ($x = mysqli_fetch_assoc($dataKlien)) {
             ?>
-                <option value="<?= $x['id_kategori'] ?>" selected><?= $x['kategori'] ?></option>
-              <?php
-              } else {
-              ?>
-                <option value="<?= $x['id_kategori'] ?>"><?= $x['kategori'] ?></option>
+              <option value="<?= $x['id_akun'] ?>" <?= ($x['id_akun'] == $dataPesanan['id_akun']) ? "selected" : "" ?>><?= $x['id_akun'] ?> | <?= $x['username'] ?></option>
             <?php
-              }
             }
             ?>
           </select>
-
-          <div class="btn btn-outline-dark" id="addKategoriBtn" data-toggle="modal" data-target="#modalAddKategori">Tambah Kategori</div>
         </div>
         <div class="form-group">
-          <label for="inputHargaProduk">Harga Produk<span class="text-danger">*</span></label>
-          <input class="form-control rupiah" type="text" name="inputHargaProduk" id="inputHargaProduk" value="<?= $db->intToRupiah($detailProduk['harga_produk']) ?>" required>
+          <label for="selectMetode">Metode<span class="text-danger">*</span></label>
+          <select id="selectMetode" name="selectMetode" class="form-control selectpicker" required title="-- Metode Pembayaran --">
+            <option value="transfer" <?= ($dataPesanan['metode'] == "transfer") ? "selected" : "" ?>>Transfer</option>
+          </select>
         </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-6">
+              <label for="selectProduk">Produk Pesanan<span class="text-danger">*</span></label>
+            </div>
+            <div class="col-2">
+              <label for="inputJumlah">jumlah<span class="text-danger">*</span></label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <select id="selectProduk" name="selectProduk" class="form-control selectpicker show-tick" data-live-search="true" title="-- Pilih Produk --" data-container="body">
+                <?php
+                while ($x = mysqli_fetch_assoc($dataProduk)) {
+                ?>
+                  <option value="<?= $x['id_produk'] ?>" data-content="<span><img src='/assets/produk/<?= $x['gambar'] ?>' class='img-preview-dropdown mr-2'><?= $x['nama_produk'] ?></span>" data-harga-produk="<?= $x['harga_produk'] ?>" data-gambar="<?= $x['gambar'] ?>"><?= $x['nama_produk'] ?></option>
+                <?php
+                }
+                ?>
+              </select>
+            </div>
+            <div class="col-2">
+              <input type="number" class="form-control h-100 border border-dark" name="inputJumlah" id="inputJumlah" max="10" min="1">
+
+            </div>
+            <div class="col-4">
+              <button id="addListBtn" class="btn btn-dark h-100 font-weight-bold">Tambahkan ke List</button>
+            </div>
+          </div>
+
+        </div>
+
 
         <div class="form-group">
-          <label for="inputDeskripsi">Deskripsi Produk<span class="text-danger">*</span></label>
-          <textarea name="inputDeskripsi" id="InputDeskripsi" cols="30" rows="10" class="form-control" required><?= $db->brToEnter($detailProduk['deskripsi']) ?></textarea>
+          <table class="table table-striped border" id="produkList" style="max-height: 16rem;">
+            <thead>
+              <th></th>
+              <th>gambar</th>
+              <th>ID Produk</th>
+              <th>Nama Produk</th>
+              <th>Harga Produk</th>
+              <th>Qty</th>
+              <th>Jumlah Harga</th>
+            </thead>
+            <tbody>
+              <?php
+              while ($x = mysqli_fetch_assoc($detailPesanan)) {
+              ?>
+                <tr data-id="<?= $x['id_produk'] ?>">
+                  <td>
+                    <button class="btn btn-danger removeList"><span data-feather="x"></span></button>
+                  </td>
+                  <td><img src="/assets/produk/<?= $x['gambar'] ?>" class="img-preview-dropdown"></td>
+                  <td><?= $x['id_produk'] ?></td>
+                  <td><?= $x['nama_produk'] ?></td>
+                  <td><?= $x['harga_produk'] ?></td>
+                  <td><?= $x['jumlah'] ?></td>
+                  <td><?= $db->intToRupiah((int)$x['harga_produk'] * (int)$x['jumlah']) ?></td>
+                </tr>
+              <?php
+              }
+              ?>
+            </tbody>
+            <tfoot class="table-bordered thead-dark">
+              <th class="text-center" colspan="6">Jumlah</th>
+              <th id="grandTotal">Rp. 0</th>
+            </tfoot>
+          </table>
         </div>
 
-        <input type="submit" class="btn btn-primary mb-4" value="Edit Produk">
+        <input type="submit" class="btn btn-primary mb-4 bottom" value="Edit Pesanan">
       </form>
     </main>
   </div>
@@ -173,3 +212,5 @@ while ($row = mysqli_fetch_array($dataProduk)) {
 <script src="/dist/js/jquery-validate/jquery.validate.min.js"></script>
 <script src="/dist/js/jquery-validate/additional-methods.min.js"></script>
 <script src="/dist/js/integer-to-rupiah.js"></script>
+<script src="/dist/js/url-param-getter.js"></script>
+<script src="/dist/bootstrap-select/js/bootstrap-select.min.js"></script>

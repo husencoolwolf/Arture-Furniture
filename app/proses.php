@@ -46,7 +46,7 @@ if ($aksi == "daftarKlien") {
         ' . $respon . '
         </div>');
   }
-} elseif ($aksi == "tambah-produk") {
+} elseif ($aksi == "tambah-produk-admin") {
   if (!file_exists($_FILES['inputGambar']['tmp_name']) || !is_uploaded_file($_FILES['inputGambar']['tmp_name'])) {
     $respon = $db->tambahProduk($_POST, "default.jpg");
     if ($respon == "0") {
@@ -169,6 +169,9 @@ if ($aksi == "daftarKlien") {
   // var_dump($data);
   echo ($respon);
   // var_dump($_POST);
+} elseif ($aksi == "tambah-pesanan-admin") {
+  $respon = $db->tambahPesananAdmin($_POST['pesanan'], $_POST['produk']);
+  echo ($respon);
 }
 // request
 
@@ -203,6 +206,13 @@ if ($request == "updateKategori") {
   print(json_encode($respon));
 } elseif ($request == "req-harga-jml-produk") {
   $respon = $db->getHargaJumlahProdukAll($_SESSION['id_akun']);
+  if ($respon) {
+    echo ($respon);
+  } else {
+    echo ("0");
+  }
+} elseif ($request == "req-harga-produk-admin") {
+  $respon = $db->getHargaProdukAdmin();
   if ($respon) {
     echo ($respon);
   } else {
@@ -268,6 +278,14 @@ if ($request == "updateKategori") {
   $idKlien = $_SESSION['id_akun'];
   $respon = $db->getDataDetailPesananModalAdmin($idPesanan, $idKlien);
   echo (json_encode($respon));
+} elseif ($request == "req-produk-pesanan-admin") {
+  $idPesanan = $_POST['id'];
+  $respon = $db->getDetailPesananAdmin($idPesanan);
+  $returnArr = array();
+  while ($x = mysqli_fetch_assoc($respon)) {
+    $returnArr[$x['id_produk']] = (int)$x['jumlah'];
+  }
+  echo (json_encode($returnArr));
 }
 
 if ($aksi = "" && $request == "") {

@@ -72,7 +72,7 @@ $dataKategori = $db->getDataKategori();
         }
       }
       ?>
-      <form action="/app/proses.php?aksi=tambah-produk" method="post" enctype="multipart/form-data">
+      <form action="/app/proses.php?aksi=tambah-produk-admin" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <div class="border border-dark text-center">
             <div class="container-fluid">
