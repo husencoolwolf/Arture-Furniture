@@ -153,7 +153,7 @@ $(document).ready(function () {
       }
     },
     submitHandler: function (form) {
-
+      Event.preventDefault();
       let jumlah = $('#produkList tbody tr').length;
       if (jumlah > 0) {
         if (confirm('Apakah data sudah benar ?')) {
@@ -162,15 +162,17 @@ $(document).ready(function () {
             url: form.action,
             type: form.method,
             data: {
+              id: GetURLParameter('pesanan'),
               pesanan: $(form).serializeArray(),
               produk: listProduk
             },
             success: function (response) {
-              if (response == true) {
-                window.location.href = "/?page=pesanan";
-              } else {
-                window.location.href = "/?page=edit-pesanan&error=" + response;
-              }
+              alert(response);
+              // if (response == true) {
+              //   window.location.href = "/?page=pesanan";
+              // } else {
+              //   window.location.href = "/?page=edit-pesanan&error=" + response;
+              // }
             }
           });
         } else {}

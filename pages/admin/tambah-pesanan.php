@@ -98,6 +98,18 @@ $dataKlien = $db->getDataKlienAdmin();
           </select>
         </div>
         <div class="form-group">
+          <label for="selectStatus">Status<span class="text-danger">*</span></label>
+          <select id="selectStatus" name="selectStatus" class="form-control selectpicker" required title="-- Status Pesanan --">
+            <option value="menunggu info bank">1. Menunggu Info Bank</option>
+            <option value="menunggu verifikasi bayar">2. Menunggu Verifikasi Bayar</option>
+            <option value="pembuatan">3. Pembuatan</option>
+            <option value="pengiriman">4. Pengiriman</option>
+            <option value="selesai">4. Selesai</option>
+            <option value="batal">-1. Batal</option>
+          </select>
+        </div>
+        <hr>
+        <div class="form-group">
           <div class="row">
             <div class="col-6">
               <label for="selectProduk">Produk Pesanan<span class="text-danger">*</span></label>

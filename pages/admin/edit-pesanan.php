@@ -3,6 +3,7 @@ $dataProduk = $db->getDataProdukAdmin();
 $dataKlien = $db->getDataKlienAdmin();
 $detailPesanan = $db->getDetailPesananAdmin($_GET['pesanan']);
 $dataPesanan = $db->getDataPesananAdminDetailed($_GET['pesanan']);
+$grandTotal = 0;
 
 ?>
 <link href="/dist/dashboard.css" rel="stylesheet">
@@ -101,6 +102,17 @@ $dataPesanan = $db->getDataPesananAdminDetailed($_GET['pesanan']);
           </select>
         </div>
         <div class="form-group">
+          <label for="selectStatus">Status<span class="text-danger">*</span></label>
+          <select id="selectStatus" name="selectStatus" class="form-control selectpicker" required title="-- Status Pesanan --">
+            <option value="menunggu info bank" <?= ($dataPesanan['status'] == "menunggu info bank") ? "selected" : "" ?>>1. Menunggu Info Bank</option>
+            <option value="menunggu verifikasi bayar" <?= ($dataPesanan['status'] == "menunggu verifikasi bayar") ? "selected" : "" ?>>2. Menunggu Verifikasi Bayar</option>
+            <option value="pembuatan" <?= ($dataPesanan['status'] == "pembuatan") ? "selected" : "" ?>>3. Pembuatan</option>
+            <option value="pengiriman" <?= ($dataPesanan['status'] == "pengiriman") ? "selected" : "" ?>>4. Pengiriman</option>
+            <option value="selesai" <?= ($dataPesanan['status'] == "selesai") ? "selected" : "" ?>>4. Selesai</option>
+            <option value="batal" <?= ($dataPesanan['status'] == "batal") ? "selected" : "" ?>>-1. Batal</option>
+          </select>
+        </div>
+        <div class="form-group">
           <div class="row">
             <div class="col-6">
               <label for="selectProduk">Produk Pesanan<span class="text-danger">*</span></label>
@@ -160,12 +172,13 @@ $dataPesanan = $db->getDataPesananAdminDetailed($_GET['pesanan']);
                   <td><?= $db->intToRupiah((int)$x['harga_produk'] * (int)$x['jumlah']) ?></td>
                 </tr>
               <?php
+                $grandTotal += (int)$x['harga_produk'] * (int)$x['jumlah'];
               }
               ?>
             </tbody>
             <tfoot class="table-bordered thead-dark">
               <th class="text-center" colspan="6">Jumlah</th>
-              <th id="grandTotal">Rp. 0</th>
+              <th id="grandTotal"><?= $db->intToRupiah($grandTotal) ?></th>
             </tfoot>
           </table>
         </div>

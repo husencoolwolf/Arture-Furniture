@@ -575,7 +575,7 @@ class database
                 }
             }
             if ($berhasilInputProduk == count($dataProduk)) {
-                $queryStatusAwal = "INSERT INTO status_pesanan VALUES ('', '" . $idPesanan . "', 'menunggu info bank', now(), 'input manual : " . $_SESSION['id_akun'] . "');";
+                $queryStatusAwal = "INSERT INTO status_pesanan VALUES ('', '" . $idPesanan . "', '" . $dataPesanan[2]['value'] . "', now(), 'input manual : " . $_SESSION['id_akun'] . "');";
                 $responStatus = mysqli_query($this->koneksi, $queryStatusAwal);
                 if ($responStatus) {
                     return true;
@@ -584,6 +584,49 @@ class database
                 }
             } else {
                 return "-2";
+            }
+        } else {
+            return "-1";
+        }
+    }
+
+    function editPesananAdmin($dataPesanan, $dataProduk, $idPesanan)
+    {
+        //id pesanan costume sedangkan id detail pesanan increased
+        $queryPesanan = "UPDATE pesanan SET 
+        id_akun='" . $dataPesanan[0]['value'] . "',
+        metode='" . $dataPesanan[1]['value'] . "' WHERE id_pesanan='$idPesanan';";
+
+        $editPesanan = mysqli_query($this->koneksi, $queryPesanan);
+        if ($editPesanan) {
+            $deleteDetailProduk = mysqli_query($this->koneksi, "DELETE FROM detail_pesanan WHERE id_pesanan='$idPesanan'");
+            if ($deleteDetailProduk) {
+                $berhasilEditProduk = 0;
+                foreach ($dataProduk as $key => $value) {
+                    $queryProduk = "INSERT INTO detail_pesanan VALUES('', 
+                    '$idPesanan',
+                    '$key',
+                    '$value' )";
+                    $responProduk = mysqli_query($this->koneksi, $queryProduk);
+                    if ($responProduk) {
+                        $berhasilEditProduk++;
+                    } else {
+                        break;
+                    }
+                }
+                if ($berhasilEditProduk == count($dataProduk)) {
+                    $queryStatusAwal = "INSERT INTO status_pesanan VALUES ('', '" . $idPesanan . "', '" . $dataPesanan[2]['value'] . "', now(), 'input manual : " . $_SESSION['id_akun'] . "');";
+                    $responStatus = mysqli_query($this->koneksi, $queryStatusAwal);
+                    if ($responStatus) {
+                        return true;
+                    } else {
+                        return "-3";
+                    }
+                } else {
+                    return "-2";
+                }
+            } else {
+                return "-4";
             }
         } else {
             return "-1";

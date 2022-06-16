@@ -172,6 +172,9 @@ if ($aksi == "daftarKlien") {
 } elseif ($aksi == "tambah-pesanan-admin") {
   $respon = $db->tambahPesananAdmin($_POST['pesanan'], $_POST['produk']);
   echo ($respon);
+} elseif ($aksi == "edit-pesanan-admin") {
+  $respon = $db->editPesananAdmin($_POST['pesanan'], $_POST['produk'], $_POST['id']);
+  echo ($respon);
 }
 // request
 
