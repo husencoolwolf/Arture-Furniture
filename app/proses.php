@@ -281,6 +281,10 @@ if ($request == "updateKategori") {
   $idKlien = $_SESSION['id_akun'];
   $respon = $db->getDataDetailPesananModalAdmin($idPesanan, $idKlien);
   echo (json_encode($respon));
+} elseif ($request == "get-detail-akun-modal-admin") {
+  $idAkun = $_POST['id'];
+  $respon = $db->getDataDetailAkunModalAdmin($idAkun);
+  echo (json_encode($respon));
 } elseif ($request == "req-produk-pesanan-admin") {
   $idPesanan = $_POST['id'];
   $respon = $db->getDetailPesananAdmin($idPesanan);

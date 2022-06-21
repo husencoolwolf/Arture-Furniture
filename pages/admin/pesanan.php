@@ -178,7 +178,6 @@ $dataPesanan = $db->getDataPesananAdmin();
       </div>
 
 
-      <!-- <h2>daftar produk</h2> -->
       <div class="table-responsive my-3 overflow-hidden">
         <a href="/?page=tambah-pesanan">
           <button class="btn btn-dark">Tambah Data</button>

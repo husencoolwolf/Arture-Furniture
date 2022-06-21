@@ -93,7 +93,9 @@ $getPageStatus = "";
     if (empty($getPage) || $getPage == "dashboard") {
       $getPageStatus = "dashboard";
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/dashboard.php';
-    } elseif ($getPage == "produk") {
+    }
+    //Start of produks
+    elseif ($getPage == "produk") {
       $getPageStatus = "produk";
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/produk.php';
     } elseif ($getPage == "tambah-produk") {
@@ -105,10 +107,12 @@ $getPageStatus = "";
         include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/edit-produk.php';
       } else {
         $getPageStatus = "dashboard";
-        // include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/dashboard.php';
         header("Location: /");
       }
-    } elseif ($getPage == "pesanan") {
+    }
+    //End of Produks
+    //Start of pesanan
+    elseif ($getPage == "pesanan") {
       $getPageStatus = "pesanan";
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/pesanan.php';
     } elseif ($getPage == "tambah-pesanan") {
@@ -122,7 +126,15 @@ $getPageStatus = "";
         $getPageStatus = "dashboard";
         header("Location: /");
       }
-    } else {
+    }
+    //End of Pesanan
+    //Start of Akun
+    elseif ($getPage == "akun") {
+      $getPageStatus = "akun";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/akun.php';
+    }
+    //End of Akun
+    else {
       $getPageStatus = "dashboard";
       header("Location: /");
     }

@@ -14,9 +14,9 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link<?php if ($getPageStatus == "akun") echo (" active"); ?>" href="/?page=akun">
           <span data-feather="users"></span>
-          Customers
+          Accounts
         </a>
       </li>
       <li class="nav-item">
