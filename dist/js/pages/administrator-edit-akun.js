@@ -1,5 +1,4 @@
-$(function () {
-
+$(document).ready(function () {
   $.validator.addMethod('strongPassword', function (value, element) {
     return this.optional(element) || value.length >= 6;
   }, 'Password minimal 6 karakter');
@@ -10,8 +9,9 @@ $(function () {
 
   $.validator.addMethod("lettersonly", function (value, element) {
     return this.optional(element) || /^[a-z ]+$/i.test(value);
-  }, "Letters and spaces only please");
-  $('#formInput').validate({
+  }, "Hanya Kapital dan spasi yang diperbolehkan");
+
+  $('#formEditAkun').validate({
     rules: {
       inputNama: {
         required: true,
@@ -22,53 +22,51 @@ $(function () {
         required: true,
         nowhitespace: true,
         alphanumeric: true,
+
+      },
+      inputPasswordLama: {
+        required: false,
         remote: {
           url: "/dist/php/checkDataAjax.php",
           type: "post",
           data: {
-            username: function () {
-              return $("#inputUsername").val();
+            password: function () {
+              return $("#inputPasswordLama").val();
             },
-            tipe: "username"
+            id: GetURLParameter('akun'),
+            tipe: "password"
           }
         }
       },
-      inputPassword: {
-        required: true,
+      inputPasswordBaru: {
+        required: false,
         alphanumeric: true,
-        strongPassword: true
+        strongPassword: true,
+        remote: {
+          url: "/dist/php/checkDataAjax.php",
+          type: "post",
+          data: {
+            password: function () {
+              return $("#inputPasswordLama").val();
+            },
+            id: GetURLParameter('akun'),
+            tipe: "password"
+          }
+        }
       },
       inputAlamat: {
-        required: true
+        required: false
       },
       inputEmail: {
         required: false,
-        email: true,
-        remote: {
-          url: "/dist/php/checkDataAjax.php",
-          type: "post",
-          data: {
-            email: function () {
-              return $("#inputEmail").val();
-            },
-            tipe: "email"
-          }
-        }
       },
       inputNope: {
-        required: true,
+        required: false,
         number: true,
         strongNope: true,
-        remote: {
-          url: "/dist/php/checkDataAjax.php",
-          type: "post",
-          data: {
-            nope: function () {
-              return $("#inputNope").val();
-            },
-            tipe: "nope"
-          }
-        }
+      },
+      selectHakAkses: {
+        required: true
       }
     },
     messages: {
@@ -80,11 +78,15 @@ $(function () {
         required: 'Harap Isi Username!',
         nowhitespace: 'Harap tidak menggunakan Spasi',
         alphanumeric: 'Hanya diperkenankan huruf, angka, dan underscore',
-        remote: 'Username sudah terdaftar, jika sudah terdaftar silahkan <a href="/?page=login">Login</a>!'
+        remote: 'Username sudah terdaftar, jika sudah terdaftar silahkan ganti username yang lain!'
       },
-      inputPassword: {
+      inputPasswordLama: {
+        remote: 'Password Salah!'
+      },
+      inputPasswordBaru: {
         required: 'Harap isi Password!',
-        alphanumeric: 'password hanya boleh Huruf dan Angka!'
+        alphanumeric: 'password hanya boleh Huruf dan Angka!',
+        remote: 'Password Lama Salah!!!'
       },
       inputAlamat: {
         required: 'Harap Isi Alamat!'
@@ -97,7 +99,16 @@ $(function () {
         required: 'Harap mengisi Nomer HP',
         number: 'Hanya diperkenankan angka saja!',
         remote: 'Nomer sudah terdaftar!'
+      },
+      selectHakAkses: {
+        required: 'Harap isi Privilege untuk menentukan hak akses akun ini!'
       }
     }
   });
 });
+
+(function () {
+  feather.replace()
+
+
+}())

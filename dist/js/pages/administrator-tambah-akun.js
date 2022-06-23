@@ -1,5 +1,4 @@
-$(function () {
-
+$(document).ready(function () {
   $.validator.addMethod('strongPassword', function (value, element) {
     return this.optional(element) || value.length >= 6;
   }, 'Password minimal 6 karakter');
@@ -39,7 +38,7 @@ $(function () {
         strongPassword: true
       },
       inputAlamat: {
-        required: true
+        required: false
       },
       inputEmail: {
         required: false,
@@ -56,7 +55,7 @@ $(function () {
         }
       },
       inputNope: {
-        required: true,
+        required: false,
         number: true,
         strongNope: true,
         remote: {
@@ -69,6 +68,9 @@ $(function () {
             tipe: "nope"
           }
         }
+      },
+      selectHakAkses: {
+        required: true
       }
     },
     messages: {
@@ -80,7 +82,7 @@ $(function () {
         required: 'Harap Isi Username!',
         nowhitespace: 'Harap tidak menggunakan Spasi',
         alphanumeric: 'Hanya diperkenankan huruf, angka, dan underscore',
-        remote: 'Username sudah terdaftar, jika sudah terdaftar silahkan <a href="/?page=login">Login</a>!'
+        remote: 'Username sudah terdaftar, jika sudah terdaftar silahkan ganti username yang lain!'
       },
       inputPassword: {
         required: 'Harap isi Password!',
@@ -97,7 +99,19 @@ $(function () {
         required: 'Harap mengisi Nomer HP',
         number: 'Hanya diperkenankan angka saja!',
         remote: 'Nomer sudah terdaftar!'
+      },
+      selectHakAkses: {
+        required: 'Harap isi Privilege untuk menentukan hak akses akun ini!'
       }
     }
   });
+
+
+
 });
+
+(function () {
+  feather.replace()
+
+
+}())

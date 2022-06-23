@@ -329,6 +329,17 @@ class database
         }
     }
 
+    function checkPassword($pass, $idAkun)
+    {
+        $pass = md5($pass);
+        $cekPass = mysqli_query($this->koneksi, "SELECT password FROM akun WHERE password='$pass' && id_akun='$idAkun'");
+        if (mysqli_num_rows($cekPass) > 0) {
+            return "true";
+        } else {
+            return "false";
+        }
+    }
+
     function checkKeranjangExists($idProduk, $idKlien)
     {
         $query = "select id_akun_kostumer, id_produk, jumlah from keranjang WHERE id_akun_kostumer='$idKlien' AND id_produk='$idProduk'";
@@ -469,6 +480,21 @@ class database
             }
         } else {
             return $query;
+        }
+    }
+
+    function getDataHakAksesAdmin()
+    {
+        $query = "SELECT * FROM hak_akses";
+        $dataHakAkses = mysqli_query($this->koneksi, $query);
+        if ($dataHakAkses) {
+            if (mysqli_num_rows($dataHakAkses) > 0) {
+                return $dataHakAkses;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
     }
 
@@ -624,6 +650,35 @@ class database
         }
     }
 
+    function tambahAkunAdmin($data)
+    {
+        $queryAkun = "INSERT INTO akun VALUES(
+            '" . $data['id'] . "',
+            '" . $data['nama'] . "',
+            '" . $data['username'] . "',
+            '" . md5($data['password']) . "',
+            '" . $data['privilege'] . "'
+        )";
+        $inputAkun = mysqli_query($this->koneksi, $queryAkun);
+        if ($inputAkun) {
+            $queryDetailAkun = "INSERT INTO detail_klien VALUES(
+                '" . $data['id'] . "',
+                '" . $data['id'] . "',
+                '" . $data['alamat'] . "',
+                '" . $data['email'] . "',
+                '" . $data['nope'] . "'
+            )";
+            $inputDetailAkun = mysqli_query($this->koneksi, $queryDetailAkun);
+            if ($inputDetailAkun) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     function editPesananAdmin($dataPesanan, $dataProduk, $idPesanan)
     {
         //id pesanan costume sedangkan id detail pesanan increased
@@ -664,6 +719,47 @@ class database
             }
         } else {
             return "-1";
+        }
+    }
+
+    function editAkunAdmin($idAkun, $data)
+    {
+        $queryAkun = "UPDATE akun SET 
+            nama='" . $data['inputNama'] . "',
+            id_hak_akses='" . $data['selectHakAkses'] . "'
+            ";
+        //kalau password baru ada dan password lama sama dengan database
+        if ($data['inputPasswordBaru'] !== "") {
+            $cekPass = $this->checkPassword($data['inputPasswordLama'], $idAkun);
+            if ($cekPass == "true") {
+                $queryAkun += ", password='" . $data['inputPasswordBaru'] . "'";
+            }
+        }
+        $updateAkun = mysqli_query($this->koneksi, $queryAkun);
+        if ($updateAkun) {
+            $queryDetailAkun = "UPDATE detail_klien SET 
+            alamat='" . $data['inputAlamat'] . "', 
+            email='" . $data['inputEmail'] . "', 
+            nomor_hp='" . $data['inputNope'] . "'";
+            $updateDetailAkun = mysqli_query($this->koneksi, $queryDetailAkun);
+            if ($updateDetailAkun) {
+                return true;
+            } else {
+                return "-2";
+            }
+        } else {
+            return "-1";
+        }
+    }
+
+    function deleteAkunAdmin($idAkun)
+    {
+        $query = "DELETE FROM akun where id_akun='$idAkun'";
+        $hapusAkun = mysqli_query($this->koneksi, $query);
+        if ($hapusAkun) {
+            return true;
+        } else {
+            return false;
         }
     }
 

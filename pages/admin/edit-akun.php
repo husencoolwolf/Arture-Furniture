@@ -1,7 +1,10 @@
 <?php
-$dataKategori = $db->getDataKategori();
+$dataAkun = $db->getDataDetailAkunModalAdmin($_GET['akun']);
+$dataHakAkses = $db->getDataHakAksesAdmin();
+// print_r($detailProduk);
 ?>
 <link href="/dist/dashboard.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/bootstrap-select/css/bootstrap-select.min.css">
 
 <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
   <div class="toast-header">
@@ -48,59 +51,65 @@ $dataKategori = $db->getDataKategori();
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Tambah Produk</h1>
+        <h1 class="h2">Edit Akun</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-          <!-- <div class="btn-group mr-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-          </div> -->
-          <!-- <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            This week
-          </button> -->
         </div>
       </div>
 
 
-      <!-- <h2>daftar produk</h2> -->
       <?php
       if (isset($_GET['error'])) {
-        if ($_GET['error'] == 1) {
-          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database</div>';
-        } else {
-          echo '<div class="alert alert-danger">Gambar Gagal diupload!!</div>';
+        if ($_GET['error'] == -1) {
+          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query Akun Database</div>';
+        } elseif ($_GET['error'] == -2) {
+          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query Detail Akun Database</div>';
         }
       }
       ?>
-      <form action="/app/proses.php?aksi=tambah-produk-admin" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-          <div class="border border-dark text-center">
-            <div class="container-fluid">
-              <a href="/assets/produk/default.jpg" id="fullImage" target="_blank" rel="noopener noreferrer">
-                <img class="img-preview" id="previewImage" src="/assets/produk/default.jpg" alt="" style="display: none">
-              </a>
-              <i class="border-dash img-preview m-2 p-2" id="uploadLogo" data-feather="upload-cloud"></i>
+      <form id="formEditAkun" action="/app/proses.php?aksi=edit-akun-admin&id=<?= $_GET['akun'] ?>" method="post" enctype="multipart/form-data">
 
-            </div>
-          </div>
-          <input class="form-control" type="file" name="inputGambar" id="inputGambar">
+        <div class="form-floating mb-3">
+          <label for="inputNama">Name<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" name="inputNama" id="inputNama" placeholder="Example John Kenny" value="<?= $dataAkun['nama'] ?>">
         </div>
-        <div class="form-group">
-          <label for="inputNamaProduk">Nama Produk<span class="text-danger">*</span></label>
-          <input class="form-control" type="text" name="inputNamaProduk" id="inputNamaProduk" required>
+        <div class="form-floating mb-3">
+          <label for="inputUsername">Username<span class="text-danger">*</span></label>
+          <input type="text" class="form-control" name="inputUsername" id="inputUsername" placeholder="john123" value="<?= $dataAkun['username'] ?>" disabled>
+        </div>
+        <div class="form-floating mb-3">
+          <label for="inputPasswordLama">Password Lama<span class="text-danger">*</span></label>
+          <input type="password" class="form-control" name="inputPasswordLama" id="inputPasswordLama" placeholder="Old Password">
+        </div>
+        <div class="form-floating mb-3">
+          <label for="inputPasswordBaru">Password Baru<span class="text-danger">*</span></label>
+          <input type="password" class="form-control" name="inputPasswordBaru" id="inputPasswordBaru" placeholder="New Password">
+        </div>
+        <div class="form-floating mb-3">
+          <label for="selectHakAkses">Privilege / Hak Akses<span class="text-danger">*</span></label>
+          <select id="selectHakAkses" name="selectHakAkses" class="form-control selectpicker" required title="-- Privilege / Hak Akses --">
+            <?php
+            while ($x = mysqli_fetch_assoc($dataHakAkses)) {
+            ?>
+              <option value="<?= $x['id_hak_akses'] ?>" <?= $dataAkun['id_hak_akses'] == $x['id_hak_akses'] ? "selected" : "" ?>><?= $x['id_hak_akses'] ?>. <?= $x['nama_hak_akses'] ?></option>
+            <?php
+            }
+            ?>
+          </select>
+        </div>
+        <div class="form-floating mb-3">
+          <label for="inputAlamat">Address</label>
+          <textarea class="form-control" name="inputAlamat" id="inputAlamat" rows="4" placeholder="Your Addressx"><?= $dataAkun['alamat'] ?></textarea>
+        </div>
+        <div class="form-floating mb-3">
+          <label for="inputEmail">Email address</label>
+          <input type="email" class="form-control" name="inputEmail" id="inputEmail" placeholder="name@example.com" value="<?= $dataAkun['email'] ?>">
+        </div>
+        <div class="form-floating mb-3">
+          <label for="inputNope">Phone Number</label>
+          <input type="number" class="form-control" name="inputNope" id="inputNope" placeholder="08xxxxxxxx" value="<?= $dataAkun['nomor_hp'] ?>">
         </div>
 
-        <div class="form-group">
-          <label for="inputHargaProduk">Harga Produk<span class="text-danger">*</span></label>
-          <input class="form-control rupiah" type="text" name="inputHargaProduk" id="inputHargaProduk" required>
-        </div>
-
-        <div class="form-group">
-          <label for="inputDeskripsi">Deskripsi Produk<span class="text-danger">*</span></label>
-          <textarea name="inputDeskripsi" id="InputDeskripsi" cols="30" rows="10" class="form-control" required></textarea>
-        </div>
-
-        <input type="submit" class="btn btn-primary mb-4" value="Tambah Produk">
+        <input type="submit" class="btn btn-primary mb-4" value="Edit Produk">
       </form>
     </main>
   </div>
@@ -141,4 +150,5 @@ $dataKategori = $db->getDataKategori();
 <script src="/dist/DataTables/datatables.min.js"></script>
 <script src="/dist/js/jquery-validate/jquery.validate.min.js"></script>
 <script src="/dist/js/jquery-validate/additional-methods.min.js"></script>
-<script src="/dist/js/integer-to-rupiah.js"></script>
+<script src="/dist/bootstrap-select/js/bootstrap-select.min.js"></script>
+<script src="/dist/js/url-param-getter.js"></script>

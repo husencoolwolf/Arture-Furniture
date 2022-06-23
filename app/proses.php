@@ -175,6 +175,42 @@ if ($aksi == "daftarKlien") {
 } elseif ($aksi == "edit-pesanan-admin") {
   $respon = $db->editPesananAdmin($_POST['pesanan'], $_POST['produk'], $_POST['id']);
   echo ($respon);
+} elseif ($aksi == "daftar-akun-admin") {
+  $data = array(
+    "id" => $controller->pembuatIDUnik($db->getKoneksi(), "akun", "id_akun"),
+    "nama" => $_POST['inputNama'],
+    "username" => $_POST['inputUsername'],
+    "nope" => $_POST['inputNope'],
+    "email" => $_POST['inputEmail'],
+    "password" => $_POST['inputPassword'],
+    "alamat" => $_POST['inputAlamat'],
+    "privilege" => $_POST['selectHakAkses']
+  );
+  $respon = $db->tambahAkunAdmin($data);
+  if ($respon) {
+    header("Location: /?page=akun");
+  } else {
+    header("Location: /?page=tambah-akun&error=-1");
+  }
+} elseif ($aksi == "hapus-akun") {
+  if (isset($_GET['id'])) {
+    $idAkun = $_GET['id'];
+    $respon = $db->deleteAkunAdmin($idAkun);
+    if ($respon) {
+      header("Location: /?page=akun");
+    } else {
+      header("Location: /?page=akun&error=-1");
+    }
+  } else {
+    echo (0);
+  }
+} elseif ($aksi == "edit-akun-admin") {
+  $respon = $db->editAkunAdmin($_GET['id'], $_POST);
+  if ($respon) {
+    header("Location: /?page=akun");
+  } else {
+    header("Location: /?page=edit-akun&akun=" . $_GET['id'] . "&error=" . $respon);
+  }
 }
 // request
 

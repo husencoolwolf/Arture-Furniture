@@ -132,6 +132,17 @@ $getPageStatus = "";
     elseif ($getPage == "akun") {
       $getPageStatus = "akun";
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/akun.php';
+    } elseif ($getPage == "tambah-akun") {
+      $getPageStatus = "akun";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/tambah-akun.php';
+    } elseif ($getPage == "edit-akun") {
+      if (isset($_GET['akun'])) {
+        $getPageStatus = "akun";
+        include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/edit-akun.php';
+      } else {
+        $getPageStatus = "dashboard";
+        header("Location: /");
+      }
     }
     //End of Akun
     else {

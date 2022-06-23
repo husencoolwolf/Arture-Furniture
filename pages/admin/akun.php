@@ -118,7 +118,7 @@ $dataAkun = $db->getDataAkunAdmin();
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Products</h1>
+        <h1 class="h2">Accounts</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <!-- <div class="btn-group mr-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -131,7 +131,15 @@ $dataAkun = $db->getDataAkunAdmin();
         </div>
       </div>
 
-
+      <?php
+      if (isset($_GET['error'])) {
+        switch ($_GET['error']) {
+          case '-1':
+            echo ("<div class='alert alert-danger'>ERROR : Terjadi kesalahan pada proses database!</div>");
+            break;
+        }
+      }
+      ?>
       <div class="table-responsive my-3">
         <a href="/?page=tambah-akun">
           <button class="btn btn-dark">Tambah Data</button>
