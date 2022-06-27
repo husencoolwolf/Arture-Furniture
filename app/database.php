@@ -483,6 +483,21 @@ class database
         }
     }
 
+    function getDataPembayaranAdmin()
+    {
+        $query = "SELECT * FROM pembayaran";
+        $dataPembayaran = mysqli_query($this->koneksi, $query);
+        if ($dataPembayaran) {
+            if (mysqli_num_rows($dataPembayaran) > 0) {
+                return $dataPembayaran;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     function getDataHakAksesAdmin()
     {
         $query = "SELECT * FROM hak_akses";
@@ -542,7 +557,35 @@ class database
                                     $temp[] = $x;
                                 }
                                 $dataSets["produk_pesanan"] = $temp;
-                                return $dataSets;
+                                $query4 = "SELECT * FROM pembayaran WHERE id_pesanan='$idPesanan';";
+                                $data4 = mysqli_query($this->koneksi, $query4);
+                                if ($data4) {
+                                    if (mysqli_num_rows($data4) > 0) {
+                                        $temp = mysqli_fetch_assoc($data4);
+                                        $dataSets['detail_pembayaran'] = '<tr>
+                                        <td class="align-middle">ID Pembayaran</td>
+                                        <td>: <span data-setter="idPembayaran">' . $temp['id_pembayaran'] . '</span></td>
+                                        </tr>
+                                        <tr>
+                                        <td class="align-middle">Bank Pemilik</td>
+                                        <td>: <span data-setter="bankPemilik">' . $temp['bank_pemilik'] . '</span></td>
+                                        </tr>
+                                        <tr>
+                                        <td class="align-middle">Nama Pemilik</td>
+                                        <td>: <span data-setter="namaPemilik">' . $temp['nama_pemilik'] . '</span></td>
+                                        </tr>
+                                        <tr>
+                                        <td class="align-middle">No. Rekening</td>
+                                        <td>: <span data-setter="norek">' . $temp['no_rekening'] . '</span></td>
+                                        </tr>';
+                                        return $dataSets;
+                                    } else {
+                                        $dataSets['detail_pembayaran'] = "<tr><td>Pesanan belum diisi dengan informasi Pembayaran</td></tr>";
+                                        return $dataSets;
+                                    }
+                                } else {
+                                    return false;
+                                }
                             } else {
                                 return false;
                             }
@@ -732,15 +775,17 @@ class database
         if ($data['inputPasswordBaru'] !== "") {
             $cekPass = $this->checkPassword($data['inputPasswordLama'], $idAkun);
             if ($cekPass == "true") {
-                $queryAkun += ", password='" . $data['inputPasswordBaru'] . "'";
+                $queryAkun .= ", password='" . md5($data['inputPasswordBaru']) . "'";
             }
         }
+        //tambah condistion pada query
+        $queryAkun .= " WHERE id_akun='$idAkun'";
         $updateAkun = mysqli_query($this->koneksi, $queryAkun);
         if ($updateAkun) {
             $queryDetailAkun = "UPDATE detail_klien SET 
             alamat='" . $data['inputAlamat'] . "', 
             email='" . $data['inputEmail'] . "', 
-            nomor_hp='" . $data['inputNope'] . "'";
+            nomor_hp='" . $data['inputNope'] . "' WHERE id_akun='$idAkun'";
             $updateDetailAkun = mysqli_query($this->koneksi, $queryDetailAkun);
             if ($updateDetailAkun) {
                 return true;

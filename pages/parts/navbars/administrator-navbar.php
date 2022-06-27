@@ -26,7 +26,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link <?php if ($getPageStatus == "pembayaran") echo (" active"); ?>" href="/?page=pembayaran">
           <span data-feather="credit-card"></span>
           Payments
         </a>

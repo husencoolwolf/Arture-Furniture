@@ -145,6 +145,12 @@ $getPageStatus = "";
       }
     }
     //End of Akun
+    //Start of Pembayaran
+    elseif ($getPage == "pembayaran") {
+      $getPageStatus = "pembayaran";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/pembayaran.php';
+    }
+    //End of Pembayaran
     else {
       $getPageStatus = "dashboard";
       header("Location: /");

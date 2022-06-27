@@ -8,7 +8,7 @@ $(document).ready(function () {
     filterSampai = $("#tanggalSampai").val();
   reloadEventButtonTabel();
 
-  var tabelVar = $('#tabelPesanan').DataTable({
+  var tabelVar = $('#tabelPembayaran').DataTable({
     // opsi fungsi yang di pakai datatables
     "paging": false,
     "info": false,
@@ -126,7 +126,7 @@ $(document).ready(function () {
     let detailPesanan = responseData['detail_pesanan'];
     let historyStatus = responseData['history_status'];
     let dataProduk = responseData['produk_pesanan'];
-    let dataPembayaran = responseData['detail_pembayaran'];
+    console.log(dataProduk);
     $("[data-setter]").each(function () {
       switch ($(this).data('setter')) {
         case 'idPesanan':
@@ -160,7 +160,7 @@ $(document).ready(function () {
           break;
       }
     });
-    console.log(responseData);
+
     let keluaran;
     let keluaran2;
     historyStatus.forEach(element => {
@@ -183,7 +183,6 @@ $(document).ready(function () {
     });
     $("table#tabelHistoryStatus tbody").html(keluaran);
     $("table#tabelDetailProdukPesanan tbody").html(keluaran2);
-    $("table#subDetailPembayaran tbody").html(dataPembayaran);
   }
 
   function reloadFrontAPI(Tabel = false) {
