@@ -18,7 +18,7 @@ $(document).ready(function () {
     "sScrollXInner": "100%",
     "scrollCollapse": true,
     "order": [
-      [1, "desc"]
+      [2, "desc"]
     ]
   });
 
@@ -30,7 +30,7 @@ $(document).ready(function () {
     filterDari = $("#tanggalDari").val();
     filterSampai = $("#tanggalSampai").val();
     $.ajax({
-      url: '/app/proses.php?request=update-tabel-pesanan-admin',
+      url: '/app/proses.php?request=update-tabel-pembayaran-admin',
       type: "post",
       data: {
         dari: filterDari,
@@ -39,35 +39,35 @@ $(document).ready(function () {
       success: function (response) {
         let responseData = JSON.parse(response);
         if (responseData == "-1") {
-          $("table#tabelPesanan tbody").html("<tr><td colspan='12' class='text-center'>Pesanan Yang Anda Cari Tidak Ditemukan!!!</td></tr>");
+          $("table#tabelPembayaran tbody").html("<tr><td colspan='12' class='text-center'>Pembayaran Yang Anda Cari Tidak Ditemukan!!!</td></tr>");
         } else if (responseData == "0") {
-          $("table#tabelPesanan tbody").html("<tr><td colspan='12' class='text-center'>Ada kesalahan pada sistem, harap menghubungi IT Admin!!!</td></tr>");
+          $("table#tabelPembayaran tbody").html("<tr><td colspan='12' class='text-center'>Ada kesalahan pada sistem, harap menghubungi IT Admin!!!</td></tr>");
         } else {
           let outputan = "";
           responseData.forEach(element => {
             outputan += "\
             <tr>\
+              <td>" + element['id_pembayaran'] + "</td>\
               <td>" + element['id_pesanan'] + "</td>\
-              <td>" + element['tanggal_dibuat'] + "</td>\
-              <td>" + element['metode'] + "</td>\
-              <td>" + element['item'] + "</td>\
-              <td>" + element['nama'] + "</td>\
-              <td>" + element['status'] + "</td>\
+              <td>" + element['tanggal'] + "</td>\
+              <td>" + element['bank_pemilik'] + "</td>\
+              <td>" + element['nama_pemilik'] + "</td>\
+              <td>" + element['no_rekening'] + "</td>\
               <td class='text-center'>\
-                <a href='/?page=edit-produk&produk=" + element['id_pesanan'] + "' class='btn btn-success btn-sm'>\
+                <a href='/?page=edit-produk&produk=" + element['id_pembayaran'] + "' class='btn btn-success btn-sm'>\
                   <span data-feather='edit'></span>\
                 </a>\
-                <a href='' data-id='" + element['id_pesanan'] + "' class='btn btn-danger btn-sm hapusBtn'>\
+                <a href='' data-id='" + element['id_pembayaran'] + "' class='btn btn-danger btn-sm hapusBtn'>\
                   <span data-feather='trash'></span>\
                 </a>\
-                <a href='' data-id='" + element['id_pesanan'] + "' class='btn btn-info btn-sm detailBtn' data-toggle='modal' data-target='#detailPesananModal'>\
+                <a href='' data-id='" + element['id_pesanan'] + "' class='btn btn-info btn-sm detailBtn' data-toggle='modal' data-target='#detailPembayaranModal'>\
                   <span data-feather='eye'></span>\
                 </a>\
                 </td>\
             </tr>";
 
           });
-          $("table#tabelPesanan tbody").html(outputan);
+          $("table#tabelPembayaran tbody").html(outputan);
           reloadFrontAPI();
           reloadEventButtonTabel();
           // tabelVar.draw();
@@ -83,25 +83,25 @@ $(document).ready(function () {
   }
 
   function reloadEventButtonTabel() {
-    $('table#tabelPesanan tbody > tr > td .hapusBtn').click(function () {
+    $('table#tabelPembayaran tbody > tr > td .hapusBtn').click(function () {
       // console.log();
       event.preventDefault();
-      let idPesanan = $(this).data("id")
-      if (confirm('Anda yakin hapus ' + "data " + ' [' + idPesanan + '] ??')) {
-        window.location.href = '/app/proses.php?aksi=hapus-pesanan&id=' + idPesanan;
+      let idPembayaran = $(this).data("id")
+      if (confirm('Anda yakin hapus ' + "data " + ' [' + idPembayaran + '] ??')) {
+        window.location.href = '/app/proses.php?aksi=hapus-pembayaran&id=' + idPembayaran;
       } else {}
     });
 
-    $('table#tabelPesanan tbody > tr > td .detailBtn').on("click", function () {
-      $('#detailPesananModal .modal-body .lds-ring div').css("border-color", "#000000 transparent transparent transparent");
-      let loading = $('#detailPesananModal .modal-body .lds-ring').css("display", "inline-block");
-      let isiModal = $('#detailPesananModal .modal-body .modal-isi').hide();
-      let idPesanan = $(this).data("id")
-      setDetailPesananModal(idPesanan, loading, isiModal);
+    $('table#tabelPembayaran tbody > tr > td .detailBtn').on("click", function () {
+      $('#detailPembayaranModal .modal-body .lds-ring div').css("border-color", "#000000 transparent transparent transparent");
+      let loading = $('#detailPembayaranModal .modal-body .lds-ring').css("display", "inline-block");
+      let isiModal = $('#detailPembayaranModal .modal-body .modal-isi').hide();
+      let idPembayaran = $(this).data("id")
+      setDetailPembayaranModal(idPembayaran, loading, isiModal);
     });
   }
 
-  function setDetailPesananModal(idPesanaan, loading, isiModal) {
+  function setDetailPembayaranModal(idPesanaan, loading, isiModal) {
     $.ajax({
       url: '/app/proses.php?request=get-detail-pesananan-modal-admin',
       type: "post",
@@ -111,7 +111,7 @@ $(document).ready(function () {
       success: function (response) {
         loading.hide();
         isiModal.show();
-        setDataPesananModal(response);
+        setDataPembayaranModal(response);
 
       },
       error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -121,12 +121,36 @@ $(document).ready(function () {
     });
   }
 
-  function setDataPesananModal(response) {
+  function setDataPembayaranModal(response) {
     responseData = JSON.parse(response);
     let detailPesanan = responseData['detail_pesanan'];
     let historyStatus = responseData['history_status'];
     let dataProduk = responseData['produk_pesanan'];
-    console.log(dataProduk);
+    let dataPembayaran = responseData['detail_pembayaran'];
+    let grandTotal = 0;
+    let keluaran;
+    let keluaran2;
+    historyStatus.forEach(element => {
+      keluaran += "<tr>\
+      <td>" + element['status'] + "</td>\
+      <td>" + element['tanggal'] + "</td>\
+      <td>" + element['keterangan'] + "</td>\
+      </tr>\
+      ";
+    });
+    dataProduk.forEach(element => {
+      // Hitung grand total setiap row db
+      grandTotal += (parseInt(element['jumlah']) * parseInt(element['harga_produk']));
+      keluaran2 += "<tr>\
+      <td><img class='produk-thumbnail' src='/assets/produk/" + element['gambar'] + "'></td>\
+      <td>" + element['nama_produk'] + "</td>\
+      <td>" + element['jumlah'] + "</td>\
+      <td>" + formatRupiah(element['harga_produk'], "Rp. ") + "</td>\
+      <td>" + formatRupiah((parseInt(element['jumlah']) * parseInt(element['harga_produk'])).toString(), "Rp. ") + "</td>\
+      </tr>\
+      ";
+    });
+    console.log(grandTotal);
     $("[data-setter]").each(function () {
       switch ($(this).data('setter')) {
         case 'idPesanan':
@@ -156,33 +180,16 @@ $(document).ready(function () {
         case 'statusPesanan':
           $(this).html(detailPesanan['status']);
           break;
+        case 'grandTotal':
+          $(this).html(formatRupiah(grandTotal, "Rp."));
+          break;
         default:
           break;
       }
     });
-
-    let keluaran;
-    let keluaran2;
-    historyStatus.forEach(element => {
-      keluaran += "<tr>\
-      <td>" + element['status'] + "</td>\
-      <td>" + element['tanggal'] + "</td>\
-      <td>" + element['keterangan'] + "</td>\
-      </tr>\
-      ";
-    });
-    dataProduk.forEach(element => {
-      keluaran2 += "<tr>\
-      <td><img class='produk-thumbnail' src='/assets/produk/" + element['gambar'] + "'></td>\
-      <td>" + element['nama_produk'] + "</td>\
-      <td>" + element['jumlah'] + "</td>\
-      <td>" + formatRupiah(element['harga_produk'], "Rp. ") + "</td>\
-      <td>" + formatRupiah((parseInt(element['jumlah']) * parseInt(element['harga_produk'])).toString(), "Rp. ") + "</td>\
-      </tr>\
-      ";
-    });
     $("table#tabelHistoryStatus tbody").html(keluaran);
-    $("table#tabelDetailProdukPesanan tbody").html(keluaran2);
+    $("table#tabelDetailProdukPembayaran tbody").html(keluaran2);
+    $("table#subDetailPembayaran tbody").html(dataPembayaran);
   }
 
   function reloadFrontAPI(Tabel = false) {

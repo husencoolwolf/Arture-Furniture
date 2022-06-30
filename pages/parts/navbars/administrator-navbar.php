@@ -26,21 +26,21 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link <?php if ($getPageStatus == "pembayaran") echo (" active"); ?>" href="/?page=pembayaran">
+        <a class="nav-link<?php if ($getPageStatus == "pembayaran") echo (" active"); ?>" href="/?page=pembayaran">
           <span data-feather="credit-card"></span>
           Payments
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">
-          <span data-feather="bar-chart-2"></span>
-          Reports
+          <span data-feather="calendar"></span>
+          Projects
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">
-          <span data-feather="layers"></span>
-          Integrations
+          <span data-feather="bar-chart-2"></span>
+          Reports
         </a>
       </li>
     </ul>

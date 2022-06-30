@@ -172,6 +172,15 @@ if ($aksi == "daftarKlien") {
 } elseif ($aksi == "tambah-pesanan-admin") {
   $respon = $db->tambahPesananAdmin($_POST['pesanan'], $_POST['produk']);
   echo ($respon);
+} elseif ($aksi == "tambah-pembayaran-admin") {
+  $idPembayaran = $controller->pembuatIDUnik($db->getKoneksi(), "pembayaran", "id_pembayaran");
+  $respon = $db->tambahPembayaranAdmin($_POST, $idPembayaran);
+  if ($respon) {
+    header("Location: /?page=pembayaran");
+  } else {
+    header("Location: /?page=tambah-pembayaran&error=1");
+  }
+  // print_r($_POST);
 } elseif ($aksi == "edit-pesanan-admin") {
   $respon = $db->editPesananAdmin($_POST['pesanan'], $_POST['produk'], $_POST['id']);
   echo ($respon);
@@ -200,6 +209,18 @@ if ($aksi == "daftarKlien") {
       header("Location: /?page=akun");
     } else {
       header("Location: /?page=akun&error=-1");
+    }
+  } else {
+    echo (0);
+  }
+} elseif ($aksi == "hapus-pesanan") {
+  if (isset($_GET['id'])) {
+    $idPesanan = $_GET['id'];
+    $respon = $db->deletePesananAdmin($idPesanan);
+    if ($respon) {
+      header("Location: /?page=pesanan");
+    } else {
+      header("Location: /?page=pesanan&error=-1");
     }
   } else {
     echo (0);
@@ -312,10 +333,21 @@ if ($request == "updateKategori") {
   } else {
     echo ("0");
   }
+} elseif ($request == "update-tabel-pembayaran-admin") {
+  $dari = $_POST['dari'];
+  $sampai = $_POST['sampai'];
+  $respon = $db->updateDataTabelPembayaranAdmin($dari, $sampai);
+  if ($respon) {
+    echo (json_encode($respon));
+  } elseif ($respon == "-1") {
+    echo ($respon);
+  } else {
+    echo ("0");
+  }
 } elseif ($request == "get-detail-pesananan-modal-admin") {
   $idPesanan = $_POST['id'];
   $idKlien = $_SESSION['id_akun'];
-  $respon = $db->getDataDetailPesananModalAdmin($idPesanan, $idKlien);
+  $respon = $db->getDataDetailPesananModalAdmin($idPesanan);
   echo (json_encode($respon));
 } elseif ($request == "get-detail-akun-modal-admin") {
   $idAkun = $_POST['id'];

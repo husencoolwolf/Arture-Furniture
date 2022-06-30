@@ -127,6 +127,30 @@ $(document).ready(function () {
     let historyStatus = responseData['history_status'];
     let dataProduk = responseData['produk_pesanan'];
     let dataPembayaran = responseData['detail_pembayaran'];
+    let grandTotal = 0;
+    let keluaran;
+    let keluaran2;
+    historyStatus.forEach(element => {
+      keluaran += "<tr>\
+      <td>" + element['status'] + "</td>\
+      <td>" + element['tanggal'] + "</td>\
+      <td>" + element['keterangan'] + "</td>\
+      </tr>\
+      ";
+    });
+    dataProduk.forEach(element => {
+      // Hitung grand total setiap row db
+      grandTotal += (parseInt(element['jumlah']) * parseInt(element['harga_produk']));
+      keluaran2 += "<tr>\
+      <td><img class='produk-thumbnail' src='/assets/produk/" + element['gambar'] + "'></td>\
+      <td>" + element['nama_produk'] + "</td>\
+      <td>" + element['jumlah'] + "</td>\
+      <td>" + formatRupiah(element['harga_produk'], "Rp. ") + "</td>\
+      <td>" + formatRupiah((parseInt(element['jumlah']) * parseInt(element['harga_produk'])).toString(), "Rp. ") + "</td>\
+      </tr>\
+      ";
+    });
+    console.log(grandTotal);
     $("[data-setter]").each(function () {
       switch ($(this).data('setter')) {
         case 'idPesanan':
@@ -156,30 +180,12 @@ $(document).ready(function () {
         case 'statusPesanan':
           $(this).html(detailPesanan['status']);
           break;
+        case 'grandTotal':
+          $(this).html(formatRupiah(grandTotal, "Rp."));
+          break;
         default:
           break;
       }
-    });
-    console.log(responseData);
-    let keluaran;
-    let keluaran2;
-    historyStatus.forEach(element => {
-      keluaran += "<tr>\
-      <td>" + element['status'] + "</td>\
-      <td>" + element['tanggal'] + "</td>\
-      <td>" + element['keterangan'] + "</td>\
-      </tr>\
-      ";
-    });
-    dataProduk.forEach(element => {
-      keluaran2 += "<tr>\
-      <td><img class='produk-thumbnail' src='/assets/produk/" + element['gambar'] + "'></td>\
-      <td>" + element['nama_produk'] + "</td>\
-      <td>" + element['jumlah'] + "</td>\
-      <td>" + formatRupiah(element['harga_produk'], "Rp. ") + "</td>\
-      <td>" + formatRupiah((parseInt(element['jumlah']) * parseInt(element['harga_produk'])).toString(), "Rp. ") + "</td>\
-      </tr>\
-      ";
     });
     $("table#tabelHistoryStatus tbody").html(keluaran);
     $("table#tabelDetailProdukPesanan tbody").html(keluaran2);

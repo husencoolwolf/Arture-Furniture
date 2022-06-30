@@ -142,6 +142,10 @@ $dataPesanan = $db->getDataPesananAdmin();
                     <tbody>
                       <tr></tr>
                     </tbody>
+                    <tfoot class="thead-dark">
+                      <th colspan="4">Total</th>
+                      <th><span data-setter="grandTotal"></span></th>
+                    </tfoot>
                   </table>
                 </td>
               </tr>
@@ -202,7 +206,15 @@ $dataPesanan = $db->getDataPesananAdmin();
           </button> -->
         </div>
       </div>
-
+      <?php
+      if (isset($_GET['error'])) {
+        switch ($_GET['error']) {
+          case '-1':
+            echo ("<div class='alert alert-danger'>ERROR : Terjadi kesalahan pada proses database!</div>");
+            break;
+        }
+      }
+      ?>
 
       <div class="table-responsive my-3 overflow-hidden">
         <a href="/?page=tambah-pesanan">
@@ -248,7 +260,7 @@ $dataPesanan = $db->getDataPesananAdmin();
               ?>
                 <tr>
                   <td><?= $x['id_pesanan'] ?></td>
-                  <td><?= $x['tanggal_dibuat'] ?></td>
+                  <td><?= date("Y-m-d", strtotime($x['tanggal_dibuat'])) ?></td>
                   <td><?= $x['metode'] ?></td>
                   <td><?= $x['item'] ?></td>
                   <td><?= $x['nama'] ?></td>

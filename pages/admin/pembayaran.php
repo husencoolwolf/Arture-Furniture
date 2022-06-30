@@ -34,7 +34,7 @@ $dataPembayaran = $db->getDataPembayaranAdmin();
         </div>
         <div class="modal-isi text-left">
           <div class="table-responsive">
-            <table id="table-detail-pembayaran" class="table table-sm w-100" style="max-width: none !important;">
+            <table id="table-detail-pesanan" class="table table-sm w-100" style="max-width: none !important;">
               <tr>
                 <td>No.Pesanan</td>
                 <td>: <span data-setter="idPesanan"></span></td>
@@ -79,6 +79,33 @@ $dataPembayaran = $db->getDataPembayaranAdmin();
                 <td>Metode Pembelian</td>
                 <td>: <span data-setter="metodePesanan"></span></td>
               </tr>
+              <tr class="bg-dark text-white">
+                <td class="align-middle">Detail Pembayaran</td>
+                <td><button class="btn btn-light btn-sm" type="button" data-toggle="collapse" data-target="#detailPembayaran" aria-expanded="false" aria-controls="detailPembayaran">Lihat Detail <span data-feather="chevron-down"></span></button></td>
+
+              </tr>
+              <tr class="collapse" id="detailPembayaran">
+                <td colspan="2" class="p-0">
+                  <table class="table table-sm m-0 table-dark table-striped" id="subDetailPembayaran">
+                    <tr>
+                      <td class="align-middle">ID Pembayaran</td>
+                      <td>: <span data-setter="idPembayaran"></span></td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle">Bank Pemilik</td>
+                      <td>: <span data-setter="bankPemilik"></span></td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle">Nama Pemilik</td>
+                      <td>: <span data-setter="namaPemilik"></span></td>
+                    </tr>
+                    <tr>
+                      <td class="align-middle">No. Rekening</td>
+                      <td>: <span data-setter="norek"></span></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
               <tr>
                 <td>Status</td>
                 <td>: <span data-setter="statusPesanan"></span></td>
@@ -103,7 +130,7 @@ $dataPembayaran = $db->getDataPembayaranAdmin();
               </tr>
               <tr>
                 <td colspan="2" class="p-0">
-                  <table class="table table-sm m-0 table-light table-striped my-2" id="tabelDetailProdukPesanan">
+                  <table class="table table-sm m-0 table-light table-striped my-2" id="tabelDetailProdukPembayaran">
                     <thead class="thead-dark">
                       <th>Gambar</th>
                       <th>Nama Produk</th>
@@ -114,6 +141,10 @@ $dataPembayaran = $db->getDataPembayaranAdmin();
                     <tbody>
                       <tr></tr>
                     </tbody>
+                    <tfoot class="thead-dark">
+                      <th colspan="4">Total</th>
+                      <th><span data-setter="grandTotal"></span></th>
+                    </tfoot>
                   </table>
                 </td>
               </tr>
@@ -167,7 +198,15 @@ $dataPembayaran = $db->getDataPembayaranAdmin();
         </div>
       </div>
 
-
+      <?php
+      if (isset($_GET['error'])) {
+        switch ($_GET['error']) {
+          case '-1':
+            echo ("<div class='alert alert-danger'>ERROR : Terjadi kesalahan pada proses database!</div>");
+            break;
+        }
+      }
+      ?>
       <div class="table-responsive my-3 overflow-hidden">
         <a href="/?page=tambah-pembayaran">
           <button class="btn btn-dark">Tambah Data</button>
@@ -192,6 +231,7 @@ $dataPembayaran = $db->getDataPembayaranAdmin();
             <tr>
               <th class="text-center">ID Pembayaran</th>
               <th class="text-center">ID Pesanan</th>
+              <th class="text-center">Tanggal Input</th>
               <th class="text-center">Bank Pemilik</th>
               <th class="text-center">Nama Pemilik</th>
               <th class="text-center">No. Rekening</th>
@@ -212,6 +252,7 @@ $dataPembayaran = $db->getDataPembayaranAdmin();
                 <tr>
                   <td><?= $x['id_pembayaran'] ?></td>
                   <td><?= $x['id_pesanan'] ?></td>
+                  <td><?= date("Y-m-d", strtotime($x['tanggal'])) ?></td>
                   <td><?= $x['bank_pemilik'] ?></td>
                   <td><?= $x['nama_pemilik'] ?></td>
                   <td><?= $x['no_rekening'] ?></td>
@@ -222,7 +263,7 @@ $dataPembayaran = $db->getDataPembayaranAdmin();
                     <a href="" data-id="<?= $x['id_pembayaran'] ?>" class="btn btn-danger btn-sm hapusBtn">
                       <span data-feather="trash"></span>
                     </a>
-                    <a href="" data-id="<?= $x['id_pembayaran'] ?>" class="btn btn-info btn-sm detailBtn" data-toggle="modal" data-target="#detailPesananModal">
+                    <a href="" data-id="<?= $x['id_pesanan'] ?>" class="btn btn-info btn-sm detailBtn" data-toggle="modal" data-target="#detailPembayaranModal">
                       <span data-feather="eye"></span>
                     </a>
 

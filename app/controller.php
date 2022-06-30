@@ -5,7 +5,7 @@ class controller
     var $halamancss = array(
         array("home", "login", "daftar", "produk"),
         array("home", "produk", "keranjang", "checkout", "co-sukses", "co-gagal"),
-        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran")
+        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran")
     );
 
     var $aktorjs = array("guest", "klien", "administrator");

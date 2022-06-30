@@ -435,6 +435,21 @@ class database
         }
     }
 
+    function getDataPesananListAddPembayaranAdmin()
+    {
+        $query = "SELECT id_pesanan from pesanan where id_pesanan NOT IN (SELECT id_pesanan from pembayaran);";
+        $dataPesananList = mysqli_query($this->koneksi, $query);
+        if ($dataPesananList) {
+            if (mysqli_num_rows($dataPesananList) > 0) {
+                return $dataPesananList;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     function getDataPesananAdminDetailed($idPesanan)
     {
         $query = "SELECT p.id_akun, p.id_pesanan, s.id_pesanan, p.tanggal as tanggal_pesan, p.metode, s.status, k.alamat, k.email, k.nomor_hp, a.nama FROM pesanan p inner join status_pesanan s ON p.id_pesanan=s.id_pesanan inner join detail_klien k ON k.id_akun=p.id_akun inner JOIN akun a ON a.id_akun=p.id_akun where p.id_pesanan='$idPesanan' AND s.tanggal=(SELECT max(tanggal) from status_pesanan s where s.id_pesanan='$idPesanan');";
@@ -641,15 +656,51 @@ class database
         if ($dataPesanan) {
             if (mysqli_num_rows($dataPesanan) > 0) {
                 $datareturn = array();
-                while ($x = mysqli_fetch_array($dataPesanan)) {
+                while ($x = mysqli_fetch_assoc($dataPesanan)) {
+                    $x['tanggal_dibuat'] = date("d-m-Y", strtotime($x['tanggal_dibuat']));
                     $datareturn[] = $x;
                 }
+                // 
                 return $datareturn;
             } else {
                 return "-1"; //tidak ada hasil / hasil tidak ditemukan
             }
         } else {
             return false;
+        }
+    }
+
+    function updateDataTabelPembayaranAdmin($dari, $sampai)
+    {
+        $query = "SELECT * from pembayaran";
+        $count = 0;
+        $prefix = "";
+        if (isset($dari) && $dari != '') {
+            $dari = date('Y-m-d', strtotime($dari));
+            $count == 0 ? $prefix = " WHERE " : $prefix = " AND ";
+            $query .= $prefix . "tanggal>='$dari'";
+        }
+        if (isset($sampai) && $sampai != '') {
+            $sampai = date('Y-m-d', strtotime($sampai));
+            $count == 0 ? $prefix = " WHERE " : $prefix = " AND ";
+            $query .= $prefix . "tanggal<='$sampai 23:59:21'";
+        }
+        $dataPembayaran = mysqli_query($this->koneksi, $query);
+        if ($dataPembayaran) {
+            if (mysqli_num_rows($dataPembayaran) > 0) {
+                $datareturn = array();
+                while ($x = mysqli_fetch_assoc($dataPembayaran)) {
+                    $x['tanggal'] = date("d-m-Y", strtotime($x['tanggal']));
+                    $datareturn[] = $x;
+                }
+                // 
+                return $datareturn;
+            } else {
+                return "-1"; //tidak ada hasil / hasil tidak ditemukan
+            }
+        } else {
+            return $query;
+            // return false;
         }
     }
 
@@ -690,6 +741,17 @@ class database
             }
         } else {
             return "-1";
+        }
+    }
+
+    function tambahPembayaranAdmin($data, $idPembayaran)
+    {
+        $query = "INSERT INTO pembayaran VALUES ('$idPembayaran', '" . $data['selectPesanan'] . "', '" . $data['selectBank'] . "', '" . $data['inputNorek'] . "', '" . $data['inputNama'] . "', now())";
+        $inputPembayaran = mysqli_query($this->koneksi, $query);
+        if ($inputPembayaran) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -808,6 +870,16 @@ class database
         }
     }
 
+    function deletePesananAdmin($idPesanan)
+    {
+        $query = "DELETE FROM pesanan where id_pesanan='$idPesanan'";
+        $hapusPesanan = mysqli_query($this->koneksi, $query);
+        if ($hapusPesanan) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     // end of admin queries
 

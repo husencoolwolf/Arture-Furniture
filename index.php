@@ -149,6 +149,9 @@ $getPageStatus = "";
     elseif ($getPage == "pembayaran") {
       $getPageStatus = "pembayaran";
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/pembayaran.php';
+    } elseif ($getPage == "tambah-pembayaran") {
+      $getPageStatus = "pembayaran";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/tambah-pembayaran.php';
     }
     //End of Pembayaran
     else {
