@@ -213,6 +213,18 @@ if ($aksi == "daftarKlien") {
   } else {
     echo (0);
   }
+} elseif ($aksi == "hapus-pembayaran") {
+  if (isset($_GET['id'])) {
+    $idPembayaran = $_GET['id'];
+    $respon = $db->deletePembayaranAdmin($idPembayaran);
+    if ($respon) {
+      header("Location: /?page=pembayaran");
+    } else {
+      header("Location: /?page=pembayaran&error=-1");
+    }
+  } else {
+    echo (0);
+  }
 } elseif ($aksi == "hapus-pesanan") {
   if (isset($_GET['id'])) {
     $idPesanan = $_GET['id'];
@@ -231,6 +243,13 @@ if ($aksi == "daftarKlien") {
     header("Location: /?page=akun");
   } else {
     header("Location: /?page=edit-akun&akun=" . $_GET['id'] . "&error=" . $respon);
+  }
+} elseif ($aksi == "edit-pembayaran-admin") {
+  $respon = $db->editPembayaranAdmin($_GET['id'], $_POST);
+  if ($respon) {
+    header("Location: /?page=pembayaran");
+  } else {
+    header("Location: /?page=edit-pembayaran&pembayaran=" . $_GET['id'] . "&error=" . $respon);
   }
 }
 // request

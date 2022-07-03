@@ -543,6 +543,21 @@ class database
         }
     }
 
+    function getDataPembayaranDetail($id)
+    {
+        $query = "SELECT * from pembayaran WHERE id_pembayaran='$id'";
+        $detailPembayaran = mysqli_query($this->koneksi, $query);
+        if ($detailPembayaran) {
+            if (mysqli_num_rows($detailPembayaran) > 0) {
+                return $detailPembayaran;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     function getDataDetailPesananModalAdmin($idPesanan)
     {
         $dataSets = array();
@@ -859,11 +874,37 @@ class database
         }
     }
 
+    function editPembayaranAdmin($idPembayaran, $data)
+    {
+        if (!isset($idPembayaran) or !isset($data)) {
+            return "-1";
+        } else {
+            $query = "UPDATE pembayaran SET bank_pemilik='" . $data['selectBank'] . "', nama_pemilik='" . $data['inputNama'] . "', no_rekening='" . $data['inputNorek'] . "' WHERE id_pembayaran='$idPembayaran'";
+            $updatePembayaran = mysqli_query($this->koneksi, $query);
+            if ($updatePembayaran) {
+                return true;
+            } else {
+                return "-2";
+            }
+        }
+    }
+
     function deleteAkunAdmin($idAkun)
     {
         $query = "DELETE FROM akun where id_akun='$idAkun'";
         $hapusAkun = mysqli_query($this->koneksi, $query);
         if ($hapusAkun) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function deletePembayaranAdmin($idPembayaran)
+    {
+        $query = "DELETE FROM pembayaran where id_pembayaran='$idPembayaran'";
+        $hapusPembayaran = mysqli_query($this->koneksi, $query);
+        if ($hapusPembayaran) {
             return true;
         } else {
             return false;

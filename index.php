@@ -152,6 +152,14 @@ $getPageStatus = "";
     } elseif ($getPage == "tambah-pembayaran") {
       $getPageStatus = "pembayaran";
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/tambah-pembayaran.php';
+    } elseif ($getPage == "edit-pembayaran") {
+      if (isset($_GET['pembayaran'])) {
+        $getPageStatus = "pembayaran";
+        include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/edit-pembayaran.php';
+      } else {
+        $getPageStatus = "dashboard";
+        header("Location: /");
+      }
     }
     //End of Pembayaran
     else {

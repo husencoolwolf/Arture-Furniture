@@ -1,0 +1,9 @@
+.border-dash {
+  border-width: 2px;
+  border-style: dashed;
+}
+
+.img-preview {
+  width: 200px !important;
+  height: 200px !important;
+}
