@@ -380,6 +380,13 @@ if ($request == "updateKategori") {
     $returnArr[$x['id_produk']] = (int)$x['jumlah'];
   }
   echo (json_encode($returnArr));
+} elseif ($request == "get-calendar-project") {
+  $respon = $db->getProjectCalendarFormat();
+  if (!$respon) {
+    echo (json_encode(array()));
+  } else {
+    echo (json_encode($respon));
+  }
 }
 
 if ($aksi = "" && $request == "") {

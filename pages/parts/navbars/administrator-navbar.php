@@ -32,7 +32,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link<?php if ($getPageStatus == "project") echo (" active"); ?>" href="/?page=project">
           <span data-feather="calendar"></span>
           Projects
         </a>

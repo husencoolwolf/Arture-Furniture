@@ -924,6 +924,28 @@ class database
 
     // end of admin queries
 
+    function getProjectCalendarFormat()
+    {
+        $query = "SELECT * FROM proyek";
+        $dataProject = mysqli_query($this->koneksi, $query);
+        if ($dataProject) {
+            if (mysqli_num_rows($dataProject) > 0) {
+                $dataReturn = array();
+                while ($x = mysqli_fetch_assoc($dataProject)) {
+                    $datareturn[] = array(
+                        "id" => $x['id_proyek'],
+                        "title" => $x['nama_proyek'],
+                        "start" => $x['dimulai'],
+                        "end" => $x['target_selesai']
+                    );
+                    return $dataReturn;
+                };
+            }
+        } else {
+            return false;
+        }
+    }
+
     function getDataProdukCariSearch($key)
     {
         $key = str_replace("+", " ", $key);

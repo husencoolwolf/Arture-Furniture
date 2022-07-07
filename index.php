@@ -162,6 +162,15 @@ $getPageStatus = "";
       }
     }
     //End of Pembayaran
+    //Start of Project Monitoring
+    elseif ($getPage == "project") {
+      $getPageStatus = "project";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/project.php';
+    } elseif ($getPage == "tambah-project") {
+      $getPageStatus = "project";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/tambah-project.php';
+    }
+    //End of Project Monitoring
     else {
       $getPageStatus = "dashboard";
       header("Location: /");
