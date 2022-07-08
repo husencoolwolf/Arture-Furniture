@@ -79,10 +79,6 @@ $dataKlien = $db->getDataKlienAdmin();
       <!--  -->
       <form id="formPesanan" action="/app/proses.php?aksi=tambah-pesanan-admin" method="post" enctype="multipart/form-data">
         <div class="form-group">
-          <label for="inputNama">Nama Klien<span class="text-danger">*</span></label>
-          <input class="form-control" type="text" name="inputNama" id="inputNama" required>
-        </div>
-        <div class="form-group">
           <label for="inputNamaProject">Nama Proyek<span class="text-danger">*</span></label>
           <input class="form-control" type="text" name="inputNamaProject" id="inputNamaProject" required>
         </div>
@@ -106,66 +102,77 @@ $dataKlien = $db->getDataKlienAdmin();
         </div>
         <div class="form-group">
           <label for="inputLokasi">Lokasi Proyek<span class="text-danger">*</span></label>
-          <textarea class="form-control" name="inputLokasi" id="inputLokasi" cols="30" rows="10" required></textarea>
+          <input class="form-control" type="text" name="inputLokasi" id="inputLokasi" required>
         </div>
         <div class="form-group">
-          <label for="selectStatus">Status<span class="text-danger">*</span></label>
-          <select id="selectStatus" name="selectStatus" class="form-control selectpicker" required title="-- Status Pesanan --">
-            <option value="menunggu info bank">1. Menunggu Info Bank</option>
-            <option value="menunggu verifikasi bayar">2. Menunggu Verifikasi Bayar</option>
-            <option value="pembuatan">3. Pembuatan</option>
-            <option value="pengiriman">4. Pengiriman</option>
-            <option value="selesai">4. Selesai</option>
-            <option value="batal">-1. Batal</option>
-          </select>
+          <label for="inputAlamat">Alamat Proyek (Optional)</label>
+          <textarea class="form-control" name="inputAlamat" id="inputAlamat" cols="30" rows="10"></textarea>
         </div>
-        <hr>
         <div class="form-group">
-          <div class="row">
-            <div class="col-3 text-center">
-              <label for="selectProduk">Detail Proyek<span class="text-danger">*</span></label>
+          <label for="inputNama">Nama Klien<span class="text-danger">*</span></label>
+          <input class="form-control" type="text" name="inputNama" id="inputNama" required>
+        </div>
+        <div class="form-group">
+          <label for="inputEmail">Email Klien (Optional)</label>
+          <input class="form-control" type="email" name="inputEmail" id="inputEmail">
+        </div>
+        <div class="form-group">
+          <label for="inputNope">Nomor HP Klien (Optional)</label>
+          <input class="form-control" type="text" name="inputNope" id="inputNope">
+        </div>
+
+        <hr class="border-dark">
+        <div class="border p-3 border-dark">
+
+          <legend class="mb-4">Item Proyek</legend>
+
+          <div class="form-group">
+            <div class="row">
+              <div class="col-3 text-center">
+                <label for="inputItem">Item Proyek<span class="text-danger">*</span></label>
+              </div>
+              <div class="col-6 text-center">
+                <label for="inputKetItem">Keterangan Detail Proyek<span class="text-danger">*</span></label>
+              </div>
             </div>
-            <div class="col-6 text-center">
-              <label for="inputJumlah">Keterangan Detail Proyek<span class="text-danger">*</span></label>
+            <div class="row">
+              <div class="col-3">
+                <input type="text" name="inputItem" id="inputItem" class="form-control">
+              </div>
+              <div class="col-6">
+                <input type="text" class="form-control h-100" name="inputKetItem" id="inputKetItem">
+              </div>
+              <div class="col-3">
+                <button id="addListBtn" class="btn btn-dark h-100 font-weight-bold">Tambahkan ke List</button>
+              </div>
             </div>
+
           </div>
-          <div class="row">
-            <div class="col-3">
-              <input type="text" name="inputDetail" id="inputDetail" class="form-control">
-            </div>
-            <div class="col-6">
-              <input type="text" class="form-control h-100" name="inputKetDetail" id="inputKetDetail">
-            </div>
-            <div class="col-3">
-              <button id="addListBtn" class="btn btn-dark h-100 font-weight-bold">Tambahkan ke List</button>
-            </div>
+
+
+          <div class="form-group">
+            <table class="table table-striped border" id="produkList" style="max-height: 16rem;">
+              <thead>
+                <th></th>
+                <th>gambar</th>
+                <th>ID Produk</th>
+                <th>Nama Produk</th>
+                <th>Harga Produk</th>
+                <th>Qty</th>
+                <th>Jumlah Harga</th>
+              </thead>
+              <tbody>
+
+              </tbody>
+              <tfoot class="table-bordered thead-dark">
+                <th class="text-center" colspan="6">Jumlah</th>
+                <th id="grandTotal">Rp. 0</th>
+              </tfoot>
+            </table>
           </div>
 
+          <input type="submit" class="btn btn-primary mb-4 bottom" value="Tambah Pesanan">
         </div>
-
-
-        <div class="form-group">
-          <table class="table table-striped border" id="produkList" style="max-height: 16rem;">
-            <thead>
-              <th></th>
-              <th>gambar</th>
-              <th>ID Produk</th>
-              <th>Nama Produk</th>
-              <th>Harga Produk</th>
-              <th>Qty</th>
-              <th>Jumlah Harga</th>
-            </thead>
-            <tbody>
-
-            </tbody>
-            <tfoot class="table-bordered thead-dark">
-              <th class="text-center" colspan="6">Jumlah</th>
-              <th id="grandTotal">Rp. 0</th>
-            </tfoot>
-          </table>
-        </div>
-
-        <input type="submit" class="btn btn-primary mb-4 bottom" value="Tambah Pesanan">
       </form>
     </main>
   </div>
