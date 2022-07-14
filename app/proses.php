@@ -172,6 +172,10 @@ if ($aksi == "daftarKlien") {
 } elseif ($aksi == "tambah-pesanan-admin") {
   $respon = $db->tambahPesananAdmin($_POST['pesanan'], $_POST['produk']);
   echo ($respon);
+} elseif ($aksi == "tambah-project-admin") {
+  $respon = $db->tambahProjectAdmin($_POST['project'], $_POST['item']);
+  // var_dump($_POST);\
+  echo ($respon);
 } elseif ($aksi == "tambah-pembayaran-admin") {
   $idPembayaran = $controller->pembuatIDUnik($db->getKoneksi(), "pembayaran", "id_pembayaran");
   $respon = $db->tambahPembayaranAdmin($_POST, $idPembayaran);
@@ -252,7 +256,7 @@ if ($aksi == "daftarKlien") {
     header("Location: /?page=edit-pembayaran&pembayaran=" . $_GET['id'] . "&error=" . $respon);
   }
 }
-// request
+// start of request
 
 if ($request == "updateKategori") {
   $dataKategori = $db->getDataKategori();
@@ -368,6 +372,10 @@ if ($request == "updateKategori") {
   $idKlien = $_SESSION['id_akun'];
   $respon = $db->getDataDetailPesananModalAdmin($idPesanan);
   echo (json_encode($respon));
+} elseif ($request == "get-detail-project-modal-admin") {
+  $idProject = $_POST['id'];
+  $respon = $db->getDataDetailProjectModalAdmin($idProject);
+  echo (json_encode($respon));
 } elseif ($request == "get-detail-akun-modal-admin") {
   $idAkun = $_POST['id'];
   $respon = $db->getDataDetailAkunModalAdmin($idAkun);
@@ -382,10 +390,22 @@ if ($request == "updateKategori") {
   echo (json_encode($returnArr));
 } elseif ($request == "get-calendar-project") {
   $respon = $db->getProjectCalendarFormat();
-  if (!$respon) {
+  if ($respon == false) {
     echo (json_encode(array()));
   } else {
     echo (json_encode($respon));
+  }
+  // echo json_encode($respon);
+} elseif ($request == "update-tabel-project-admin") {
+  $dari = $_POST['dari'];
+  $sampai = $_POST['sampai'];
+  $respon = $db->updateDataTabelProjectAdmin($dari, $sampai);
+  if ($respon) {
+    echo (json_encode($respon));
+  } elseif ($respon == "-1") {
+    echo ($respon);
+  } else {
+    echo ("0");
   }
 }
 

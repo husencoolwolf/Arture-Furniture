@@ -3,9 +3,8 @@ $dataProduk = $db->getDataProdukAdmin();
 $dataKlien = $db->getDataKlienAdmin();
 ?>
 <link href="/dist/dashboard.css" rel="stylesheet">
-<link rel="stylesheet" href="/dist/bootstrap-select/css/bootstrap-select.min.css">
 
-<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
+<div class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
   <div class="toast-header">
     <!-- <img src="" class="rounded mr-2" alt="..."> -->
     <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
@@ -68,16 +67,18 @@ $dataKlien = $db->getDataKlienAdmin();
       <?php
       if (isset($_GET['error'])) {
         if ($_GET['error'] == "-1") {
-          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Pesanan]</div>';
+          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Proyek]</div>';
         } else if ($_GET['error'] == "-2") {
-          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Produk - produk]</div>';
+          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query detail_proyek]</div>';
         } else if ($_GET['error'] == "-3") {
-          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Status Awal]</div>';
+          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Item Proyek]</div>';
+        } else if ($_GET['error'] == "-4") {
+          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Status Proyek]</div>';
         }
       }
       ?>
       <!--  -->
-      <form id="formPesanan" action="/app/proses.php?aksi=tambah-pesanan-admin" method="post" enctype="multipart/form-data">
+      <form id="formProject" action="/app/proses.php?aksi=tambah-project-admin" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <label for="inputNamaProject">Nama Proyek<span class="text-danger">*</span></label>
           <input class="form-control" type="text" name="inputNamaProject" id="inputNamaProject" required>
@@ -128,24 +129,43 @@ $dataKlien = $db->getDataKlienAdmin();
 
           <div class="form-group">
             <div class="row">
-              <div class="col-3 text-center">
+              <div class="col-4 text-center">
                 <label for="inputItem">Item Proyek<span class="text-danger">*</span></label>
               </div>
-              <div class="col-6 text-center">
-                <label for="inputKetItem">Keterangan Detail Proyek<span class="text-danger">*</span></label>
+              <div class="col-4 text-center">
+                <label for="inputJumlah">Jumlah Item<span class="text-danger">*</span></label>
+              </div>
+              <div class="col-4 text-center">
+                <label for="inputHarga">Harga Item<span class="text-danger">*</span></label>
+              </div>
+            </div>
+            <div class="row justify-content-between">
+              <div class="col-4">
+                <input type="text" name="inputItem" id="inputItem" class="form-control">
+              </div>
+              <div class="col-4">
+                <input type="number" name="inputJumlah" id="inputJumlah" class="form-control" min="1">
+              </div>
+              <div class="col-4">
+                <input type="text" name="inputHarga" id="inputHarga" class="form-control rupiah">
+              </div>
+            </div>
+            <div class="row text-center my-2">
+              <div class="col">
+                <label for="inputKetItem">Keterangan Item<span class="text-danger">*</span></label>
               </div>
             </div>
             <div class="row">
-              <div class="col-3">
-                <input type="text" name="inputItem" id="inputItem" class="form-control">
-              </div>
-              <div class="col-6">
-                <input type="text" class="form-control h-100" name="inputKetItem" id="inputKetItem">
-              </div>
-              <div class="col-3">
-                <button id="addListBtn" class="btn btn-dark h-100 font-weight-bold">Tambahkan ke List</button>
+              <div class="col">
+                <textarea name="inputKetItem" id="inputKetItem" cols="30" rows="3" class="form-control"></textarea>
               </div>
             </div>
+            <div class="row mt-3">
+              <div class="col">
+                <button id="addListBtn" class="btn btn-primary w-100 font-weight-bold">Tambahkan ke List <span data-feather="arrow-down"></span></button>
+              </div>
+            </div>
+
 
           </div>
 
@@ -154,24 +174,23 @@ $dataKlien = $db->getDataKlienAdmin();
             <table class="table table-striped border" id="produkList" style="max-height: 16rem;">
               <thead>
                 <th></th>
-                <th>gambar</th>
-                <th>ID Produk</th>
-                <th>Nama Produk</th>
-                <th>Harga Produk</th>
+                <th>Nama Item</th>
+                <th>Harga Item</th>
                 <th>Qty</th>
+                <th>Keterangan</th>
                 <th>Jumlah Harga</th>
               </thead>
               <tbody>
 
               </tbody>
               <tfoot class="table-bordered thead-dark">
-                <th class="text-center" colspan="6">Jumlah</th>
+                <th class="text-center" colspan="5">Jumlah</th>
                 <th id="grandTotal">Rp. 0</th>
               </tfoot>
             </table>
           </div>
 
-          <input type="submit" class="btn btn-primary mb-4 bottom" value="Tambah Pesanan">
+          <input type="submit" class="btn btn-primary mb-4 bottom" value="Tambah Proyek">
         </div>
       </form>
     </main>
@@ -210,8 +229,5 @@ $dataKlien = $db->getDataKlienAdmin();
   </div>
 </div>
 <script src="/dist/js/feather.min.js"></script>
-<script src="/dist/DataTables/datatables.min.js"></script>
 <script src="/dist/js/jquery-validate/jquery.validate.min.js"></script>
-<script src="/dist/js/jquery-validate/additional-methods.min.js"></script>
 <script src="/dist/js/integer-to-rupiah.js"></script>
-<script src="/dist/bootstrap-select/js/bootstrap-select.min.js"></script>

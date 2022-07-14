@@ -17,3 +17,7 @@ button[data-id] {
   background-color: white !important;
   border-color: #343a40 !important;
 }
+
+.error{
+  color: red;
+}

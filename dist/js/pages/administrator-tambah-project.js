@@ -8,148 +8,102 @@ $(document).ready(function () {
   //  updateKategori();
   var listProduk = {};
   var hargaProduk = {};
-  var hargaProdukSelected = 0;
-  loadHargaProduk();
-  $('#selectProduk').on("change", function () {
-    hargaProdukSelected = 0;
-    hargaProdukSelected += parseInt(hargaProduk[$(this).val()]);
-    // console.log($(this).find('option:selected').data('harga-produk'));
-  });
+
 
   $('#addListBtn').on("click", function () {
     event.preventDefault();
-    let selectProduk = $('#selectProduk');
-    let inputJumlah = $('input#inputJumlah');
-    if (selectProduk.val() !== "" && inputJumlah.val() !== "") {
-      let idProduk = selectProduk.val();
+    let inputItem = $('#inputItem');
+    let inputJumlah = $('#inputJumlah');
+    let inputHarga = $('#inputHarga');
+    let inputKetItem = $('#inputKetItem');
+    if (inputItem.val() !== "" && inputJumlah.val() !== "" && inputHarga.val() !== "") {
+      let idProduk = Object.keys(listProduk).length + 1;
       idProduk = idProduk.toString();
-      let gambar = selectProduk.find('option:selected').data('gambar');
-      let namaProduk = selectProduk.find('option:selected').html();
-      let hargaProduk = selectProduk.find('option:selected').data('harga-produk');
+      let hargaItem = inputHarga.val();
+      hargaItem = hargaItem.replaceAll("Rp.", "");
+      hargaItem = hargaItem.replaceAll(".", "");
       let jumlahProduk = inputJumlah.val();
-      let jumlahHarga = parseInt(hargaProduk) * parseInt(jumlahProduk)
-      if (selectProduk.val() in listProduk) {
-        let hasilCheckk = checkBatasQuantity(idProduk, jumlahProduk);
-        if (hasilCheckk == true) {
-          listProduk[idProduk] += parseInt(jumlahProduk);
-          $('#produkList tbody tr').each(function (index) {
-
-            if ($(this).data('id') == idProduk) {
-              $(this).html("");
-              $(this).append($('<td>')
-                  .append($('<button>')
-                    .addClass('btn-sm btn-danger removeList')
-                    .append($('<span>')
-                      .attr('data-feather', 'x')
-                    )
-                  )
-                ).append($('<td>')
-                  .append($('<img>')
-                    .attr('src', '/assets/produk/' + gambar)
-                    .addClass('img-preview-dropdown')
-                  )
-                ).append($('<td>')
-                  .text(selectProduk.val())
-                )
-                .append($('<td>')
-                  .text(namaProduk)
-                )
-                .append($('<td>')
-                  .text(formatRupiah(hargaProduk, "Rp. "))
-                )
-                .append($('<td>')
-                  .text(listProduk[idProduk])
-                )
-                .append($('<td>')
-                  .text(formatRupiah(hargaProduk * listProduk[idProduk], "Rp. "))
-                );
-              return false;
-            }
-          });
-          setButtonEvent();
-          resetPilihanProduk();
-        } else {
-          alert(hasilCheckk);
-        }
-      } else {
-        listProduk[idProduk] = parseInt(jumlahProduk);
-        //buat row baru pada table
-        $('#produkList').find('tbody')
-          .append($('<tr>')
-            .append($('<td>')
-              .append($('<button>')
-                .addClass('btn-sm btn-danger removeList')
-                .append($('<span>')
-                  .attr('data-feather', 'x')
-                )
+      let jumlahHarga = parseInt(hargaItem);
+      listProduk[idProduk] = {
+        jml: parseInt(jumlahProduk),
+        harga: parseInt(hargaItem),
+        nama: inputItem.val(),
+        ket: inputKetItem.val()
+      };
+      // hargaProduk[idProduk] = parseInt(hargaItem);
+      $('#produkList').find('tbody')
+        .append($('<tr>')
+          .append($('<td>')
+            .append($('<button>')
+              .addClass('btn-sm btn-danger removeList')
+              .append($('<span>')
+                .attr('data-feather', 'x')
               )
             )
-            .append($('<td>')
-              .append($('<img>')
-                .attr('src', '/assets/produk/' + gambar)
-                .addClass('img-preview-dropdown')
-              )
-            )
-            .append($('<td>')
-              .text(selectProduk.val())
-            )
-            .append($('<td>')
-              .text(namaProduk)
-            )
-            .append($('<td>')
-              .text(formatRupiah(hargaProduk, "Rp. "))
-            )
-            .append($('<td>')
-              .text(jumlahProduk)
-            )
-            .append($('<td>')
-              .text(formatRupiah(jumlahHarga, "Rp. "))
-            )
-            .attr("data-id", idProduk)
-          );
-        // end of buat row baru pada table
-        setButtonEvent();
-        resetPilihanProduk();
-      }
+          )
+          .append($('<td>')
+            .text(inputItem.val())
+          )
+          .append($('<td>')
+            .text(formatRupiah(hargaItem, "Rp. "))
+          )
+          .append($('<td>')
+            .text(jumlahProduk)
+          )
+          .append($('<td>')
+            .text(inputKetItem.val())
+          )
+          .append($('<td>')
+            .text(formatRupiah(jumlahHarga, "Rp. "))
+          )
+          .attr("data-id", idProduk)
+        );
+      setButtonEvent();
+      resetPilihanProduk();
 
 
-    } else if (selectProduk.val() == "") {
-      alert('silahkan pilih produk terlebih dahulu!!');
+
+    } else if (inputItem.val() == "") {
+      alert('silahkan Masukkan Nama Item terlebih dahulu!!');
     } else if (inputJumlah.val() == "") {
-      alert('jangan lupa mengisi jumlah produknya!');
+      alert('jangan lupa mengisi jumlah item!');
+    } else if (inputHarga.val() == "") {
+      alert('jangan lupa mengisi harga item!');
     }
-
     reloadFrontAPI();
     updateGrandTotal();
 
   });
-  jQuery.validator.addMethod("checkTable", function () {
-    let jumlah = $('#produkList tbody tr').length;
-    if (jumlah > 1) {
-      return true;
-    } else {
-      return false;
-    }
-  }, "List Produk masih kosong");
+  //costum method
+  $.validator.addMethod('strongNope', function (value, element) {
+    return this.optional(element) || (value.length >= 10 && value.length <= 13);
+  }, 'Nomor HP minimal 10 - 13 Digit Angka');
 
-  $('#formPesanan').validate({
+  $('#formProject').validate({
 
     rules: {
-      selectProduk: {
+      inputItem: {
+        required: false
+      },
+      inputKetItem: {
         required: false
       },
       inputJumlah: {
         required: false
       },
-      selectKlien: {
+      inputHarga: {
+        required: false
+      },
+      inputNamaProject: {
         required: true
       },
-      selectMetode: {
-        required: true
+      inputNope: {
+        required: false,
+        strongNope: true
       }
     },
     submitHandler: function (form) {
-
+      // debugger;
       let jumlah = $('#produkList tbody tr').length;
       if (jumlah > 0) {
         if (confirm('Apakah data sudah benar ?')) {
@@ -157,20 +111,20 @@ $(document).ready(function () {
             url: form.action,
             type: form.method,
             data: {
-              pesanan: $(form).serializeArray(),
-              produk: listProduk
+              project: $(form).serializeArray(),
+              item: listProduk
             },
             success: function (response) {
               if (response == true) {
-                window.location.href = "/?page=pesanan";
+                window.location.href = "/?page=project";
               } else {
-                window.location.href = "/?page=tambah-pesanan&error=" + response;
+                window.location.href = "/?page=tambah-project&error=" + response;
               }
             }
           });
         } else {}
       } else {
-        alert("Harap isi list produk terlebih dahulu sebelum konfirmasi !");
+        alert("Harap isi list Item terlebih dahulu sebelum konfirmasi !");
       }
 
       // $.ajax({
@@ -188,15 +142,8 @@ $(document).ready(function () {
   });
 
 
-  function updateKategori() {
-    $.getJSON("/app/proses.php?request=updateKategori", function (data) {
-      //      console.log("data");
-      $("#selectKategori").html('<option value="">--Pilih Kategori--</option>');
-      $.each(data, function (key, value) {
-        $("#selectKategori").append('<option value="' + key + '">' + value + '</option>');
-      });
-    });
-  }
+
+
 
   function setButtonEvent() {
     $('.removeList').on('click', function () {
@@ -208,47 +155,20 @@ $(document).ready(function () {
     });
   }
 
-  function loadHargaProduk() {
-    $.ajax({
-      url: '/app/proses.php?request=req-harga-produk-admin',
-      type: "post",
-      success: function (response) {
-        // console.log(JSON.parse(response));
-        hargaProduk = JSON.parse(response);
-
-      },
-      error: function (XMLHttpRequest, textStatus, errorThrown) {
-        alert("Status: " + textStatus);
-        alert("Error: " + errorThrown);
-      }
-    });
-  }
-
-  function checkBatasQuantity(id, jumlahBaru) {
-    let checker = listProduk[id];
-    checker += parseInt(jumlahBaru);
-    if (checker > 10) {
-      return 'Maksimal Quantity sekali pemesanan 10\nHarap periksa kembali Jumlah/Quantity barang anda!';
-    } else if (checker < 1) {
-      return 'Quantity / Jumlah barang tidak boleh kurang dari 1!\nHarap periksa kembali inputan anda!';
-    } else {
-      return true;
-    }
-
-  }
-
   function resetPilihanProduk() {
-    $('#selectProduk').val('').selectpicker("refresh");
+    $('#inputItem').val('');
     $('#inputJumlah').val('');
-
+    $('#inputHarga').val('');
+    $('#inputKetItem').val('');
   }
 
   function updateGrandTotal() {
     let grandTotal = 0;
     let keyProduk = Object.keys(listProduk);
-    // console.log();
+    // console.log(listProduk);
+    // console.log(keyProduk);
     for (let index = 0; index < keyProduk.length; index++) {
-      grandTotal += parseInt(hargaProduk[keyProduk[index]]) * listProduk[keyProduk[index]];
+      grandTotal += parseInt(listProduk[keyProduk[index]]['harga']);
     }
     $('th#grandTotal').html(formatRupiah(grandTotal, "Rp. "));
   }

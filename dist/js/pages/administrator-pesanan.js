@@ -54,7 +54,7 @@ $(document).ready(function () {
               <td>" + element['nama'] + "</td>\
               <td>" + element['status'] + "</td>\
               <td class='text-center'>\
-                <a href='/?page=edit-produk&produk=" + element['id_pesanan'] + "' class='btn btn-success btn-sm'>\
+                <a href='/?page=edit-pesanan&pesanan=" + element['id_pesanan'] + "' class='btn btn-success btn-sm'>\
                   <span data-feather='edit'></span>\
                 </a>\
                 <a href='' data-id='" + element['id_pesanan'] + "' class='btn btn-danger btn-sm hapusBtn'>\

@@ -1,5 +1,5 @@
 <?php
-$dataPesanan = $db->getDataPesananAdmin();
+$dataProject = $db->getDataProjectAdmin();
 ?>
 <link href="/dist/dashboard.css" rel="stylesheet">
 <link rel="stylesheet" href="/dist/css/misc/loading.css">
@@ -23,11 +23,11 @@ $dataPesanan = $db->getDataPesananAdmin();
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="detailPesananModal" tabindex="-1" role="dialog" aria-labelledby="detailPesananModalLabel" aria-hidden="true">
+<div class="modal fade" id="detailProjectModal" tabindex="-1" role="dialog" aria-labelledby="detailProjectModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="detailPesananModalLabel">Detail Pesanan</h5>
+        <h5 class="modal-title" id="detailProjectModalLabel">Detail Proyek</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -41,30 +41,45 @@ $dataPesanan = $db->getDataPesananAdmin();
         </div>
         <div class="modal-isi text-left">
           <div class="table-responsive">
-            <table id="table-detail-pesanan" class="table table-sm w-100" style="max-width: none !important;">
+            <table id="table-detail-proyek" class="table table-sm w-100" style="max-width: none !important;">
               <tr>
-                <td>No.Pesanan</td>
-                <td>: <span data-setter="idPesanan"></span></td>
+                <td></td>
               </tr>
               <tr>
-                <td>Tanggal Pesanan</td>
-                <td>: <span data-setter="tanggalPesanan"></span></td>
+                <td>ID Project</td>
+                <td>: <span data-setter="idProject"></span></td>
+              </tr>
+              <tr>
+                <td>Nama Proyek</td>
+                <td>: <span data-setter="namaProyek"></span></td>
+              </tr>
+              <tr>
+                <td>Lokasi Proyek</td>
+                <td>: <span data-setter="lokasiProyek"></span></td>
+              </tr>
+              <tr>
+                <td>Tanggal Input</td>
+                <td>: <span data-setter="tanggalInput"></span></td>
+              </tr>
+              <tr>
+                <td>tgl Mulai / Deadline</td>
+                <td>: <span data-setter="tanggalProyek"></span></td>
               </tr>
               <tr class="bg-dark text-white">
-                <td class="align-middle">Detail Pemesan</td>
-                <td><button class="btn btn-light btn-sm" type="button" data-toggle="collapse" data-target="#detailKlien" aria-expanded="false" aria-controls="detailKlien">Lihat Detail <span data-feather="chevron-down"></span></button></td>
+                <td class="align-middle">Detail Proyek</td>
+                <td><button class="btn btn-light btn-sm" type="button" data-toggle="collapse" data-target="#detailProject" aria-expanded="false" aria-controls="detailProject">Lihat Detail <span data-feather="chevron-down"></span></button></td>
 
               </tr>
-              <tr class="collapse" id="detailKlien">
+              <tr class="collapse" id="detailProject">
                 <td colspan="2" class="p-0">
                   <table class="table table-sm m-0 table-dark table-striped">
                     <tr>
-                      <td class="align-middle">ID Pelanggan</td>
-                      <td>: <span data-setter="idKlien"></span></td>
+                      <td class="align-middle">Nama Klien</td>
+                      <td>: <span data-setter="namaKlien"></span></td>
                     </tr>
                     <tr>
-                      <td class="align-middle">Nama</td>
-                      <td>: <span data-setter="namaKlien"></span></td>
+                      <td class="align-middle">Lokasi</td>
+                      <td>: <span data-setter="lokasiProyek"></span></td>
                     </tr>
                     <tr>
                       <td class="align-middle">Alamat</td>
@@ -82,68 +97,20 @@ $dataPesanan = $db->getDataPesananAdmin();
                   </table>
                 </td>
               </tr>
-              <tr>
-                <td>Metode Pembelian</td>
-                <td>: <span data-setter="metodePesanan"></span></td>
-              </tr>
-              <tr class="bg-dark text-white">
-                <td class="align-middle">Detail Pembayaran</td>
-                <td><button class="btn btn-light btn-sm" type="button" data-toggle="collapse" data-target="#detailPembayaran" aria-expanded="false" aria-controls="detailPembayaran">Lihat Detail <span data-feather="chevron-down"></span></button></td>
 
-              </tr>
-              <tr class="collapse" id="detailPembayaran">
-                <td colspan="2" class="p-0">
-                  <table class="table table-sm m-0 table-dark table-striped" id="subDetailPembayaran">
-                    <tr>
-                      <td class="align-middle">ID Pembayaran</td>
-                      <td>: <span data-setter="idPembayaran"></span></td>
-                    </tr>
-                    <tr>
-                      <td class="align-middle">Bank Pemilik</td>
-                      <td>: <span data-setter="bankPemilik"></span></td>
-                    </tr>
-                    <tr>
-                      <td class="align-middle">Nama Pemilik</td>
-                      <td>: <span data-setter="namaPemilik"></span></td>
-                    </tr>
-                    <tr>
-                      <td class="align-middle">No. Rekening</td>
-                      <td>: <span data-setter="norek"></span></td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
               <tr>
                 <td>Status</td>
-                <td>: <span data-setter="statusPesanan"></span></td>
-              </tr>
-              <tr class="bg-dark text-white">
-                <td class="align-middle">History Status</td>
-                <td><button class="btn btn-light btn-sm" type="button" data-toggle="collapse" data-target="#historyStatus" aria-expanded="false" aria-controls="historyStatus">Lihat History <span data-feather="chevron-down"></span></button></td>
-              </tr>
-              <tr class="collapse" id="historyStatus">
-                <td colspan="2" class="p-0">
-                  <table class="table table-sm m-0 table-dark table-striped" id="tabelHistoryStatus">
-                    <thead>
-                      <th>Status</th>
-                      <th>Tanggal</th>
-                      <th>Keterangan</th>
-                    </thead>
-                    <tbody>
-                      <tr></tr>
-                    </tbody>
-                  </table>
-                </td>
+                <td>: <span data-setter="statusProyek"></span></td>
               </tr>
               <tr>
                 <td colspan="2" class="p-0">
-                  <table class="table table-sm m-0 table-light table-striped my-2" id="tabelDetailProdukPesanan">
+                  <table class="table table-sm m-0 table-light table-striped my-2" id="tabelDetailProdukProject">
                     <thead class="thead-dark">
-                      <th>Gambar</th>
-                      <th>Nama Produk</th>
+                      <th>Nama Item</th>
                       <th>Jumlah</th>
-                      <th>Harga Produk</th>
-                      <th>SubTotal</th>
+                      <th>Keterangan</th>
+                      <th>Harga Item</th>
+                      <th>Status</th>
                     </thead>
                     <tbody>
                       <tr></tr>
@@ -160,6 +127,12 @@ $dataPesanan = $db->getDataPesananAdmin();
         </div>
       </div>
       <div class="modal-footer">
+        <button data-id="" class="btn btn-success btn-sm modalAction editBtn">
+          <span data-feather="edit"></span>
+        </button>
+        <button data-id="" class="btn btn-danger btn-sm modalAction hapusBtn">
+          <span data-feather="trash"></span>
+        </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -227,7 +200,7 @@ $dataPesanan = $db->getDataPesananAdmin();
           <button class="btn btn-dark">Tambah Data</button>
         </a>
         <hr>
-        <div id="calendar"></div>
+
 
         <div class="row">
           <div class="col-6">
@@ -243,45 +216,50 @@ $dataPesanan = $db->getDataPesananAdmin();
             </div>
           </div>
         </div>
-        <table class="table table-striped table-sm table-bordered" id="tabelPesanan">
+        <table class="table table-striped table-sm table-bordered" id="tabelProject">
           <thead class="thead-dark">
             <tr>
-              <th class="text-center">ID Pesanan</th>
-              <th class="text-center">Tanggal Dibuat</th>
-              <th class="text-center">Metode</th>
-              <th class="text-center">Qty Item</th>
-              <th class="text-center">Pembeli</th>
+              <th class="text-center">ID Project</th>
+              <th class="text-center">Nama Proyek</th>
+              <th class="text-center">Nama Klien</th>
+              <th class="text-center">Mulai</th>
+              <th class="text-center">Deadline</th>
+              <th class="text-center">Lokasi</th>
               <th class="text-center">Status</th>
               <th class="text-center">aksi</th>
             </tr>
           </thead>
           <tbody>
             <?php
-            if (!$dataPesanan) {
+            if (!$dataProject) {
             ?>
               <tr>
-                <td class="text-center alert-danger" colspan="100%">Belum Ada Pesanan</td>
+                <td class="text-center alert-danger" colspan="100%">Belum Ada Project</td>
               </tr>
               <?php
             } else {
-              while ($x = mysqli_fetch_array($dataPesanan)) {
+              while ($x = mysqli_fetch_assoc($dataProject)) {
               ?>
                 <tr>
-                  <td><?= $x['id_pesanan'] ?></td>
-                  <td><?= date("Y-m-d", strtotime($x['tanggal_dibuat'])) ?></td>
-                  <td><?= $x['metode'] ?></td>
-                  <td><?= $x['item'] ?></td>
-                  <td><?= $x['nama'] ?></td>
-                  <td><?= $x['status'] ?></td>
+                  <td><?= $x['id_proyek'] ?></td>
+                  <td><?= $x['nama_proyek'] ?></td>
+                  <td><?= $x['nama_klien'] ?></td>
+                  <td><?= date("Y-m-d", strtotime($x['dimulai'])) ?></td>
+                  <td><?= date("Y-m-d", strtotime($x['target_selesai'])) ?></td>
+                  <td><?= $x['lokasi'] ?></td>
+                  <td class="text-center"><span class="badge badge-pill badge-<?= $db->projectStatusOrder($x['status'])["warna"] ?>"><?= $db->projectStatusOrder($x['status'])["status"] ?></span></td>
                   <td class="text-center">
-                    <a href="/?page=edit-pesanan&pesanan=<?= $x['id_pesanan'] ?>" class="btn btn-success btn-sm">
+                    <a href="/?page=edit-project&project=<?= $x['id_proyek'] ?>" class="my-1 btn btn-success btn-sm">
                       <span data-feather="edit"></span>
                     </a>
-                    <a href="" data-id="<?= $x['id_pesanan'] ?>" class="btn btn-danger btn-sm hapusBtn">
+                    <a href="" data-id="<?= $x['id_proyek'] ?>" class="my-1 btn btn-danger btn-sm hapusBtn">
                       <span data-feather="trash"></span>
                     </a>
-                    <a href="" data-id="<?= $x['id_pesanan'] ?>" class="btn btn-info btn-sm detailBtn" data-toggle="modal" data-target="#detailPesananModal">
+                    <a href="" data-id="<?= $x['id_proyek'] ?>" class="my-1 btn btn-info btn-sm detailBtn" data-toggle="modal" data-target="#detailProjectModal">
                       <span data-feather="eye"></span>
+                    </a>
+                    <a href="/pages/parts/print_view/quotation.php?id=<?= $x['id_proyek'] ?>" class="my-1 btn btn-primary btn-sm cetakBtn">
+                      <span data-feather="download"></span>
                     </a>
 
                   </td>
@@ -292,6 +270,8 @@ $dataPesanan = $db->getDataPesananAdmin();
             ?>
           </tbody>
         </table>
+        <hr>
+        <div id="calendar"></div>
       </div>
     </main>
   </div>
