@@ -5,14 +5,14 @@ class controller
     var $halamancss = array(
         array("home", "login", "daftar", "produk"),
         array("home", "produk", "keranjang", "checkout", "co-sukses", "co-gagal"),
-        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project")
+        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project")
     );
 
     var $aktorjs = array("guest", "klien", "administrator");
     var $halamanjs = array(
         array("daftar", "produk"),
         array("produk", "keranjang", "co-sukses"),
-        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "edit-pembayaran", "project", "tambah-project")
+        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project")
     );
 
     function __construct()

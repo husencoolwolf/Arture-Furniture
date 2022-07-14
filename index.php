@@ -169,6 +169,14 @@ $getPageStatus = "";
     } elseif ($getPage == "tambah-project") {
       $getPageStatus = "project";
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/tambah-project.php';
+    } elseif ($getPage == "edit-project") {
+      if (isset($_GET['project'])) {
+        $getPageStatus = "project";
+        include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/edit-project.php';
+      } else {
+        $getPageStatus = "dashboard";
+        header("Location: /");
+      }
     }
     //End of Project Monitoring
     else {
