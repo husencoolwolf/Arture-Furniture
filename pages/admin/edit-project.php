@@ -186,16 +186,16 @@ $grandTotal = 0;
                 foreach ($dataItem as $k => $v) {
                   $grandTotal += (int)$v['harga_item'];
                 ?>
-                  <tr>
+                  <tr data-id="<?= $v['id_item_proyek'] ?>">
                     <td>
                       <button class="btn-sm btn-danger removeList">
                         <span data-feather="x"></span>
                       </button>
                     </td>
-                    <td><?= $v['nama_item_proyek'] ?></td>
-                    <td><?= $v['jumlah'] ?></td>
-                    <td><?= $v['keterangan'] ?></td>
-                    <td><?= $db->intToRupiah($v['harga_item']) ?></td>
+                    <td class="editable namaItem"><?= $v['nama_item_proyek'] ?></td>
+                    <td class="editable jumlah"><?= $v['jumlah'] ?></td>
+                    <td class="editable keterangan"><?= $v['keterangan'] ?></td>
+                    <td class="editable harga"><?= $db->intToRupiah($v['harga_item']) ?></td>
                   </tr>
                 <?php
                 }
@@ -252,4 +252,4 @@ $grandTotal = 0;
 <script src="/dist/js/jquery-validate/additional-methods.min.js"></script>
 <script src="/dist/js/integer-to-rupiah.js"></script>
 <script src="/dist/js/url-param-getter.js"></script>
-<script src="/dist/bootstrap-select/js/bootstrap-select.min.js"></script>
+<script src="/dist/jquery-tabledit/jquery.tabledit.min.js"></script>

@@ -143,7 +143,9 @@ $(document).ready(function () {
           break;
       }
     });
-    $('.modalAction').data("id", detailProject['id_proyek']);
+    $('.modalAction').each(function () {
+      $(this).data("id", detailProject['id_proyek']);
+    });
     $("table#tabelDetailProdukProject tbody").html(keluaran);
   }
 
@@ -160,9 +162,9 @@ $(document).ready(function () {
       success: function (response) {
         let responseData = JSON.parse(response);
         if (responseData == "-1") {
-          $("table#tabelPesanan tbody").html("<tr><td colspan='12' class='text-center'>Pesanan Yang Anda Cari Tidak Ditemukan!!!</td></tr>");
+          $("table#tabelProject tbody").html("<tr><td colspan='12' class='text-center'>Project Yang Anda Cari Tidak Ditemukan!!!</td></tr>");
         } else if (responseData == "0") {
-          $("table#tabelPesanan tbody").html("<tr><td colspan='12' class='text-center'>Ada kesalahan pada sistem, harap menghubungi IT Admin!!!</td></tr>");
+          $("table#tabelProject tbody").html("<tr><td colspan='12' class='text-center'>Ada kesalahan pada sistem, harap menghubungi IT Admin!!!</td></tr>");
         } else {
           let outputan = "";
           responseData.forEach(element => {
@@ -174,7 +176,7 @@ $(document).ready(function () {
               <td>" + element['dimulai'] + "</td>\
               <td>" + element['target_selesai'] + "</td>\
               <td>" + element['lokasi'] + "</td>\
-              <td>" + element['status'] + "</td>\
+              <td><span class='badge badge-pill badge-" + element['status']['warna'] + "'>" + element['status']['status'] + "</span></td>\
               <td class='text-center'>\
                 <a href='/?page=edit-project&project=" + element['id_proyek'] + "' class='btn btn-success btn-sm'>\
                   <span data-feather='edit'></span>\
@@ -185,6 +187,9 @@ $(document).ready(function () {
                 <a href='' data-id='" + element['id_proyek'] + "' class='btn btn-info btn-sm detailBtn' data-toggle='modal' data-target='#detailProjectModal'>\
                   <span data-feather='eye'></span>\
                 </a>\
+                <a href='/pages/parts/print_view/quotation.php?id=" + element['id_proyek'] + "' class='my-1 btn btn-primary btn-sm cetakBtn'>\
+                      <span data-feather='download'></span>\
+                    </a>\
                 </td>\
             </tr>";
 
@@ -227,13 +232,20 @@ $(document).ready(function () {
     $(".modalAction").click(function () {
       if ($(this).hasClass("hapusBtn")) {
         event.preventDefault();
-        let idProject = $(this).data("id")
+        let idProject = $(this).data("id");
         if (confirm('Anda yakin hapus ' + "data " + ' [' + idProject + '] ??')) {
           window.location.href = '/app/proses.php?aksi=hapus-project&id=' + idProject;
         } else {}
-      } else {
-        alert("edit");
+      } else if ($(this).hasClass("editBtn")) {
+        event.preventDefault();
+        let idProject = $(this).data("id");
+        window.location.href = '/?page=edit-project&project=' + idProject;
+      } else if ($(this).hasClass("cetakBtn")) {
+        event.preventDefault();
+        let idProject = $(this).data("id");
+        window.location.href = '/pages/parts/print_view/quotation.php?id=' + idProject;
       }
+
     });
   }
 

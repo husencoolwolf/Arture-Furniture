@@ -1,12 +1,15 @@
 //Rubah input ke rupiah
-var uang = document.getElementsByClassName("rupiah");
-for (var i = 0; i < uang.length; i++) { // loop over them
-  uang[i].addEventListener('keyup', function (e) {
-    // tambahkan 'Rp.' pada saat form di ketik
-    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-    this.value = formatRupiah(this.value, 'Rp. ');
-  });
-}
+$('.rupiah').on('keyup', function () {
+  this.value = formatRupiah(this.value, 'Rp. ');
+});
+// var uang = document.getElementsByClassName("rupiah");
+// for (var i = 0; i < uang.length; i++) { // loop over them
+//   uang[i].addEventListener('keyup', function (e) {
+//     // tambahkan 'Rp.' pada saat form di ketik
+//     // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+
+//   });
+// }
 
 
 

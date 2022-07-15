@@ -8,7 +8,7 @@ $(document).ready(function () {
   //  updateKategori();
   var listProduk = {};
   var hargaProduk = {};
-
+  setButtonEvent();
 
   $('#addListBtn').on("click", function () {
     event.preventDefault();

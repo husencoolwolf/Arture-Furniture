@@ -126,7 +126,7 @@ if (!isset($_SESSION['id_hak_akses']) || $_SESSION['id_hak_akses'] == '1' || !is
           <tr>
             <td>
               <p>Kepada Yth,</p>
-              <p>Bapak Amran<br>Di Bekasi</p>
+              <p><?= $dataProject['nama_klien'] ?><br>Di <?= $dataProject['lokasi'] ?></p>
             </td>
             <td>
               <table>
@@ -136,7 +136,7 @@ if (!isset($_SESSION['id_hak_akses']) || $_SESSION['id_hak_akses'] == '1' || !is
                       <p>No</p>
                     </td>
                     <td>
-                      <p>: AR/QUO/2021/10/XXVIII</p>
+                      <p>: AR/QUO/<?= date('Y', strtotime($dataProject['dibuat'])) ?>/<?= date('m', strtotime($dataProject['dibuat'])) ?>/<?= $dataProject['id_proyek'] ?></p>
                     </td>
                   </tr>
                   <tr>
@@ -144,7 +144,7 @@ if (!isset($_SESSION['id_hak_akses']) || $_SESSION['id_hak_akses'] == '1' || !is
                       <p>Tanggal</p>
                     </td>
                     <td>
-                      <p>: 11 November 2021</p>
+                      <p>: <?= $db->tanggalIndo(date('Y-m-d')) ?></p>
                     </td>
                   </tr>
                 </tbody>
@@ -173,6 +173,7 @@ if (!isset($_SESSION['id_hak_akses']) || $_SESSION['id_hak_akses'] == '1' || !is
         <table id="tabelQuotation" class="table table-bordered table-sm border-dark">
           <thead>
             <th>No.</th>
+            <th>Nama Item</th>
             <th>Keterangan</th>
             <th>Jumlah</th>
             <th>Harga</th>
@@ -188,6 +189,7 @@ if (!isset($_SESSION['id_hak_akses']) || $_SESSION['id_hak_akses'] == '1' || !is
             ?>
               <tr>
                 <td><?= $i ?></td>
+                <td><?= $v['nama_item_proyek'] ?></td>
                 <td><?= $v['keterangan'] ?></td>
                 <td><?= $v['jumlah'] ?></td>
                 <td><?= $db->intToRupiah($v['harga_item']) ?></td>
@@ -197,7 +199,7 @@ if (!isset($_SESSION['id_hak_akses']) || $_SESSION['id_hak_akses'] == '1' || !is
             ?>
           </tbody>
           <tfoot>
-            <th colspan="3">
+            <th colspan="4">
               Total
             </th>
             <th><?= $db->intToRupiah($grandTotal) ?></th>
@@ -214,11 +216,11 @@ if (!isset($_SESSION['id_hak_akses']) || $_SESSION['id_hak_akses'] == '1' || !is
 
 
 <?php
-  dom_pdf();
+  dom_pdf($dataProject['nama_klien']);
 }
 // $html = ob_get_contents();
 // ob_end_clean();\
-function dom_pdf()
+function dom_pdf($namaKlien)
 {
   $html = ob_get_clean();
   $pdf = new Dompdf();
@@ -227,7 +229,7 @@ function dom_pdf()
   $pdf->set_paper("A4", "potrait");
   // $pdf->set_option('viewport-size', '1024x768');
   $pdf->render();
-  $pdf->stream('Laporan ' . date("F j, Y") . '.pdf', array('Attachment' => false));
+  $pdf->stream('Quotation ' . $namaKlien . '.pdf', array('Attachment' => true));
   exit(0);
 }
 

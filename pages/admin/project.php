@@ -133,6 +133,9 @@ $dataProject = $db->getDataProjectAdmin();
         <button data-id="" class="btn btn-danger btn-sm modalAction hapusBtn">
           <span data-feather="trash"></span>
         </button>
+        <button data-id="" class="my-1 btn btn-primary btn-sm modalAction cetakBtn">
+          <span data-feather="download"></span>
+        </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>

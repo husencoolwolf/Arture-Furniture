@@ -104,6 +104,26 @@ class database
         }
     }
 
+    function tanggalIndo($tanggal)
+    {
+        $bulan = array(
+            1 =>   'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember'
+        );
+        $pecahkan = explode('-', $tanggal);
+        return $pecahkan[2] . ' ' . $bulan[(int)$pecahkan[1]] . ' ' . $pecahkan[0];
+    }
+
     function verified_login($username, $pass)
     {
         $cekuser = mysqli_query($this->koneksi, "SELECT * FROM akun WHERE username = '$username'");
@@ -695,7 +715,7 @@ class database
         if ($data = mysqli_query($this->koneksi, $query1)) {
             if (mysqli_num_rows($data) > 0) {
                 $dataSets["projectData"] = mysqli_fetch_assoc($data);
-                $query2 = "SELECT i.nama_item_proyek, i.jumlah, i.keterangan, i.harga_item, s.status FROM item_proyek i inner join status_proyek s on i.id_item_proyek=s.id_item_proyek WHERE i.id_proyek='$idProject';";
+                $query2 = "SELECT i.id_item_proyek, i.nama_item_proyek, i.jumlah, i.keterangan, i.harga_item, s.status FROM item_proyek i inner join status_proyek s on i.id_item_proyek=s.id_item_proyek WHERE i.id_proyek='$idProject';";
                 if ($data = mysqli_query($this->koneksi, $query2)) {
                     if (mysqli_num_rows($data) > 0) {
                         while ($x = mysqli_fetch_assoc($data)) {
@@ -821,6 +841,7 @@ class database
             if (mysqli_num_rows($dataProject) > 0) {
                 $datareturn = array();
                 while ($x = mysqli_fetch_assoc($dataProject)) {
+                    $x['status'] = $this->projectStatusOrder($x['status']);
                     $x['dimulai'] = date("Y-m-d", strtotime($x['dimulai']));
                     $x['target_selesai'] = date("Y-m-d", strtotime($x['target_selesai']));
                     $datareturn[] = $x;
