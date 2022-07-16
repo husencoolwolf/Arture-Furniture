@@ -188,6 +188,9 @@ if ($aksi == "daftarKlien") {
 } elseif ($aksi == "edit-pesanan-admin") {
   $respon = $db->editPesananAdmin($_POST['pesanan'], $_POST['produk'], $_POST['id']);
   echo ($respon);
+} elseif ($aksi == "edit-project-admin") {
+  $respon = $db->editProjectAdmin($_POST['project'], $_POST['item'], $_POST['id']);
+  echo ($respon);
 } elseif ($aksi == "daftar-akun-admin") {
   $data = array(
     "id" => $controller->pembuatIDUnik($db->getKoneksi(), "akun", "id_akun"),
@@ -268,6 +271,20 @@ if ($request == "updateKategori") {
       $data[$x['id_kategori']] = $x['kategori'];
     }
     echo json_encode($data);
+  }
+} elseif ($request == "buat-id-unik") {
+  $erormsg = "Butuh parameter tabel!";
+  if (!isset($_GET['tabel'])) {
+    echo $errormsg;
+  } else {
+    switch ($_GET['tabel']) {
+      case 'item_proyek':
+        echo ($db->pembuatIDUnik($db->getKoneksi(), "item_proyek", "id_item_proyek"));
+        break;
+      default:
+        echo ("tabel tidak terdaftar di proses.php");
+        break;
+    }
   }
 } elseif ($request == "update-keranjang") {
   $respon = $db->getJumlahKeranjangUser($_SESSION['id_akun']);

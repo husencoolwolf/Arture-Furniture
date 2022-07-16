@@ -48,16 +48,19 @@
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item px-3 ml-auto">
-                <a class="nav-link smooth-scroll" href="#jasa">JASA KAMI</a>
+                <a class="nav-link smooth-scroll" href="/?page=home#jasa">JASA KAMI</a>
             </li>
             <!-- <li class="nav-item px-3 ml-auto">
                 <a class="nav-link smooth-scroll" href="#">PROMO</a>
             </li> -->
             <li class="nav-item px-3 ml-auto">
-                <a class="nav-link smooth-scroll" href="#profil">PROFIL</a>
+                <a class="nav-link smooth-scroll" href="/?page=home#profil">PROFIL</a>
             </li>
             <li class="nav-item px-3 ml-auto">
-                <a class="nav-link smooth-scroll" href="#contact">HUBUNGI KAMI</a>
+                <a class="nav-link smooth-scroll" href="/?page=home#contact">HUBUNGI KAMI</a>
+            </li>
+            <li class="nav-item px-3 ml-auto">
+                <a class="nav-link smooth-scroll" href="/?page=catalog-furniture#catalog">CATALOG</a>
             </li>
         </ul>
 

@@ -55,6 +55,8 @@ $getPageStatus = "";
       } else {
         header("Location: /");
       }
+    } elseif ($getPage == "catalog-furniture") {
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/guest/catalog-furniture.php';
     } else {
       header("Location: /");
     }

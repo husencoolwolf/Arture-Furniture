@@ -1019,6 +1019,26 @@ class database
         }
     }
 
+    function editProjectAdmin($dataProject, $dataItem, $idProject)
+    {
+        $itemSudahAda = array();
+        $queryCheckExistItem = "SELECT id_item_proyek from item_proyek where id_proyek='$idProject'";
+        if ($CheckExistItem = mysqli_query($this->koneksi, $queryCheckExistItem)) {
+            while ($x = mysqli_fetch_assoc($CheckExistItem)) {
+                $itemSudahAda[$x['id_item_proyek']] = array();
+            }
+        }
+        foreach ($itemSudahAda as $k => $v) { // setiap id yang suidah ada
+            if (in_array($k, array_keys($dataItem))) //cari id yg sudah ada di data item array
+            {
+                $itemSudahAda[$k] = $dataItem[$k]; //pindahin detail data dari data item yang sama ke $itemsudahada
+                unset($dataItem[$k]); //hapus
+            }
+        }
+
+        return json_encode(array($itemSudahAda, $dataItem));
+    }
+
     function editAkunAdmin($idAkun, $data)
     {
         $queryAkun = "UPDATE akun SET 

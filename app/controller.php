@@ -3,7 +3,7 @@ class controller
 {
     var $aktorcss = array("guest", "klien", "administrator", "marketing", "produksi", "finance");
     var $halamancss = array(
-        array("home", "login", "daftar", "produk"),
+        array("home", "login", "daftar", "produk", "catalog-furniture"),
         array("home", "produk", "keranjang", "checkout", "co-sukses", "co-gagal"),
         array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project")
     );

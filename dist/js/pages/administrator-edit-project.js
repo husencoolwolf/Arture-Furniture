@@ -14,24 +14,35 @@ $(document).ready(function () {
 
   $('#addListBtn').on("click", function () {
     event.preventDefault();
+    let idProduk;
     let inputItem = $('#inputItem');
     let inputJumlah = $('#inputJumlah');
     let inputHarga = $('#inputHarga');
     let inputKetItem = $('#inputKetItem');
     if (inputItem.val() !== "" && inputJumlah.val() !== "" && inputHarga.val() !== "") {
-      let idProduk = Object.keys(listProduk).length + 1;
-      idProduk = idProduk.toString();
+
       let hargaItem = inputHarga.val();
       hargaItem = hargaItem.replaceAll("Rp.", "");
       hargaItem = hargaItem.replaceAll(".", "");
       let jumlahProduk = inputJumlah.val();
       let jumlahHarga = parseInt(hargaItem);
+      $.ajax({
+        url: "/app/proses.php?request=buat-id-unik&tabel=item_proyek",
+        type: 'get',
+        dataType: 'html',
+        async: false,
+        cache: false,
+        success: function (data) {
+          idProduk = data;
+        }
+      });
       listProduk[idProduk] = {
         jml: parseInt(jumlahProduk),
         harga: parseInt(hargaItem),
         nama: inputItem.val(),
         ket: inputKetItem.val()
       };
+
       // hargaProduk[idProduk] = parseInt(hargaItem);
       $('#produkList').find('tbody')
         .append($('<tr>')
@@ -114,14 +125,16 @@ $(document).ready(function () {
             type: form.method,
             data: {
               project: $(form).serializeArray(),
-              item: listProduk
+              item: listProduk,
+              id: GetURLParameter('project')
             },
             success: function (response) {
-              if (response == true) {
-                window.location.href = "/?page=project";
-              } else {
-                window.location.href = "/?page=tambah-project&error=" + response;
-              }
+              // if (response == true) {
+              //   window.location.href = "/?page=project";
+              // } else {
+              //   window.location.href = "/?page=edit-project&error=" + response;
+              // }
+              console.log(JSON.parse(response));
             }
           });
         } else {}
@@ -173,8 +186,11 @@ $(document).ready(function () {
     }
   });
 
-  $('table#produkList tbody').on("keyup", "td.editing", function (event) {
-    if (event.keyCode == 13) {
+  $('table#produkList tbody').on("keydown", "td.editing", function (event) {
+    let type = $(this).children().attr('type');
+    if (event.ctrlKey && event.keyCode == 13) {
+      setEditing();
+    } else if (type == "text" && event.keyCode == 13) {
       setEditing();
     } else if (event.keyCode == 27) {
       setEditing(true);
@@ -195,14 +211,39 @@ $(document).ready(function () {
   function setEditing(cancel = false) {
     if (isEditing) {
       let editField = $('.editable.editing');
-      let editVal = editField.children().val();
+      let inputField = editField.children();
+      let trEditField = editField.parent();
+      let editVal = inputField.val();
       if (cancel) {
         editVal = valueBeforeEdit;
       }
-      editField.children().remove(); //remove inputan bekas edit
+      inputField.remove(); //remove inputan bekas edit
       editField.removeClass("editing"); //remove class editing
       editField.html(editVal); // masukin dari hasil editan ke table td lagi.
+      updateValueProduk(inputField, trEditField, editVal); //update variable
       //isEditing masih true karna yg di click adalah table lain yang juga bsa di edit
+      console.log(listProduk);
+    }
+  }
+
+  function updateValueProduk(inputElement, parentTr, value) {
+    // debugger;
+    let id = parentTr.data('id');
+    switch (inputElement.attr('id')) {
+      case "inputItem":
+        listProduk[id]['nama'] = value;
+        break;
+      case "inputJumlah":
+        listProduk[id]['jml'] = value;
+        break;
+      case "inputKetItem":
+        listProduk[id]['ket'] = value;
+        break;
+      case "inputHarga":
+        listProduk[id]['harga'] = value;
+        break;
+      default:
+        break;
     }
   }
 
