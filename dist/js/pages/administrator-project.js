@@ -100,6 +100,7 @@ $(document).ready(function () {
       <td>" + element['keterangan'] + "</td>\
       <td>" + formatRupiah(element['harga_item'], "Rp. ") + "</td>\
       <td>" + element['status'] + "</td>\
+      <td>" + element['keterangan_s'] + "</td>\
       </tr>\
       ";
     });

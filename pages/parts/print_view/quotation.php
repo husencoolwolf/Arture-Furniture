@@ -126,7 +126,7 @@ if (!isset($_SESSION['id_hak_akses']) || $_SESSION['id_hak_akses'] == '1' || !is
           <tr>
             <td>
               <p>Kepada Yth,</p>
-              <p><?= $dataProject['nama_klien'] ?><br>Di <?= $dataProject['lokasi'] ?></p>
+              <p><?= ucwords($dataProject['nama_klien']) ?><br>Di <?= ucwords($dataProject['lokasi']) ?></p>
             </td>
             <td>
               <table>
@@ -229,7 +229,7 @@ function dom_pdf($namaKlien)
   $pdf->set_paper("A4", "potrait");
   // $pdf->set_option('viewport-size', '1024x768');
   $pdf->render();
-  $pdf->stream('Quotation ' . $namaKlien . '.pdf', array('Attachment' => true));
+  $pdf->stream('Quotation ' . ucwords($namaKlien) . '.pdf', array('Attachment' => true));
   exit(0);
 }
 

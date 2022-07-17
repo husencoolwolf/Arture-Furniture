@@ -104,7 +104,7 @@ $dataKlien = $db->getDataKlienAdmin();
             <option value="menunggu verifikasi bayar">2. Menunggu Verifikasi Bayar</option>
             <option value="pembuatan">3. Pembuatan</option>
             <option value="pengiriman">4. Pengiriman</option>
-            <option value="selesai">4. Selesai</option>
+            <option value="selesai">5. Selesai</option>
             <option value="batal">-1. Batal</option>
           </select>
         </div>

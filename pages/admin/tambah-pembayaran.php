@@ -1,5 +1,5 @@
 <?php
-$dataPesanan = $db->getDataPesananListAddPembayaranAdmin();
+// $dataPesanan = $db->getDataPesananListAddPembayaranAdmin();
 ?>
 <link href="/dist/dashboard.css" rel="stylesheet">
 <link rel="stylesheet" href="/dist/bootstrap-select/css/bootstrap-select.min.css">
@@ -51,14 +51,7 @@ $dataPesanan = $db->getDataPesananListAddPembayaranAdmin();
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Tambah Pembayaran</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-          <!-- <div class="btn-group mr-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-          </div> -->
-          <!-- <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            This week
-          </button> -->
+
         </div>
       </div>
 
@@ -73,21 +66,16 @@ $dataPesanan = $db->getDataPesananListAddPembayaranAdmin();
       ?>
       <form id="formPembayaran" action="/app/proses.php?aksi=tambah-pembayaran-admin" method="post" enctype="multipart/form-data">
         <div class="form-group">
+          <label for="selectKlien">Klien<span class="text-danger">*</span></label>
+          <select id="selectKlien" name="selectKlien" class="form-control selectpicker" required title="-- Klien --" data-live-search="true">
+
+          </select>
+        </div>
+
+        <div class="form-group">
           <label for="selectPesanan">Pesanan<span class="text-danger">*</span></label>
-          <select id="selectPesanan" name="selectPesanan" class="form-control selectpicker" required title="-- Pesanan --" data-live-search="true">
-            <?php
-            if ($dataPesanan) {
-              while ($x = mysqli_fetch_assoc($dataPesanan)) {
-            ?>
-                <option value="<?= $x['id_pesanan'] ?>"><?= $x['id_pesanan'] ?></option>
-              <?php
-              }
-            } else {
-              ?>
-              <option value="" disabled>Tidak ada data pesanan yang bisa ditambahkan data pembayaran / semua pesanan telah memiliki info pembayaran</option>
-            <?php
-            }
-            ?>
+          <select id="selectPesanan" name="selectPesanan" class="form-control selectpicker" required title="-- Pilih Klien --" data-live-search="true">
+
           </select>
         </div>
 

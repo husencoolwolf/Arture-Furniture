@@ -129,11 +129,11 @@ $(document).ready(function () {
               id: GetURLParameter('project')
             },
             success: function (response) {
-              // if (response == true) {
-              //   window.location.href = "/?page=project";
-              // } else {
-              //   window.location.href = "/?page=edit-project&error=" + response;
-              // }
+              if (response == true) {
+                window.location.href = "/?page=project";
+              } else {
+                window.location.href = "/?page=edit-project&error=" + response;
+              }
               console.log(JSON.parse(response));
             }
           });
@@ -221,8 +221,9 @@ $(document).ready(function () {
       editField.removeClass("editing"); //remove class editing
       editField.html(editVal); // masukin dari hasil editan ke table td lagi.
       updateValueProduk(inputField, trEditField, editVal); //update variable
+      updateGrandTotal();
       //isEditing masih true karna yg di click adalah table lain yang juga bsa di edit
-      console.log(listProduk);
+
     }
   }
 
@@ -234,13 +235,15 @@ $(document).ready(function () {
         listProduk[id]['nama'] = value;
         break;
       case "inputJumlah":
-        listProduk[id]['jml'] = value;
+        listProduk[id]['jml'] = parseInt(value);
         break;
       case "inputKetItem":
         listProduk[id]['ket'] = value;
         break;
       case "inputHarga":
-        listProduk[id]['harga'] = value;
+        value = value.replaceAll("Rp.", "");
+        value = value.replaceAll(".", "");
+        listProduk[id]['harga'] = parseInt(value);
         break;
       default:
         break;
@@ -257,8 +260,6 @@ $(document).ready(function () {
   function updateGrandTotal() {
     let grandTotal = 0;
     let keyProduk = Object.keys(listProduk);
-    // console.log(listProduk);
-    // console.log(keyProduk);
     for (let index = 0; index < keyProduk.length; index++) {
       grandTotal += parseInt(listProduk[keyProduk[index]]['harga']);
     }

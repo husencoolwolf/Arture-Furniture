@@ -1,4 +1,8 @@
-<!-- <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/"> -->
+<?php
+$dataStatusProject = $db->getProjectStatusCount();
+$dataPesananProject = $db->getPesananStatusCount();
+?>
+
 <link href="/dist/dashboard.css" rel=" stylesheet">
 
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -47,7 +51,201 @@
         </div>
       </div>
 
-      <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+      <fieldset>
+        <legend>Project Status</legend>
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <div class="card text-center badge-info h-100">
+              <div class="card-body d-flex align-items-center">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <span class="statusIcon" data-feather="alert-circle" style="width: 50px; height: 50px;"></span>
+                  </div>
+                  <div class="col-9">
+                    <p class="card-count font-weight-bolder"><?= $dataStatusProject['confirm'] ?></p>
+                    <p class="font-weight-bold">Need<br>Confirm</p>
+                  </div>
+                </div>
+              </div>
+              <div class="pb-1">
+                <span class="badge badge-light">All</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card text-center badge-warning h-100">
+              <div class="card-body d-flex align-items-center">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <span class="statusIcon" data-feather="play-circle" style="width: 50px; height: 50px;"></span>
+                  </div>
+                  <div class="col-9">
+                    <p class="card-count font-weight-bolder"><?= $dataStatusProject['progress'] ?></p>
+                    <p class="font-weight-bold">Progress</p>
+                  </div>
+                </div>
+              </div>
+              <div class="pb-1">
+                <span class="badge badge-light">Duration</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card text-center badge-success h-100">
+              <div class="card-body d-flex align-items-center">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <span class="statusIcon" data-feather="check-circle" style="width: 50px; height: 50px;"></span>
+                  </div>
+                  <div class="col-9">
+                    <p class="card-count font-weight-bolder"><?= $dataStatusProject['done'] ?></p>
+                    <p class="font-weight-bold">Done</p>
+                  </div>
+                </div>
+              </div>
+              <div class="pb-1">
+                <span class="badge badge-light">Monthly</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card text-center badge-danger h-100">
+              <div class="card-body d-flex align-items-center">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <span class="statusIcon" data-feather="x-circle" style="width: 50px; height: 50px;"></span>
+                  </div>
+                  <div class="col-9">
+                    <p class="card-count font-weight-bolder"><?= $dataStatusProject['cancel'] ?></p>
+                    <p class="font-weight-bold">Cancel</p>
+                  </div>
+                </div>
+              </div>
+              <div class="pb-1">
+                <span class="badge badge-light">Monthly</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <div class="card text-center badge-primary h-100">
+              <div class="card-body d-flex align-items-center">
+                <div class="row align-items-center w-100">
+                  <div class="col-3">
+                    <span class="statusIcon" data-feather="align-justify" style="width: 50px; height: 50px;"></span>
+                  </div>
+                  <div class="col-9">
+                    <p class="card-count font-weight-bolder"><?= $dataStatusProject['total'] ?></p>
+                    <p class="font-weight-bold">Total</p>
+                  </div>
+                </div>
+              </div>
+              <div class="pb-1">
+                <span class="badge badge-light">Monthly</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Pesanan Status</legend>
+        <div class="row">
+          <div class="col-md-3 mb-3">
+            <div class="card text-center badge-info h-100">
+              <div class="card-body d-flex align-items-center">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <span class="statusIcon" data-feather="alert-circle" style="width: 50px; height: 50px;"></span>
+                  </div>
+                  <div class="col-9">
+                    <p class="card-count font-weight-bolder"><?= $dataPesananProject['confirm'] ?></p>
+                    <p class="font-weight-bold">Need<br>Confirm</p>
+                  </div>
+                </div>
+              </div>
+              <div class="pb-1">
+                <span class="badge badge-light">All</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card text-center badge-warning h-100">
+              <div class="card-body d-flex align-items-center">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <span class="statusIcon" data-feather="play-circle" style="width: 50px; height: 50px;"></span>
+                  </div>
+                  <div class="col-9">
+                    <p class="card-count font-weight-bolder"><?= $dataPesananProject['progress'] ?></p>
+                    <p class="font-weight-bold">Progress</p>
+                  </div>
+                </div>
+              </div>
+              <div class="pb-1">
+                <span class="badge badge-light">Duration</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card text-center badge-success h-100">
+              <div class="card-body d-flex align-items-center">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <span class="statusIcon" data-feather="check-circle" style="width: 50px; height: 50px;"></span>
+                  </div>
+                  <div class="col-9">
+                    <p class="card-count font-weight-bolder"><?= $dataPesananProject['done'] ?></p>
+                    <p class="font-weight-bold">Done</p>
+                  </div>
+                </div>
+              </div>
+              <div class="pb-1">
+                <span class="badge badge-light">Monthly</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card text-center badge-danger h-100">
+              <div class="card-body d-flex align-items-center">
+                <div class="row align-items-center">
+                  <div class="col-3">
+                    <span class="statusIcon" data-feather="x-circle" style="width: 50px; height: 50px;"></span>
+                  </div>
+                  <div class="col-9">
+                    <p class="card-count font-weight-bolder"><?= $dataPesananProject['cancel'] ?></p>
+                    <p class="font-weight-bold">Cancel</p>
+                  </div>
+                </div>
+              </div>
+              <div class="pb-1">
+                <span class="badge badge-light">Monthly</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <div class="card text-center badge-primary h-100">
+              <div class="card-body d-flex align-items-center">
+                <div class="row align-items-center w-100">
+                  <div class="col-3">
+                    <span class="statusIcon" data-feather="align-justify" style="width: 50px; height: 50px;"></span>
+                  </div>
+                  <div class="col-9">
+                    <p class="card-count font-weight-bolder"><?= $dataPesananProject['total'] ?></p>
+                    <p class="font-weight-bold">Total</p>
+                  </div>
+                </div>
+              </div>
+              <div class="pb-1">
+                <span class="badge badge-light">Monthly</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
 
       <h2>Section title</h2>
       <div class="table-responsive">

@@ -168,11 +168,11 @@ $(document).ready(function () {
             },
             success: function (response) {
               alert(response);
-              // if (response == true) {
-              //   window.location.href = "/?page=pesanan";
-              // } else {
-              //   window.location.href = "/?page=edit-pesanan&error=" + response;
-              // }
+              if (response == true) {
+                window.location.href = "/?page=pesanan";
+              } else {
+                window.location.href = "/?page=edit-pesanan&error=" + response;
+              }
             }
           });
         } else {}

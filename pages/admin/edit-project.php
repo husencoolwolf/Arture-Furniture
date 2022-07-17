@@ -71,11 +71,11 @@ $grandTotal = 0;
       <?php
       if (isset($_GET['error'])) {
         if ($_GET['error'] == "-1") {
-          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Pesanan]</div>';
+          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Proyek]</div>';
         } else if ($_GET['error'] == "-2") {
-          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Produk - produk]</div>';
+          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query detail_proyek]</div>';
         } else if ($_GET['error'] == "-3") {
-          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Status Awal]</div>';
+          echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query database : [Query Item-item proyek]</div>';
         }
       }
       ?>

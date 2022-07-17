@@ -26,10 +26,6 @@ $getPageStatus = "";
   <link rel="stylesheet" href="/dist/css/bootstrap.css">
   <link rel="stylesheet" href="/dist/font-awesome-4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/dist/DataTables/datatables.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/dist/css/font-setting.css">
   <?php echo ($ctr->cssImporter($getPage, $getHakAkses)); ?>
 
   <script src="/dist/js/jquery-3.5.1.js"></script>

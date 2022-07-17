@@ -160,6 +160,7 @@ if ($aksi == "daftarKlien") {
 } elseif ($aksi == "buat-pembayaran") {
   $data = array(
     "id" => $controller->pembuatIDUnik($db->getKoneksi(), "pembayaran", "id_pembayaran"),
+    "id_klien" => $_SESSION['id_akun'],
     "pesanan" => $_GET['pesanan'],
     "bank" => $_POST['selectBank'],
     "norek" => $_POST['inputNorek'],
@@ -424,6 +425,9 @@ if ($request == "updateKategori") {
   } else {
     echo ("0");
   }
+} elseif ($request == "get-pesanan-akun-list-pembayaran-admin") {
+  $respon = $db->getDataPesananListAddPembayaranAdmin();
+  echo (json_encode($respon));
 }
 
 if ($aksi = "" && $request == "") {

@@ -111,13 +111,14 @@ $dataProject = $db->getDataProjectAdmin();
                       <th>Keterangan</th>
                       <th>Harga Item</th>
                       <th>Status</th>
+                      <th>Ket</th>
                     </thead>
                     <tbody>
                       <tr></tr>
                     </tbody>
                     <tfoot class="thead-dark">
-                      <th colspan="4">Total</th>
-                      <th><span data-setter="grandTotal"></span></th>
+                      <th colspan="3">Total</th>
+                      <th colspan="3"><span data-setter="grandTotal"></span></th>
                     </tfoot>
                   </table>
                 </td>
