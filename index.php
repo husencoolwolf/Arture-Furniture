@@ -31,6 +31,7 @@ $getPageStatus = "";
   <script src="/dist/js/jquery-3.5.1.js"></script>
   <script src="/dist/js/popper.min.js"></script>
   <script src="/dist/js/bootstrap.js"></script>
+  <script src="/dist/js/tambahan.js"></script>
 
 </head>
 

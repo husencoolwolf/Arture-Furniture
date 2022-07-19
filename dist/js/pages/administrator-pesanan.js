@@ -26,6 +26,23 @@ $(document).ready(function () {
     updateTabel();
   });
 
+  $('#formBatalPesanan').on("submit", function (event) {
+    event.preventDefault();
+    let form = $(this);
+    $.ajax({
+      url: form.attr('action') + "&id=" + form.data('id'),
+      type: "POST",
+      data: $('#formBatalPesanan input').serialize(),
+      success: function (response) {
+        console.log(response);
+      }
+    });
+  });
+
+  $('#konfirmasiUpdate').click(function () {
+    konfirmasiUpdate();
+  });
+
   function updateTabel() {
     filterDari = $("#tanggalDari").val();
     filterSampai = $("#tanggalSampai").val();
@@ -150,7 +167,6 @@ $(document).ready(function () {
       </tr>\
       ";
     });
-    console.log(grandTotal);
     $("[data-setter]").each(function () {
       switch ($(this).data('setter')) {
         case 'idPesanan':
@@ -183,13 +199,48 @@ $(document).ready(function () {
         case 'grandTotal':
           $(this).html(formatRupiah(grandTotal, "Rp."));
           break;
+        case 'statusSesudah':
+          let field = $(this);
+          $.get("/dist/php/pesanan-status-order.php?status=" + detailPesanan['status'], function (data) {
+            data = JSON.parse(data);
+            field.html(data['selanjutnya']);
+            field.data("selanjutnya", data['selanjutnya']);
+            field.data("id", detailPesanan['id_pesanan']);
+            $('#formBatalPesanan').data("id", detailPesanan['id_pesanan']);
+          });
+          break;
+        case 'statusSebelum':
+          $(this).html(detailPesanan['status']);
+          break;
         default:
           break;
       }
     });
+    if (detailPesanan['status'] == "selesai" || detailPesanan['status'] == "batal") {
+      $('button#updateStatus').hide();
+    } else {
+      $('button#updateStatus').show();
+    }
     $("table#tabelHistoryStatus tbody").html(keluaran);
     $("table#tabelDetailProdukPesanan tbody").html(keluaran2);
     $("table#subDetailPembayaran tbody").html(dataPembayaran);
+  }
+
+  function konfirmasiUpdate() {
+    let field = $('span[data-setter="statusSesudah"');
+    let statusSelanjutnya = field.data("selanjutnya");
+    let idTarget = field.data("id");
+
+    $.ajax({
+      url: "/app/proses.php?aksi=update-status-pesanan&id=" + idTarget,
+      type: "POST",
+      data: {
+        selanjutnya: statusSelanjutnya
+      },
+      success: function (response) {
+        console.log(response);
+      }
+    });
   }
 
   function reloadFrontAPI(Tabel = false) {

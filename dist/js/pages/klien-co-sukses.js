@@ -105,7 +105,8 @@ $(document).ready(function () {
   }
 
   function kondisiMenungguVerifikasiBayar() {
-    $(".info-warning").html("<div class='alert alert-success' role='alert'>Silahkan cek cara pembayaran anda dengan klik tombol 'Cara Pembayaran'</div>");
+    $(".info-warning").html("<div class='alert alert-success' role='alert'>Silahkan cek cara pembayaran anda dengan klik tombol 'Cara Pembayaran'</div>\
+    <div class='alert alert-warning' role='alert'>Harap Melakukan pembayaran sebelum 24 jam!</div>");
     $(".actionBtn").eq(0).html("Cara Pembayaran");
     $(".actionBtn").eq(0).attr("data-target", "#pembayaran");
     $(".actionBtn").eq(1).html("Batalkan Pesanan");
@@ -122,6 +123,14 @@ $(document).ready(function () {
         id: GetURLParameter("pesanan")
       },
       success: function (response) {
+        response += "<div class='container'>\
+        <div class='text-justify mb-2' >Pembayaran dilakukan di awal atau Down Payment (DP) sebesar 50%, kemudian 25% saat progress sudah berjalan setengahnya dan 25% sisanya dibayarkan ketika pemasangan sudah selesai. Pembayaran dapat di transfer ke rekening sebagai berikut :</div>\
+        <ul>\
+        <li>Bank Mandiri : 125-00-1056-2759 A.N. Andi Shandy</li>\
+        <li>Bank BCA : 633-1207-265 A.N. Andi Shandy</li>\
+        <li>Bank BNI : 053-5749-268 A.N. Andi Shandy</li>\
+        </ul>\
+        </div>";
         $(".modal-content.pembayaran .modal-body").html(response);
       }
     });

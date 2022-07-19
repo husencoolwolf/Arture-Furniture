@@ -1,30 +1,30 @@
 $(document).ready(function () {
   updateKeranjang(); //inisiasi jumlah keranjang
-  $('.quantity-control').click(function(){
+  $('.quantity-control').click(function () {
     var quantity = Number($('#quantity').val());
-    if($(this).attr('id') == 'minus-quantity'){
+    if ($(this).attr('id') == 'minus-quantity') {
       // console.log($('#quantity').val());
-      if(quantity>1){
+      if (quantity > 1) {
         $('#quantity').val(quantity - 1);
       }
-      
-    }else{
-      if(quantity<10){
+
+    } else {
+      if (quantity < 10) {
         $('#quantity').val(quantity + 1);
       }
     }
   });
 
-  $('#quantity').change(function(){
+  $('#quantity').change(function () {
     var val = $(this).val();
-    if(val<1){
+    if (val < 1) {
       $(this).val(1);
-    }else if(val>10){
+    } else if (val > 10) {
       $(this).val(10);
     }
   });
-    
-  $('#keranjangBtn').click(function(){
+
+  $('#keranjangBtn').click(function () {
     $.ajax({
       url: "/app/proses.php?aksi=tambah-keranjang",
       type: "post",
@@ -40,13 +40,20 @@ $(document).ready(function () {
     });
   });
 
-  function updateKeranjang(){
-    $.ajax({  
+  $('#orderBtn').click(function () {
+    $.redirect("/?page=checkout", {
+      'id': $(this).data("produk"),
+      'jml': $('#quantity').val()
+    });
+  });
+
+  function updateKeranjang() {
+    $.ajax({
       type: "GET",
-      url: "/app/proses.php?request=update-keranjang",             
-      dataType: "html",                
-      success: function(response){                    
-          $("#jmlKeranjang").html(response); 
+      url: "/app/proses.php?request=update-keranjang",
+      dataType: "html",
+      success: function (response) {
+        $("#jmlKeranjang").html(response);
       }
     });
   }

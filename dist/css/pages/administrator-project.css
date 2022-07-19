@@ -9,3 +9,5 @@
 .fc-content:hover{
   cursor: pointer;
 }
+
+.modal { overflow: auto !important; }

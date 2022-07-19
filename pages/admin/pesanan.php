@@ -154,11 +154,73 @@ $dataPesanan = $db->getDataPesananAdmin();
         </div>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-info" id="updateStatus" data-toggle="modal" data-target="#modalUpdateStatus">Update Status Pesanan</button>
+        <button type="button" class="btn btn-danger" id="updateStatus" data-toggle="modal" data-target="#modalBatal">Batalkan Pesanan</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Modal Konfirmasi Update Status -->
+<div class="modal fade" id="modalUpdateStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Status Pesanan Akan diupdate!!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="w-100 font-weight-bold">
+          <tr>
+            <td style="border: 1px solid black; padding: 2px">
+              <span data-setter="statusSebelum"></span>
+            </td>
+            <td class="text-center">
+              ========>>
+            </td>
+            <td style="border: 1px solid black; padding: 2px">
+              <span data-setter="statusSesudah"></span>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="konfirmasiUpdate">Simpan Update</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Alasan Batal -->
+<div class="modal fade" id="modalBatal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form id="formBatalPesanan" action="/app/proses.php?aksi=update-status-pesanan" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Alasan Batal</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <input class="form-control" type="text" name="inputAlasan" id="inputAlasan">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input class="btn btn-primary" type="submit" value="Simpan Update">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">Arture Furniture</a>
@@ -264,7 +326,7 @@ $dataPesanan = $db->getDataPesananAdmin();
                   <td><?= $x['metode'] ?></td>
                   <td><?= $x['item'] ?></td>
                   <td><?= $x['nama'] ?></td>
-                  <td><?= $x['status'] ?></td>
+                  <td><?= $db->pesananStatusOrder($x['status'])['status'] ?></td>
                   <td class="text-center">
                     <a href="/?page=edit-pesanan&pesanan=<?= $x['id_pesanan'] ?>" class="btn btn-success btn-sm">
                       <span data-feather="edit"></span>

@@ -259,6 +259,9 @@ if ($aksi == "daftarKlien") {
   } else {
     header("Location: /?page=edit-pembayaran&pembayaran=" . $_GET['id'] . "&error=" . $respon);
   }
+} elseif ($aksi == "update-status-pesanan") {
+  $respon = $db->updateStatusPesanan($_POST, $_GET['id']);
+  echo (json_encode($_POST));
 }
 // start of request
 

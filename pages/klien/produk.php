@@ -4,6 +4,7 @@ $detailProduk = $db->getDetailProduk($_GET['produk']);
 if ($detailProduk <> false) {
   while ($x = mysqli_fetch_array($detailProduk)) { ?>
     <script src="/dist/js/url-param-getter.js"></script>
+    <script src="/dist/js/jquery.redirect.js"></script>
     <!-- toast -->
     <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
       <div class="toast-header">
@@ -76,7 +77,7 @@ if ($detailProduk <> false) {
                 <hr>
 
                 <div class="mb-4"></div>
-                <div class="btn btn-secondary w-100" id="orderBtn">
+                <div data-produk="<?= $_GET['produk'] ?>" class="btn btn-secondary w-100" id="orderBtn">
                   Pesan Sekarang
                 </div>
                 <div class="mb-2"></div>
