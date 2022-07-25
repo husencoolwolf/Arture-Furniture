@@ -17,11 +17,51 @@ if (isset($_GET['cari'])) {
         <h1 id="quote">BUILD YOUR DREAM HOME TODAY</h1>
       </strong>
       <p class="lead">
-        <a class="btn bg-emas-arture btn-lg" href="#" role="button"><strong>Get Free Estimate</strong></a>
+        <a class="btn bg-emas-arture btn-lg" href="https://api.whatsapp.com/send?phone=6287888525264" target="_blank" role="button"><strong>Get Free Estimate</strong></a>
       </p>
     </div>
 
   </div>
+  <section id="profil">
+    <div class="row w-100 mx-0" style="height: 100vh;">
+
+
+      <div class="col-md-7 shadow-lg bg-white rounded">
+        <div class="container mx-2">
+          <h2 class="title"><strong>Tentang Perusahaan</strong></h2>
+          <h3 class="subtitle"><strong>Arture (Art</strong> in <strong>Living)</strong></h3>
+          <h5>CV. SHANDY MEGAH PERSADA</h5>
+          <br>
+          <p class="text-justify">Kami memulai usaha ini sejak tahun 2015, kami bergerak
+            di bidang interior yang mencakup pekerjaan furniture. Awal
+            mula tujuan usaha ini terbentuk atas dasar ingin mendapat
+            kepuasan secara visual, kenyamanan dalam penggunaan,
+            dan kualitas yang terjaga. Seiring berjalannya waktu,
+            cakupan kami bertambah luas ke area perkantoran,
+            restoran, dan cafe. Maka dari itu kami bertekad untuk
+            memprioritaskan kualiatas yang terbaik untuk semua
+            pekerjaan.
+          </p>
+          <p class="text-justify ml-5">
+            Arture seperti tim yang tumbuh besar serta dilandasi oleh
+            orang-orang yang memiliki jiwa dan budaya baik, adanya
+            nilai-nilai artistik seperti keindahan, kesenian, keunikan,
+            kreativitas, inovasi dalam bekerja serta selalu menjunjung
+            semangat bekerja keras, kedisiplinan dan kejujuran.
+            Sehingga layaknya sebuah pohon yang besar dan rindang
+            maka tim ini dapat membawa kenyamanan, keteduhan,
+            keindahan, serta menghasilkan produktifitas yang baik.
+          </p>
+        </div>
+
+      </div>
+      <div class="col-md-5 px-0">
+        <div class="background h-100 w-100 half-bg konsepruangan1">
+          <!-- <br><br><br><br> -->
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section id="jasa" class="mt-5 mb-5 bg-bg-primary">
     <div class="container">
@@ -59,9 +99,8 @@ if (isset($_GET['cari'])) {
             </div>
           </div>
         </div>
-        <div class="col-md p-0 mt-2">
+        <!-- <div class="col-md p-0 mt-2">
           <div class="card bg-dark text-white border-0">
-            <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
             <div class="jasa-card" id="iot">
               <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
                 <h2 class="text-dark">IOT</h2>
@@ -69,7 +108,7 @@ if (isset($_GET['cari'])) {
 
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
 
@@ -100,6 +139,58 @@ if (isset($_GET['cari'])) {
             <p>When you’re choosing products to buy, you have to consider the tradeoffs between price and quality. But in us, we can give you both.</p>
           </div>
         </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="row bg-kuning text-center mt-4">
+      <div class="garis-kuning bg-dark"></div>
+
+      <div class="col my-3">
+        <h1>TEMUKAN KAMI DI</h1>
+      </div>
+      <div class="garis-kuning bg-dark"></div>
+
+    </div>
+    <div class="container p-5">
+      <div class="row justify-content-between">
+        <div class="col-6">
+          <H5>ALAMAT KANTOR</H5>
+          <p>Jl. Vini Vidi Vici No. 40 RW.08, Klp Dua
+            Wetan, Kec. Ciracas, Jakarta Timur,
+            13730</p>
+        </div>
+        <div class="col-6">
+          <H5>INSTAGRAM</H5>
+          <p>Arture.furniture</p>
+        </div>
+      </div>
+      <!-- baris ke 2 -->
+      <div class="row justify-content-between">
+        <div class="col-6">
+          <H5>ALAMAT WORKSHOP</H5>
+          <p>Jl. Vini Vidi Vici No. 40 RW.08, Klp Dua
+            Wetan, Kec. Ciracas, Jakarta Timur,
+            13730</p>
+        </div>
+        <div class="col-6">
+          <H5>TOKOPEDIA</H5>
+          <p>Arture Furniture</p>
+        </div>
+      </div>
+      <!-- baris ke 3 -->
+      <div class="row justify-content-between">
+        <div class="col-6">
+          <H5>NOMOR TELEPON</H5>
+          <p>+62 878-8852-5264</p>
+        </div>
+        <div class="col-6">
+          <H5>ALAMAT EMAIL</H5>
+          <a class="link-statis" href="mailto:arture.furniture@gmail.com">
+            <p>arture.furniture@gmail.com</p>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -134,7 +225,7 @@ if (isset($_GET['cari'])) {
   </div>
 </div>
 
-<button type="button" id="waContact" class="btn btn-white border rounded-circle p-0">
+<button type="button" id="waContact" class="btn btn-white bg-white border rounded-circle p-0">
   <span class="fa fa-whatsapp fa-3x text-success text-center" role="button">
   </span>
 </button>

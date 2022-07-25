@@ -17,7 +17,7 @@ if (isset($_GET['cari'])) {
         <h1 id="quote">BUILD YOUR DREAM HOME TODAY</h1>
       </strong>
       <p class="lead">
-        <a class="btn bg-emas-arture btn-lg" href="#" role="button"><strong>Get Free Estimate</strong></a>
+        <a class="btn bg-emas-arture btn-lg" href="https://api.whatsapp.com/send?phone=6287888525264" target="_blank" role="button"><strong>Get Free Estimate</strong></a>
       </p>
     </div>
 
@@ -112,3 +112,7 @@ if (isset($_GET['cari'])) {
   </section>
 
 </div>
+<button type="button" id="waContact" class="btn btn-white bg-white border rounded-circle p-0">
+  <span class="fa fa-whatsapp fa-3x text-success text-center" role="button">
+  </span>
+</button>

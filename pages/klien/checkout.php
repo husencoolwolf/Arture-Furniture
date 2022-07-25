@@ -46,12 +46,7 @@ if (isset($_POST['id'])) {
               Transfer Bank
             </label>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="metode" id="metode2" value="lainnya">
-            <label class="form-check-label" for="metode2">
-              Lainnya
-            </label>
-          </div>
+
         </div>
       </div>
       <div class="col-4 m-3">

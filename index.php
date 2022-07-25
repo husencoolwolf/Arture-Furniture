@@ -23,6 +23,7 @@ $getPageStatus = "";
   <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Arture Furniture</title>
+  <link rel="icon" type="image/png" href="/assets/material/Logo-transparent.png">
   <link rel="stylesheet" href="/dist/css/bootstrap.css">
   <link rel="stylesheet" href="/dist/font-awesome-4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/dist/DataTables/datatables.min.css">
@@ -83,6 +84,8 @@ $getPageStatus = "";
       }
     } elseif ($getPage == "co-gagal") {
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/co-gagal.php';
+    } elseif ($getPage == "pesanan") {
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/pesanan.php';
     } else {
       header("Location: /");
     }
@@ -178,11 +181,60 @@ $getPageStatus = "";
       }
     }
     //End of Project Monitoring
-    else {
+    //Start of Profil
+    elseif ($getPage == "profil") {
+      $getPageStatus = "profil";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/admin/profil.php';
+    } else {
       $getPageStatus = "dashboard";
       header("Location: /");
     }
     //--------------end of admin pages ---------------------
+  } elseif ($getHakAkses == "6") { // CEO
+    //--------------CEO pages ---------------------
+    if (empty($getPage) || $getPage == "dashboard") {
+      $getPageStatus = "dashboard";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/ceo/dashboard.php';
+    }
+    //Start of produks
+    elseif ($getPage == "produk") {
+      $getPageStatus = "produk";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/ceo/produk.php';
+    }
+    //End of Produks
+    //Start of pesanan
+    elseif ($getPage == "pesanan") {
+      $getPageStatus = "pesanan";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/ceo/pesanan.php';
+    }
+    //End of Pesanan
+    //Start of Akun
+    elseif ($getPage == "akun") {
+      $getPageStatus = "akun";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/ceo/akun.php';
+    }
+    //End of Akun
+    //Start of Pembayaran
+    elseif ($getPage == "pembayaran") {
+      $getPageStatus = "pembayaran";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/ceo/pembayaran.php';
+    }
+    //End of Pembayaran
+    //Start of Project Monitoring
+    elseif ($getPage == "project") {
+      $getPageStatus = "project";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/ceo/project.php';
+    }
+    //End of Project Monitoring
+    //Start of Profil
+    elseif ($getPage == "profil") {
+      $getPageStatus = "profil";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/ceo/profil.php';
+    } else {
+      $getPageStatus = "dashboard";
+      header("Location: /");
+    }
+    //--------------end of CEO pages ---------------------
   }
   ?>
 

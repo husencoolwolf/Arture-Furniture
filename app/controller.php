@@ -1,18 +1,26 @@
 <?php
 class controller
 {
-    var $aktorcss = array("guest", "klien", "administrator", "marketing", "produksi", "finance");
+    var $aktorcss = array("guest", "klien", "administrator", "marketing", "produksi", "akuntansi", "ceo");
     var $halamancss = array(
         array("home", "login", "daftar", "produk", "catalog-furniture"),
-        array("home", "produk", "keranjang", "checkout", "co-sukses", "co-gagal"),
-        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project")
+        array("home", "produk", "keranjang", "checkout", "co-sukses", "co-gagal", "profil", "pesanan"),
+        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil")
     );
 
-    var $aktorjs = array("guest", "klien", "administrator");
+    var $aktorjs = array("guest", "klien", "administrator", "marketing", "produksi", "akuntansi", "ceo");
     var $halamanjs = array(
         array("daftar", "produk"),
-        array("produk", "keranjang", "co-sukses"),
-        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project")
+        array("produk", "keranjang", "co-sukses", "profil", "pesanan"),
+        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil")
     );
 
     function __construct()

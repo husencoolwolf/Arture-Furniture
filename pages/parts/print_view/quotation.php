@@ -206,9 +206,26 @@ if (!isset($_SESSION['id_hak_akses']) || $_SESSION['id_hak_akses'] == '1' || !is
           </tfoot>
         </table>
       </div>
-
-
-
+      <div style="page-break-before: always;">
+        <p>Syarat dan ketentuan :</p>
+        <ul>
+          <li>Penawaran ini berlaku 2 minggu sejak surat ini terbit.</li>
+          <li>Jika ada penambahan atau pengurangan, harga dapat menyesuaikan.</li>
+          <li>Harga diatas tidak mengikat dan dapat dinegosiasikan.</li>
+          <li>Survey dan pengukuran pertama tidak dipungut biaya, jika ada pengukuran kedua maka akan dikenakan biaya transportasi sesuai dengan wilayah yang dituju.</li>
+          <li>Garansi selama 3 bulan setelah produk terpasang semua.</li>
+          <li class="text-justify">Pembayaran dilakukan di awal atau Down Payment (DP) sebesar 50%, kemudian 25% saat progress sudah berjalan setengahnya dan 25% sisanya dibayarkan ketika pemasangan sudah selesai. Pembayaran dapat di transfer ke rekening sebagai berikut :</li>
+          <ul>
+            <li style="tab-size: 4;">Bank Mandiri : 125-00-1056-2759 A.N. Andi Shandy</li>
+            <li style="tab-size: 4;">Bank BCA : 633-1207-265 A.N. Andi Shandy</li>
+            <li style="tab-size: 4;">Bank BNI : 053-5749-268 A.N. Andi Shandy</li>
+          </ul>
+        </ul>
+        Demikian penawaran harga ini kami sampaikan, besar harapan kami untuk bisa diterima dan bekerja sama. Atas perhatian nya kami ucapkan terimakasih.
+        <div>
+          <img style="float:right" src="https://i.imgur.com/iEKCd3e.jpg">
+        </div>
+      </div>
     </main>
   </body>
 

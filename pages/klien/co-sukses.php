@@ -154,7 +154,7 @@ while ($x = mysqli_fetch_array($data)) {
             <input type="text" class="form-control" name="inputNasabah" id="inputNasabah" placeholder="Example John Kenny" required>
           </div>
           <div class="d-flex alert alert-info justify-content-between mb-3">
-            <p class="font-weight-bolder">DP (50%) Grand Total : </p>
+            <p class="font-weight-bolder">Total Tagihan : </p>
             <p class="font-weight-bolder"><?= $db->intToRupiah(($grandtotal + $ongkir) / 2) ?></p>
           </div>
           <div class="alert alert-info mb-3">

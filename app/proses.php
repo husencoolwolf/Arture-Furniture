@@ -206,6 +206,8 @@ if ($aksi == "daftarKlien") {
   $respon = $db->tambahAkunAdmin($data);
   if ($respon) {
     header("Location: /?page=akun");
+  } elseif ($respon == "1062") {
+    header("Location: /?page=tambah-akun&error=$respon");
   } else {
     header("Location: /?page=tambah-akun&error=-1");
   }
@@ -245,12 +247,38 @@ if ($aksi == "daftarKlien") {
   } else {
     echo (0);
   }
+} elseif ($aksi == "hapus-project") {
+  if (isset($_GET['id'])) {
+    $idPesanan = $_GET['id'];
+    $respon = $db->deletePesananAdmin($idPesanan);
+    if ($respon) {
+      header("Location: /?page=pesanan");
+    } else {
+      header("Location: /?page=pesanan&error=-1");
+    }
+  } else {
+    echo (0);
+  }
 } elseif ($aksi == "edit-akun-admin") {
   $respon = $db->editAkunAdmin($_GET['id'], $_POST);
   if ($respon) {
     header("Location: /?page=akun");
   } else {
     header("Location: /?page=edit-akun&akun=" . $_GET['id'] . "&error=" . $respon);
+  }
+} elseif ($aksi == "edit-profil-admin") {
+  $respon = $db->editProfilAdmin($_SESSION['id_akun'], $_POST);
+  if ($respon) {
+    header("Location: /?page=profil&sukses=1");
+  } else {
+    header("Location: /?page=edit-akun&error=" . $respon);
+  }
+} elseif ($aksi == "edit-profil-klien") {
+  $respon = $db->editProfilKlien($_SESSION['id_akun'], $_POST);
+  if ($respon) {
+    header("Location: /?page=profil&sukses=1");
+  } else {
+    header("Location: /?page=edit-akun&error=" . $respon);
   }
 } elseif ($aksi == "edit-pembayaran-admin") {
   $respon = $db->editPembayaranAdmin($_GET['id'], $_POST);
@@ -262,6 +290,9 @@ if ($aksi == "daftarKlien") {
 } elseif ($aksi == "update-status-pesanan") {
   $respon = $db->updateStatusPesanan($_POST, $_GET['id']);
   echo (json_encode($_POST));
+} elseif ($aksi == "update-status-project") {
+  $respon = $db->updateStatusProject($_POST, $_GET['id'], $_GET['type']);
+  echo ($respon);
 }
 // start of request
 
@@ -430,6 +461,9 @@ if ($request == "updateKategori") {
   }
 } elseif ($request == "get-pesanan-akun-list-pembayaran-admin") {
   $respon = $db->getDataPesananListAddPembayaranAdmin();
+  echo (json_encode($respon));
+} elseif ($request == "req-data-pesanan-klien") {
+  $respon = $db->getDataPesananKlien($_SESSION['id_akun']);
   echo (json_encode($respon));
 }
 

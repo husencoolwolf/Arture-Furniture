@@ -1,0 +1,13 @@
+.produk-thumbnail {
+  width: 150px;
+  height: 150px;
+
+}
+
+
+
+.fc-content:hover{
+  cursor: pointer;
+}
+
+.modal { overflow: auto !important; }

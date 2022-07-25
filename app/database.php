@@ -77,29 +77,33 @@ class database
 		return $string;
 	}
 
-	function projectStatusOrder($statusstring)
+	function projectStatusOrder($statusstring, $idProject = false)
 	{
 		switch ($statusstring) {
 			case 'menunggu hasil survey':
-				return array("status" => "1." . $statusstring, "warna" => "warning");
+				return array("status" => "1." . $statusstring, "warna" => "warning", "origin" => $statusstring);
 				break;
 			case 'menunggu konfirmasi dp':
-				return array("status" => "2." . $statusstring, "warna" => "primary");
+				return array("status" => "2." . $statusstring, "warna" => "primary", "origin" => $statusstring);
 				break;
 			case 'proses produksi':
-				return array("status" => "3." . $statusstring, "warna" => "warning");
+				$progres = 0;
+				if ($idProject != false) {
+					$progres = $this->getPersentaseProgresProduksiProject($idProject);
+				}
+				return array("status" => "3." . $statusstring, "warna" => "warning", "origin" => $statusstring, "progres" => $progres);
 				break;
 			case 'pengiriman':
-				return array("status" => "4." . $statusstring, "warna" => "warning");
+				return array("status" => "4." . $statusstring, "warna" => "warning", "origin" => $statusstring);
 				break;
 			case 'menunggu konfirmasi pelunasan':
-				return array("status" => "5." . $statusstring, "warna" => "primary");
+				return array("status" => "5." . $statusstring, "warna" => "primary", "origin" => $statusstring);
 				break;
 			case 'selesai':
-				return array("status" => "6." . $statusstring, "warna" => "success");
+				return array("status" => "6." . $statusstring, "warna" => "success", "origin" => $statusstring);
 				break;
 			case 'batal':
-				return array("status" => "7." . $statusstring, "warna" => "danger");
+				return array("status" => "7." . $statusstring, "warna" => "danger", "origin" => $statusstring);
 				break;
 		}
 	}
@@ -108,7 +112,7 @@ class database
 	{
 		switch ($statusstring) {
 			case 'menunggu info bank':
-				return array("status" => "1." . $statusstring, "warna" => "warning");
+				return array("status" => "1." . $statusstring, "warna" => "light");
 				break;
 			case 'menunggu verifikasi bayar':
 				return array("status" => "2." . $statusstring, "warna" => "primary");
@@ -302,6 +306,27 @@ class database
 		$query = "SELECT alamat from akun where id_produk='$idKlien'";
 	}
 
+	function getPersentaseProgresProduksiProject($idProject)
+	{
+		$idItem = $this->getIdItemWithIdProject($idProject);
+		$jumlahItem = count($idItem);
+		$jumlahProgres = 0;
+		foreach ($idItem as $key => $value) {
+			if ($data = mysqli_query($this->koneksi, "SELECT progres from status_proyek WHERE id_item_proyek='$value' AND tanggal=(select max(s2.tanggal) from status_proyek s2 where s2.id_item_proyek='$value')")) {
+				if (mysqli_num_rows($data) > 0) {
+					while ($x = mysqli_fetch_assoc($data)) {
+						$jumlahProgres += (int)$x['progres'];
+					}
+				} else {
+					return "e";
+				}
+			} else {
+				return "e";
+			}
+		}
+		return ($jumlahProgres / $jumlahItem);
+	}
+
 	function editProduk($data, $gambar, $idProduk)
 	{
 		$deskripsi = $data['inputDeskripsi'];
@@ -403,6 +428,18 @@ class database
 
 	function checkPassword($pass, $idAkun)
 	{
+		$pass = md5($pass);
+		$cekPass = mysqli_query($this->koneksi, "SELECT password FROM akun WHERE password='$pass' && id_akun='$idAkun'");
+		if (mysqli_num_rows($cekPass) > 0) {
+			return "true";
+		} else {
+			return "false";
+		}
+	}
+
+	function checkPasswordProfil($pass)
+	{
+		$idAkun = $_SESSION['id_akun'];
 		$pass = md5($pass);
 		$cekPass = mysqli_query($this->koneksi, "SELECT password FROM akun WHERE password='$pass' && id_akun='$idAkun'");
 		if (mysqli_num_rows($cekPass) > 0) {
@@ -524,6 +561,7 @@ class database
         INNER JOIN detail_proyek d USING(id_proyek)
         INNER JOIN item_proyek i on i.id_proyek=p.id_proyek
         INNER join status_proyek s on i.id_item_proyek=s.id_item_proyek
+				where s.tanggal=(SELECT max(s2.tanggal) from status_proyek s2 where s2.id_item_proyek=i.id_item_proyek)
         group by id_proyek;";
 		if ($dataProyek = mysqli_query($this->koneksi, $query)) {
 			if (mysqli_num_rows($dataProyek) > 0) {
@@ -794,7 +832,7 @@ class database
         INNER JOIN detail_proyek d USING(id_proyek)
         INNER JOIN item_proyek i on i.id_proyek=p.id_proyek
         INNER join status_proyek s on i.id_item_proyek=s.id_item_proyek
-        WHERE p.id_proyek='$idProject'
+        WHERE p.id_proyek='$idProject' and s.tanggal=(SELECT max(s2.tanggal) from status_proyek s2 where s2.id_item_proyek=i.id_item_proyek)
         group by id_proyek;";
 		if ($data = mysqli_query($this->koneksi, $query1)) {
 			if (mysqli_num_rows($data) > 0) {
@@ -802,11 +840,15 @@ class database
 				$data['dibuat'] = date("Y-m-d", strtotime($data['dibuat']));
 				$data['dimulai'] = date("Y-m-d", strtotime($data['dimulai']));
 				$data['target_selesai'] = date("Y-m-d", strtotime($data['target_selesai']));
+				$data['status'] = $this->projectStatusOrder($data['status'], $idProject);
 				$dataSets["projectData"] = $data;
-				$query2 = "SELECT i.id_item_proyek, i.nama_item_proyek, i.jumlah, i.keterangan, i.harga_item, s.status, s.tanggal, s.keterangan as keterangan_s FROM item_proyek i inner join status_proyek s on i.id_item_proyek=s.id_item_proyek WHERE i.id_proyek='$idProject' AND s.tanggal=(SELECT max(s2.tanggal) from status_proyek s2 where s2.id_item_proyek=i.id_item_proyek);";
+				$query2 = "SELECT i.id_item_proyek, i.nama_item_proyek, i.jumlah, i.keterangan, i.harga_item, s.status, s.tanggal, s.keterangan as keterangan_s, s.progres FROM item_proyek i inner join status_proyek s on i.id_item_proyek=s.id_item_proyek WHERE i.id_proyek='$idProject' AND s.tanggal=(SELECT max(s2.tanggal) from status_proyek s2 where s2.id_item_proyek=i.id_item_proyek);";
 				if ($data = mysqli_query($this->koneksi, $query2)) {
 					if (mysqli_num_rows($data) > 0) {
 						while ($x = mysqli_fetch_assoc($data)) {
+							if ($x['status'] == "proses produksi") {
+								$x['status'] = $x['status'] . ": " . $x['progres'] . "%";
+							}
 							$x['tanggal'] = date("Y-m-d", strtotime($x['tanggal']));
 							array_push($temp, $x);
 						}
@@ -871,7 +913,9 @@ class database
 			if (mysqli_num_rows($dataPesanan) > 0) {
 				$datareturn = array();
 				while ($x = mysqli_fetch_assoc($dataPesanan)) {
+					$x['status'] = $this->pesananStatusOrder($x['status']);
 					$x['tanggal_dibuat'] = date("Y-m-d", strtotime($x['tanggal_dibuat']));
+
 					$datareturn[] = $x;
 				}
 				// 
@@ -936,20 +980,21 @@ class database
 
 		if (isset($dari) && $dari != '') {
 			$dari = date('Y-m-d', strtotime($dari));
-			$query .= " WHERE p.dimulai>='$dari '";
+			$query .= " WHERE ((p.dimulai>='$dari' AND p.target_selesai>='$dari') OR (p.dimulai<='$dari' AND p.target_selesai>='$dari'))";
 		}
 		if (isset($sampai) && $sampai != '') {
 			$sampai = date('Y-m-d', strtotime($sampai));
-			$query .= " AND p.target_selesai<='$sampai 23:59:59 '";
+			$query .= " AND ((p.target_selesai<='$sampai 23:59:59' AND p.dimulai<='$sampai 23:59:59') OR (p.target_selesai>='$sampai 23:59:59' AND p.dimulai<='$sampai 23:59:59'))";
 		}
 
-		$query .= "group by id_proyek;";
+		$query .= " AND s.tanggal=(select max(s2.tanggal) from status_proyek s2 where s2.id_item_proyek=i.id_item_proyek)
+		group by id_proyek;";
 		$dataProject = mysqli_query($this->koneksi, $query);
 		if ($dataProject) {
 			if (mysqli_num_rows($dataProject) > 0) {
 				$datareturn = array();
 				while ($x = mysqli_fetch_assoc($dataProject)) {
-					$x['status'] = $this->projectStatusOrder($x['status']);
+					$x['status'] = $this->projectStatusOrder($x['status'], $x['id_proyek']);
 					$x['dimulai'] = date("Y-m-d", strtotime($x['dimulai']));
 					$x['target_selesai'] = date("Y-m-d", strtotime($x['target_selesai']));
 					$datareturn[] = $x;
@@ -1024,6 +1069,7 @@ class database
             '" . $data['privilege'] . "'
         )";
 		$inputAkun = mysqli_query($this->koneksi, $queryAkun);
+		$err = mysqli_errno($this->koneksi);
 		if ($inputAkun) {
 			$queryDetailAkun = "INSERT INTO detail_klien VALUES(
                 '" . $data['id'] . "',
@@ -1039,7 +1085,7 @@ class database
 				return false;
 			}
 		} else {
-			return false;
+			return $err;
 		}
 	}
 
@@ -1063,7 +1109,7 @@ class database
 				if ($dataBerhasilMasuk == count($dataItem)) {
 					$dataBerhasilMasuk = 0;
 					foreach ($ArrayIdItem as $key => $value) {
-						$query4 = "INSERT INTO status_proyek VALUES('', '" . $value . "', 'menunggu hasil survey', now(), '" . $_SESSION['id_hak_akses'] . " : " . $_SESSION['id_akun'] . "')";
+						$query4 = "INSERT INTO status_proyek VALUES('', '" . $value . "', 'menunggu hasil survey', now(), '" . $_SESSION['id_hak_akses'] . " : " . $_SESSION['id_akun'] . "', '0')";
 						if (mysqli_query($this->koneksi, $query4)) {
 							$dataBerhasilMasuk++;
 						}
@@ -1222,6 +1268,106 @@ class database
 		}
 	}
 
+	function editProfilAdmin($idAkun, $data)
+	{
+		$queryAkun = "UPDATE akun SET 
+            nama='" . $data['inputNama'] . "'
+            ";
+		//kalau password baru ada dan password lama sama dengan database
+		if ($data['inputPasswordBaru'] !== "") {
+			$cekPass = $this->checkPassword($data['inputPasswordLama'], $idAkun);
+			if ($cekPass == "true") {
+				$queryAkun .= ", password='" . md5($data['inputPasswordBaru']) . "'";
+			}
+		}
+		//tambah condistion pada query
+		$queryAkun .= " WHERE id_akun='$idAkun'";
+		$updateAkun = mysqli_query($this->koneksi, $queryAkun);
+		if ($updateAkun) {
+			$_SESSION['nama'] = $data['inputNama'];
+			return true;
+		} else {
+			return "-1";
+		}
+	}
+
+	function editProfilKlien($idAkun, $data)
+	{
+		$queryAkun = "UPDATE akun SET 
+            nama='" . $data['inputNama'] . "'
+            ";
+		//kalau password baru ada dan password lama sama dengan database
+		if ($data['inputPasswordBaru'] !== "") {
+			$cekPass = $this->checkPassword($data['inputPasswordLama'], $idAkun);
+			if ($cekPass == "true") {
+				$queryAkun .= ", password='" . md5($data['inputPasswordBaru']) . "'";
+			}
+		}
+		//tambah condistion pada query
+		$queryAkun .= " WHERE id_akun='$idAkun'";
+		$updateAkun = mysqli_query($this->koneksi, $queryAkun);
+		if ($updateAkun) {
+			$queryDetailAkun = "UPDATE detail_klien SET 
+            alamat='" . $data['inputAlamat'] . "', 
+            email='" . $data['inputEmail'] . "', 
+            nomor_hp='" . $data['inputNope'] . "' WHERE id_akun='$idAkun'";
+			$updateDetailAkun = mysqli_query($this->koneksi, $queryDetailAkun);
+			if ($updateDetailAkun) {
+				return true;
+			} else {
+				return "-2";
+			}
+		} else {
+			return "-1";
+		}
+	}
+
+	function getDataLaporanPesanan($bulan, $tahun)
+	{
+		$query = "SELECT * from(
+			SELECT p.id_pesanan, p.tanggal as tanggal_dibuat, p.metode, (SELECT COUNT(id_pesanan) FROM detail_pesanan d2 WHERE d2.id_pesanan=p.id_pesanan) as item, a.nama, s.status, s.tanggal,
+			(SELECT SUM(pr.harga_produk*d3.jumlah) FROM detail_pesanan d3 INNER JOIN produk pr ON d3.id_produk=pr.id_produk WHERE d3.id_pesanan=p.id_pesanan) as total_harga
+			from pesanan p
+			INNER JOIN akun a ON a.id_akun=p.id_akun
+			inner join status_pesanan s on p.id_pesanan=s.id_pesanan
+			WHERE s.tanggal=(SELECT max(s2.tanggal) from status_pesanan s2 where s2.id_pesanan=p.id_pesanan)
+		) t where t.status='selesai' AND Month(t.tanggal)='$bulan' AND YEAR(t.tanggal)='$tahun';";
+		if ($data = mysqli_query($this->koneksi, $query)) {
+			if (mysqli_num_rows($data)) {
+				return $data;
+			} else {
+				return "-1";
+			}
+		} else {
+			return false;
+		}
+	}
+
+	function getDataLaporanProject($bulan, $tahun)
+	{
+
+		$query = "SELECT * FROM (
+			SELECT p.id_proyek, p.nama_proyek, p.dimulai, p.target_selesai, d.nama_klien, d.lokasi, s.status, s.tanggal,
+			 (SELECT SUM(ih.harga_item) from item_proyek ih WHERE ih.id_proyek=p.id_proyek) as total_harga
+				from proyek p 
+							INNER JOIN detail_proyek d USING(id_proyek)
+							INNER JOIN item_proyek i on i.id_proyek=p.id_proyek
+							INNER join status_proyek s on i.id_item_proyek=s.id_item_proyek
+				where s.tanggal=(SELECT max(s2.tanggal) from status_proyek s2 where s2.id_item_proyek=i.id_item_proyek)
+							group by id_proyek) t
+							WHERE t.status='selesai' AND MONTH(t.tanggal)='$bulan' AND YEAR(t.tanggal)='$tahun';";
+		if ($data = mysqli_query($this->koneksi, $query)) {
+			if (mysqli_num_rows($data)) {
+				return $data;
+			} else {
+				return "-1";
+			}
+		} else {
+			return false;
+		}
+	}
+
+
 	function editPembayaranAdmin($idPembayaran, $data)
 	{
 		if (!isset($idPembayaran) or !isset($data)) {
@@ -1251,6 +1397,74 @@ class database
 		$query = "INSERT INTO status_pesanan VALUES('', '$idPesanan', '$statusSelanjutnya', now(), '$keterangan')";
 		if (mysqli_query($this->koneksi, $query)) {
 			return true;
+		} else {
+			return "-1";
+		}
+	}
+
+	function updateStatusProject($data, $idProject, $type)
+	{
+		$statusSelanjutnya = "";
+		$keterangan = "";
+		$progres = '';
+		$idItem = $this->getIdItemWithIdProject($idProject);
+		if (!$idItem) {
+			return "-1";
+		} else {
+			if ($type == "batal") { // kalo batal
+				$statusSelanjutnya = "batal";
+				$keterangan = $data['inputAlasan'] . " | " . $_SESSION['id_akun'];
+			} elseif ($type == "update") { //kalo tidak batal
+				$statusSelanjutnya = $data['selanjutnya'];
+				$keterangan = $_SESSION['id_akun'];
+			} elseif ($type == "progres") {
+				$statusSelanjutnya = "proses produksi";
+				$progres = $data['dataProgres'];
+				$keterangan = $data['dataKeterangan'];
+			} elseif ($type == "progres-selesai") {
+				$statusSelanjutnya = "pengiriman";
+				$keterangan = $_SESSION['id_akun'];
+				$progres = $data['dataProgres'];
+				$keterangan = $data['dataKeterangan'];
+			}
+			$dataBerhasilMasuk = 0;
+			foreach ($idItem as $k => $v) {
+				if (is_array($keterangan)) {
+					$query = "INSERT INTO status_proyek VALUES('', '$v', '$statusSelanjutnya', now(), '$keterangan[$v]', '" . $progres[$v] . " | " . $_SESSION['id_akun'] . "')";
+					if (mysqli_query($this->koneksi, $query)) {
+						$dataBerhasilMasuk++;
+					}
+				} else {
+					$query = "INSERT INTO status_proyek VALUES('', '$v', '$statusSelanjutnya', now(), '$keterangan', '')";
+					if (mysqli_query($this->koneksi, $query)) {
+						$dataBerhasilMasuk++;
+					}
+				}
+			}
+
+			if ($dataBerhasilMasuk == count($idItem)) {
+				return true;
+			} else {
+				return "-1";
+			}
+		}
+
+		$query = "INSERT INTO status_pesanan VALUES('', '$idProject', '$statusSelanjutnya', now(), '$keterangan')";
+		if (mysqli_query($this->koneksi, $query)) {
+			return true;
+		} else {
+			return "-1";
+		}
+	}
+
+	function getIdItemWithIdProject($idProject)
+	{
+		$arr = array();
+		if ($data = mysqli_query($this->koneksi, "SELECT id_item_proyek from item_proyek WHERE id_proyek='$idProject'")) {
+			while ($x = mysqli_fetch_assoc($data)) {
+				$arr[] = $x['id_item_proyek'];
+			}
+			return $arr;
 		} else {
 			return false;
 		}
@@ -1333,7 +1547,7 @@ class database
                 INNER JOIN item_proyek i on i.id_proyek=p.id_proyek
                 INNER join status_proyek s on i.id_item_proyek=s.id_item_proyek
                 WHERE s.tanggal=(SELECT max(s2.tanggal) from status_proyek s2 where s2.id_item_proyek=i.id_item_proyek)
-                AND s.status='menunggu konfirmasi dp' AND s.status='menunggu konfirmasi pelunasan'
+                AND (s.status='menunggu konfirmasi dp' OR s.status='menunggu konfirmasi pelunasan')
                 group by id_proyek;";
 				if ($data = mysqli_query($this->koneksi, $query)) {
 					$dataReturn['confirm'] = mysqli_num_rows($data);
@@ -1587,6 +1801,49 @@ class database
 			}
 		} else {
 			return $query;
+		}
+	}
+
+	function getDataPesananKlien($idKlien)
+	{
+		$dataReturn = array();
+		$query = "SELECT * from(
+			SELECT p.id_pesanan, p.tanggal as tanggal_dibuat, p.metode, (SELECT COUNT(id_pesanan) FROM detail_pesanan d2 WHERE d2.id_pesanan=p.id_pesanan) as item, a.nama, s.status, s.tanggal from pesanan p
+			INNER JOIN akun a ON a.id_akun=p.id_akun
+			inner join status_pesanan s on p.id_pesanan=s.id_pesanan
+			WHERE s.tanggal=(SELECT max(s2.tanggal) from status_pesanan s2 where s2.id_pesanan=p.id_pesanan)
+			AND p.id_akun='$idKlien'
+			) t
+			where (
+			(t.status='menunggu verifikasi bayar' AND t.tanggal_dibuat  >= now() - INTERVAL 1 DAY)
+			OR (t.status='menunggu info bank' AND t.tanggal_dibuat  >= now() - INTERVAL 1 DAY)
+			)
+			OR (t.status<>'menunggu verifikasi bayar' AND t.status<>'menunggu info bank')";
+		if ($data = mysqli_query($this->koneksi, $query)) {
+			if (mysqli_num_rows($data) > 0) {
+				while ($x = mysqli_fetch_assoc($data)) {
+					$dataReturn['dataPesanan'][$x['id_pesanan']] = $x;
+				}
+				foreach ($dataReturn['dataPesanan'] as $key => $value) {
+					$query2 = "select produk.nama_produk, produk.gambar, detail_pesanan.jumlah, produk.harga_produk, pesanan.tanggal, pesanan.metode, pesanan.id_akun FROM detail_pesanan inner JOIN pesanan on detail_pesanan.id_pesanan=pesanan.id_pesanan inner join produk on detail_pesanan.id_produk=produk.id_produk where pesanan.id_pesanan='" . $value['id_pesanan'] . "'";;
+					if ($data = mysqli_query($this->koneksi, $query2)) {
+						if (mysqli_num_rows($data) > 0) {
+							while ($x = mysqli_fetch_assoc($data)) {
+								$dataReturn['dataProduk'][$value['id_pesanan']][] = $x;
+							}
+						} else {
+							return "-4";
+						}
+					} else {
+						return "-3";
+					}
+				}
+				return $dataReturn;
+			} else {
+				return "-2";
+			}
+		} else {
+			return "-1";
 		}
 	}
 

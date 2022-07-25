@@ -150,3 +150,12 @@ ul.link-navbar-atas>li>a:hover {
     bottom: 50px;
     color: white;
 }
+
+.background.konsepruangan1 {
+    background-size: cover;
+    background-image: url("/assets/material/konsep1.jpeg");
+}
+
+.backgroud.half-bg {
+    min-height: 500vh;
+}

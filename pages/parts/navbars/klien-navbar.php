@@ -12,9 +12,9 @@
                 <?php echo $_SESSION['nama']; ?>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="/logout.php">Logout</a>
                 <a class="dropdown-item" href="/?page=profil">Profil</a>
-                <a class="dropdown-item" href="#">else</a>
+                <a class="dropdown-item" href="/?page=pesanan">Pesanan</a>
+                <a class="dropdown-item bg-danger text-white" href="/logout.php">Logout</a>
             </div>
         </li>
         <li>
@@ -53,18 +53,15 @@
             </a>
         </ul>
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item px-3 ml-auto">
+            <!-- <li class="nav-item px-3 ml-auto">
                 <a class="nav-link smooth-scroll" href="/?page=home#catalog">CATALOG <span class="sr-only">(current)</span></a>
             </li>
-            <!-- <li class="nav-item px-3 ml-auto">
-                <a class="nav-link smooth-scroll" href="#carouselExampleControls">PROMO</a>
-            </li> -->
             <li class="nav-item px-3 ml-auto">
                 <a class="nav-link smooth-scroll" href="#profil">PROFIL</a>
             </li>
             <li class="nav-item px-3 ml-auto">
                 <a class="nav-link smooth-scroll" href="#contact">HUBUNGI KAMI</a>
-            </li>
+            </li> -->
         </ul>
 
     </div>

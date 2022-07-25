@@ -1,0 +1,19 @@
+.border-dash {
+  border-width: 2px;
+  border-style: dashed;
+}
+
+.img-preview {
+  width: 200px !important;
+  height: 200px !important;
+}
+
+button[data-id] {
+  background-color: white !important;
+  border-color: #ced4da !important;
+}
+
+.error{
+  color: red;
+  font-weight: bold;
+}

@@ -1,4 +1,5 @@
 <?php
+session_start();
 // file ini digunakan untuk mengecek jquery  validator data
 require_once $_SERVER['DOCUMENT_ROOT'] . "/app/database.php";
 $db = new database;
@@ -11,4 +12,6 @@ if ($_POST['tipe'] == "username") {
   echo ($db->checkNope($_POST['nope']));
 } elseif ($_POST['tipe'] == "password") {
   echo ($db->checkPassword($_POST['password'], $_POST['id']));
+} elseif ($_POST['tipe'] == "password-profil") {
+  echo ($db->checkPasswordProfil($_POST['password']));
 }
