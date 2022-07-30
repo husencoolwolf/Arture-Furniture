@@ -510,6 +510,21 @@ class database
 		}
 	}
 
+	function getDataAkunNonAdmin()
+	{
+		$query = "SELECT a.id_akun, a.nama, a.username, a.password, a.id_hak_akses, h.nama_hak_akses, d.id_akun as id_klien, d.alamat, d.email, d.nomor_hp FROM akun a INNER JOIN hak_akses h ON a.id_hak_akses=h.id_hak_akses LEFT JOIN detail_klien d ON a.id_akun=d.id_akun WHERE a.id_hak_akses='1'";
+		$dataAkun = mysqli_query($this->koneksi, $query);
+		if ($dataAkun) {
+			if (mysqli_num_rows($dataAkun) > 0) {
+				return $dataAkun;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
 	function getHargaProdukAdmin()
 	{
 		$query = "select p.id_produk, p.harga_produk from produk p";
@@ -1470,6 +1485,16 @@ class database
 		}
 	}
 
+	function konfirmasiPengirimanKlien($idPesanan, $idKlien)
+	{
+		$query = "INSERT INTO status_pesanan VALUES('', '$idPesanan', 'selesai', now(), '')";
+		if (mysqli_query($this->koneksi, $query)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	function deleteAkunAdmin($idAkun)
 	{
 		$query = "DELETE FROM akun where id_akun='$idAkun'";
@@ -1822,6 +1847,7 @@ class database
 		if ($data = mysqli_query($this->koneksi, $query)) {
 			if (mysqli_num_rows($data) > 0) {
 				while ($x = mysqli_fetch_assoc($data)) {
+					$x['status'] = $this->pesananStatusOrder($x['status']);
 					$dataReturn['dataPesanan'][$x['id_pesanan']] = $x;
 				}
 				foreach ($dataReturn['dataPesanan'] as $key => $value) {

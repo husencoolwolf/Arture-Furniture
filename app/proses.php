@@ -293,6 +293,10 @@ if ($aksi == "daftarKlien") {
 } elseif ($aksi == "update-status-project") {
   $respon = $db->updateStatusProject($_POST, $_GET['id'], $_GET['type']);
   echo ($respon);
+} elseif ($aksi == "konfirmasi-pengiriman") {
+  $id = $_POST['id'];
+  $respon = $db->konfirmasiPengirimanKlien($id, $_SESSION['id_akun']);
+  echo ($respon);
 }
 // start of request
 
@@ -354,10 +358,10 @@ if ($request == "updateKategori") {
     echo ("0");
   }
 } elseif ($request == "get-data-pesanan") {
-  $respon = $db->getDataPesanan($_POST['id'], $_SESSION['id_akun']);
+  $respon = $db->getDataPesanan($_GET['id'], $_SESSION['id_akun']);
   if ($respon) {
     echo (json_encode($respon));
-  } else {
+  } elseif ($respon == false) {
     echo ("0");
   }
   // echo $respon;

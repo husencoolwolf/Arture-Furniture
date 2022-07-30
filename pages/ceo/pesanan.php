@@ -154,8 +154,6 @@ $dataPesanan = $db->getDataPesananAdmin();
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-info" id="updateStatus" data-toggle="modal" data-target="#modalUpdateStatus">Update Status Pesanan</button>
-        <button type="button" class="btn btn-danger" id="updateStatus" data-toggle="modal" data-target="#modalBatal">Batalkan Pesanan</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -279,10 +277,6 @@ $dataPesanan = $db->getDataPesananAdmin();
       ?>
 
       <div class="table-responsive my-3 overflow-hidden">
-        <a href="/?page=tambah-pesanan">
-          <button class="btn btn-dark">Tambah Data</button>
-        </a>
-        <hr>
         <div class="row">
           <div class="col-6">
             <div class="form-group">
@@ -328,12 +322,6 @@ $dataPesanan = $db->getDataPesananAdmin();
                   <td><?= $x['nama'] ?></td>
                   <td><span class="badge badge-pill badge-<?= $db->pesananStatusOrder($x['status'])['warna'] ?>"><?= $db->pesananStatusOrder($x['status'])['status'] ?></span></td>
                   <td class="text-center">
-                    <a href="/?page=edit-pesanan&pesanan=<?= $x['id_pesanan'] ?>" class="btn btn-success btn-sm">
-                      <span data-feather="edit"></span>
-                    </a>
-                    <a href="" data-id="<?= $x['id_pesanan'] ?>" class="btn btn-danger btn-sm hapusBtn">
-                      <span data-feather="trash"></span>
-                    </a>
                     <a href="" data-id="<?= $x['id_pesanan'] ?>" class="btn btn-info btn-sm detailBtn" data-toggle="modal" data-target="#detailPesananModal">
                       <span data-feather="eye"></span>
                     </a>

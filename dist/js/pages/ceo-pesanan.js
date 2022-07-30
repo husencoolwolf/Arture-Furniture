@@ -76,14 +76,8 @@ $(document).ready(function () {
                 <td>" + element['metode'] + "</td>\
                 <td>" + element['item'] + "</td>\
                 <td>" + element['nama'] + "</td>\
-                <td><span class='badge badge-pill badge-" + element['status']['warna'] + "'>" + element['status']['status'] + ": " + element['status']['progres'] + "%</td>\
+                <td><span class='badge badge-pill badge-" + element['status']['warna'] + "'>" + element['status']['status'] + "</td>\
                 <td class='text-center'>\
-                  <a href='/?page=edit-pesanan&pesanan=" + element['id_pesanan'] + "' class='btn btn-success btn-sm'>\
-                    <span data-feather='edit'></span>\
-                  </a>\
-                  <a href='' data-id='" + element['id_pesanan'] + "' class='btn btn-danger btn-sm hapusBtn'>\
-                    <span data-feather='trash'></span>\
-                  </a>\
                   <a href='' data-id='" + element['id_pesanan'] + "' class='btn btn-info btn-sm detailBtn' data-toggle='modal' data-target='#detailPesananModal'>\
                     <span data-feather='eye'></span>\
                   </a>\
@@ -255,7 +249,6 @@ $(document).ready(function () {
 
   function reloadFrontAPI(Tabel = false, element = false) {
     feather.replace();
-
   }
 
   function drawTabel(element) {

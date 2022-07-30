@@ -75,12 +75,6 @@ $(document).ready(function () {
               <td>" + element['nama_pemilik'] + "</td>\
               <td>" + element['no_rekening'] + "</td>\
               <td class='text-center'>\
-                <a href='/?page=edit-produk&produk=" + element['id_pembayaran'] + "' class='btn btn-success btn-sm'>\
-                  <span data-feather='edit'></span>\
-                </a>\
-                <a href='' data-id='" + element['id_pembayaran'] + "' class='btn btn-danger btn-sm hapusBtn'>\
-                  <span data-feather='trash'></span>\
-                </a>\
                 <a href='' data-id='" + element['id_pesanan'] + "' class='btn btn-info btn-sm detailBtn' data-toggle='modal' data-target='#detailPembayaranModal'>\
                   <span data-feather='eye'></span>\
                 </a>\

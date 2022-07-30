@@ -15,22 +15,29 @@ $(document).ready(function () {
     alert('kode pesanan disalin');
   });
 
+  $('.actionBtn:eq(1)').on("click", function () {
+    alert();
+  });
+
 
 
   function Init(idTarget) {
+
     $.ajax({
-      url: "/app/proses.php?request=get-data-pesanan",
+      url: "/app/proses.php?request=get-data-pesanan&id=" + idTarget,
       type: "post",
+      dataType: "json",
       data: {
         id: idTarget
       },
       success: function (response) {
+        // debugger;
         if (response == "0") {
           alert("ERROR ! : Terjadi Kesalahan dalam pengambilan data pesanan anda!");
           window.location.replace("/");
         } else { //kasus berhasil
           // console.log(response);
-          response = JSON.parse(response);
+          // response = JSON.parse(response);
           setDataController(response);
           setKondisiPagePesanan(response["status"]);
         }
@@ -39,28 +46,27 @@ $(document).ready(function () {
     });
   }
 
+
   function setDataController(dataPesanan) {
     // set info dalam page ketika di panggil init
     console.log(dataPesanan);
     $(".pesanan-data").each(function () {
-      console.log($(this).data("type"));
       switch ($(this).data("type")) {
         case "noPesanan":
           $(this).html(dataPesanan["id_pesanan"]);
           break;
         case "namaPemesan":
           $(this).html(dataPesanan["nama"]);
-          break
+          break;
         case "tanggalPesanan":
           $(this).html(dataPesanan["tanggal_pesan"]);
-          break
-
+          break;
         case "statusPesanan":
           $(this).html(dataPesanan["status"]);
-          break
+          break;
         case "alamat":
           $(this).html(dataPesanan["alamat"]);
-          break
+          break;
         case "nope":
           $(this).html(dataPesanan["nomor_hp"]);
         default:
@@ -88,6 +94,15 @@ $(document).ready(function () {
       case "menunggu verifikasi bayar":
         kondisiMenungguVerifikasiBayar();
         break;
+      case "pembuatan":
+        kondisiPembuatan();
+        break;
+      case "pengiriman":
+        kondisiPengiriman();
+        break;
+      case "selesai":
+        kondisiSelesai();
+        break;
       default:
         console.log("Status pesanan tidak ditemukan");
         break;
@@ -112,10 +127,8 @@ $(document).ready(function () {
     $(".actionBtn").eq(1).html("Batalkan Pesanan");
     $(".modal-content.pembayaran .modal-header .modal-title").html("Cara Pembayaran")
     // $("form#formBayar").attr("action", "/app/proses.php?aksi=update-pembayaran&pesanan=" + GetURLParameter("pesanan"));
-
     $("#submitModal").hide();
     enableButtons();
-
     $.ajax({
       url: "/app/proses.php?request=generate-cara-pembayaran",
       type: "post",
@@ -124,7 +137,7 @@ $(document).ready(function () {
       },
       success: function (response) {
         response += "<div class='container'>\
-        <div class='text-justify mb-2' >Pembayaran dilakukan di awal atau Down Payment (DP) sebesar 50%, kemudian 25% saat progress sudah berjalan setengahnya dan 25% sisanya dibayarkan ketika pemasangan sudah selesai. Pembayaran dapat di transfer ke rekening sebagai berikut :</div>\
+        <div class='text-justify mb-2' >Harap melakukan pembayaran sebelum besok pukul 23:00<br>Kami akan melakukan pengecekan pembayaran secara berkala<br>Pembayaran dapat di transfer ke rekening sebagai berikut :</div>\
         <ul>\
         <li>Bank Mandiri : 125-00-1056-2759 A.N. Andi Shandy</li>\
         <li>Bank BCA : 633-1207-265 A.N. Andi Shandy</li>\
@@ -134,7 +147,60 @@ $(document).ready(function () {
         $(".modal-content.pembayaran .modal-body").html(response);
       }
     });
+  }
 
+  function kondisiPembuatan() {
+    $(".actionBtn").eq(0).html("Sedang dibuat");
+    $(".actionBtn").eq(0).attr("data-target", "#pembayaran");
+    $(".actionBtn").eq(1).html("Batalkan Pesanan");
+    $(".actionBtn").eq(0).attr("data-target", "#pembayaran");
+    $(".modal-content.pembayaran .modal-header .modal-title").html("");
+    $(".modal-content.pembayaran .modal-body").html("<div class='text-justify'>Barang Anda sedang dalam proses produksi, Harap menunggu dan cek secara berkala, dan pastikan alamat yang anda punya benar!!</div>");
+    $("#submitModal").hide();
+    enableButtons();
+  }
+
+  function kondisiPengiriman() {
+    $(".actionBtn").eq(0).html("Konfirmasi Pengiriman");
+    $(".actionBtn").eq(0).attr("data-target", "#pembayaran");
+    $(".actionBtn").eq(1).html("Batalkan Pesanan");
+    $(".actionBtn").eq(0).attr("data-target", "#pembayaran");
+    $(".modal-content.pembayaran .modal-header .modal-title").html("Konfirmasi Pengiriman");
+    $(".modal-content.pembayaran .modal-body").html("<div class='text-justify'><div class='text-justify'>Jika barang sudah sampai dan diinstalasi, Silahkan klik 'Barang telah diterima'</div>");
+    $('#submitModal').hide();
+    $('#konfirmasiBtn').show();
+    enableButtons();
+    $(".actionBtn").eq(1).attr("disabled", "disabled");
+    $("#konfirmasiBtn").click(function (event) {
+      event.preventDefault();
+      $.ajax({
+        url: "/app/proses.php?aksi=konfirmasi-pengiriman",
+        type: "post",
+        data: {
+          id: GetURLParameter("pesanan")
+        },
+        success: function (response) {
+          if (response == true) {
+            $('.toast-body').html("<div class='alert alert-success'>" + "Pesanan telah dikonfirmasi, Terima kasih telah berbelanja di Arture Furniture :)" + "</div>");
+            $('.toast').toast('show');
+            $('.modal').modal('hide');
+            Init(GetURLParameter("pesanan"));
+            // kalau berhasil, Jalanin init lagi yang setting info dalam page
+            // harap ganti
+            // window.location.href = window.location.href;
+          } else {
+            $('.toast-body').html("<div class='alert alert-danger'>" + "Terjadi kesalahan : Harap hubungi kami beserta Screenshot kesalahan!" + "</div>");
+            $('.toast').toast('show');
+          }
+        }
+      });
+    });
+  }
+
+  function kondisiSelesai() {
+    $(".actionBtn").each(function () {
+      $(this).hide();
+    });
   }
 
   $(function () {
@@ -166,7 +232,7 @@ $(document).ready(function () {
           success: function (response) {
             console.log(response);
             if (response == true) {
-              $('.toast-body').html("<div class='alert alert-success'>" + "Info Bank telah ditambahkan, silahkan melanjutkan pembayaran pada bank yang dipilih!" + "</div");
+              $('.toast-body').html("<div class='alert alert-success'>" + "Info Bank telah ditambahkan, silahkan melanjutkan pembayaran pada bank yang dipilih!" + "</div>");
               $('.toast').toast('show');
               $('.modal').modal('hide');
               Init($("#targetSalin").html());
@@ -174,7 +240,7 @@ $(document).ready(function () {
               // harap ganti
               // window.location.href = window.location.href;
             } else {
-              $('.toast-body').html("<div class='alert alert-danger'>" + response + "</div");
+              $('.toast-body').html("<div class='alert alert-danger'>" + response + "</div>");
               $('.toast').toast('show');
             }
           }

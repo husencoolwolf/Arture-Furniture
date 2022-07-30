@@ -170,7 +170,6 @@ $(document).ready(function () {
               produk: listProduk
             },
             success: function (response) {
-              alert(response);
               if (response == true) {
                 window.location.href = "/?page=pesanan";
               } else {

@@ -128,17 +128,8 @@ $dataProject = $db->getDataProjectAdmin();
         </div>
       </div>
       <div class="modal-footer d-flex justify-content-between">
+        <div></div>
         <div>
-          <button type="button" class="btn btn-info" id="updateStatus" data-toggle="modal" data-target="#modalUpdateStatus">Update Status Project</button>
-          <button type="button" class="btn btn-danger" id="updateStatus" data-toggle="modal" data-target="#modalBatal">Batalkan Project</button>
-        </div>
-        <div>
-          <button data-id="" class="btn h-100 btn-success btn-sm modalAction editBtn">
-            <span data-feather="edit"></span>
-          </button>
-          <button data-id="" class="btn h-100 btn-danger btn-sm modalAction hapusBtn">
-            <span data-feather="trash"></span>
-          </button>
           <button data-id="" class="my-1 h-100 btn btn-primary btn-sm modalAction cetakBtn">
             <span data-feather="download"></span>
           </button>
@@ -300,12 +291,6 @@ $dataProject = $db->getDataProjectAdmin();
       ?>
 
       <div class="table-responsive my-3 overflow-hidden">
-        <a href="/?page=tambah-project">
-          <button class="btn btn-dark">Tambah Data</button>
-        </a>
-        <hr>
-
-
         <div class="row">
           <div class="col-6">
             <div class="form-group">
@@ -361,12 +346,6 @@ $dataProject = $db->getDataProjectAdmin();
                   ?>
 
                   <td class="text-center">
-                    <a href="/?page=edit-project&project=<?= $x['id_proyek'] ?>" class="my-1 btn btn-success btn-sm">
-                      <span data-feather="edit"></span>
-                    </a>
-                    <a href="" data-id="<?= $x['id_proyek'] ?>" class="my-1 btn btn-danger btn-sm hapusBtn">
-                      <span data-feather="trash"></span>
-                    </a>
                     <a href="" data-id="<?= $x['id_proyek'] ?>" class="my-1 btn btn-info btn-sm detailBtn" data-toggle="modal" data-target="#detailProjectModal">
                       <span data-feather="eye"></span>
                     </a>

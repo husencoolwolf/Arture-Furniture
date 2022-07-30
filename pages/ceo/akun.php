@@ -1,5 +1,5 @@
 <?php
-$dataAkun = $db->getDataAkunAdmin();
+$dataAkun = $db->getDataAkunNonAdmin();
 ?>
 <link href="/dist/dashboard.css" rel="stylesheet">
 <link rel="stylesheet" href="/dist/css/misc/loading.css">
@@ -141,9 +141,6 @@ $dataAkun = $db->getDataAkunAdmin();
       }
       ?>
       <div class="table-responsive my-3">
-        <a href="/?page=tambah-akun">
-          <button class="btn btn-dark">Tambah Data</button>
-        </a>
         <table class="table table-striped table-sm table-bordered" id="tabelAkun">
           <thead class="thead-dark">
             <tr>
@@ -171,12 +168,6 @@ $dataAkun = $db->getDataAkunAdmin();
                   <td><?= $x['nama'] ?></td>
                   <td><?= $x['nama_hak_akses'] ?></td>
                   <td class="text-center" data-id="<?= $x['id_akun'] ?>">
-                    <a href="/?page=edit-akun&akun=<?= $x['id_akun'] ?>" class="btn btn-success btn-sm">
-                      <span data-feather="edit"></span>
-                    </a>
-                    <a href="" data-id="<?= $x['id_akun'] ?>" class="btn btn-danger btn-sm hapusBtn">
-                      <span data-feather="trash"></span>
-                    </a>
                     <a href="" class="btn btn-info btn-sm detailBtn" data-id="<?= $x['id_akun'] ?>" data-toggle="modal" data-target="#detailAkunModal">
                       <span data-feather="eye"></span>
                     </a>

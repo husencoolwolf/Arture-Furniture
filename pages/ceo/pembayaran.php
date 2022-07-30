@@ -269,10 +269,6 @@ $dataPembayaran = $db->getDataPembayaranAdmin();
       }
       ?>
       <div class="table-responsive my-3 overflow-hidden">
-        <a href="/?page=tambah-pembayaran">
-          <button class="btn btn-dark">Tambah Data</button>
-        </a>
-        <hr>
         <div class="row">
           <div class="col-6">
             <div class="form-group">
@@ -318,12 +314,6 @@ $dataPembayaran = $db->getDataPembayaranAdmin();
                   <td><?= $x['nama_pemilik'] ?></td>
                   <td><?= $x['no_rekening'] ?></td>
                   <td class="text-center">
-                    <a href="/?page=edit-pembayaran&pembayaran=<?= $x['id_pembayaran'] ?>" class="btn btn-success btn-sm">
-                      <span data-feather="edit"></span>
-                    </a>
-                    <a href="" data-id="<?= $x['id_pembayaran'] ?>" class="btn btn-danger btn-sm hapusBtn">
-                      <span data-feather="trash"></span>
-                    </a>
                     <a href="" data-id="<?= $x['id_pesanan'] ?>" class="btn btn-info btn-sm detailBtn" data-toggle="modal" data-target="#detailPembayaranModal">
                       <span data-feather="eye"></span>
                     </a>

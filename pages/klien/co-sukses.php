@@ -15,7 +15,7 @@ while ($x = mysqli_fetch_array($data)) {
 <script src="/dist/js/url-param-getter.js"></script>
 
 
-<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="20000">
   <div class="toast-header">
     <!-- <img src="" class="rounded mr-2" alt="..."> -->
     <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
@@ -155,7 +155,7 @@ while ($x = mysqli_fetch_array($data)) {
           </div>
           <div class="d-flex alert alert-info justify-content-between mb-3">
             <p class="font-weight-bolder">Total Tagihan : </p>
-            <p class="font-weight-bolder"><?= $db->intToRupiah(($grandtotal + $ongkir) / 2) ?></p>
+            <p class="font-weight-bolder"><?= $db->intToRupiah(($grandtotal + $ongkir)) ?></p>
           </div>
           <div class="alert alert-info mb-3">
             <p class="font-weight-bolder">Harap tambahkan No.Pesanan di berita transaksi</p>
@@ -168,6 +168,7 @@ while ($x = mysqli_fetch_array($data)) {
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
           <input id="submitModal" class="btn btn-primary" type="submit" value="">
+          <button class="hide btn btn-success" id="konfirmasiBtn">Barang telah diterima</button>
         </div>
       </div>
     </div>

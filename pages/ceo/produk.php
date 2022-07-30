@@ -65,9 +65,7 @@ $dataProduk = $db->getDataProdukAdmin();
 
       <!-- <h2>daftar produk</h2> -->
       <div class="table-responsive my-3">
-        <a href="/?page=tambah-produk">
-          <button class="btn btn-dark">Tambah Data</button>
-        </a>
+
         <table class="table table-striped table-sm table-bordered" id="tabelProduk">
           <thead class="thead-dark">
             <tr>
@@ -77,7 +75,7 @@ $dataProduk = $db->getDataProdukAdmin();
               <th class="text-center">Kategori</th>
               <th class="text-center">Harga</th>
               <th class="text-center">Deskripsi</th>
-              <th class="text-center">aksi</th>
+              <th class="text-center">Tersedia</th>
             </tr>
           </thead>
           <tbody>
@@ -99,21 +97,13 @@ $dataProduk = $db->getDataProdukAdmin();
                   <td><?= $db->intToRupiah($x['harga_produk']) ?></td>
                   <td><?= $x['deskripsi'] ?></td>
                   <td class="text-center">
-                    <a href="/?page=edit-produk&produk=<?= $x['id_produk'] ?>" class="btn btn-success btn-sm">
-                      <span data-feather="edit"></span>
-                    </a>
-                    <a href="" class="btn btn-danger btn-sm hapusBtn">
-                      <span data-feather="trash"></span>
-                    </a>
-                    <a href="" class="btn btn-dark btn-sm tersediaBtn" data-tersedia="<?= $x['tersedia'] ?>" data-produk="<?= $x['id_produk'] ?>">
-                      <span data-feather="<?php
-                                          if ($x['tersedia'] == 1) {
-                                            echo ('eye');
-                                          } else {
-                                            echo ('eye-off');
-                                          }
-                                          ?>"></span>
-                    </a>
+                    <?php
+                    if ($x['tersedia'] == "1") {
+                      echo ("Ya");
+                    } else {
+                      echo ("Tidak");
+                    }
+                    ?>
                   </td>
                 </tr>
             <?php

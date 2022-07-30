@@ -319,12 +319,6 @@ $(document).ready(function () {
               <td>" + element['lokasi'] + "</td>\
               <td><span class='badge badge-pill badge-" + element['status']['warna'] + "'>" + element['status']['status'] + progres + "</span></td>\
               <td class='text-center'>\
-                <a href='/?page=edit-project&project=" + element['id_proyek'] + "' class='btn btn-success btn-sm'>\
-                  <span data-feather='edit'></span>\
-                </a>\
-                <a href='' data-id='" + element['id_proyek'] + "' class='btn btn-danger btn-sm hapusBtn'>\
-                  <span data-feather='trash'></span>\
-                </a>\
                 <a href='' data-id='" + element['id_proyek'] + "' class='btn btn-info btn-sm detailBtn' data-toggle='modal' data-target='#detailProjectModal'>\
                   <span data-feather='eye'></span>\
                 </a>\
