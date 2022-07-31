@@ -190,6 +190,73 @@ $getPageStatus = "";
       header("Location: /");
     }
     //--------------end of admin pages ---------------------
+  } elseif ($getHakAkses == "3") { // marketing
+    //--------------Marketing pages ---------------------
+    if (empty($getPage) || $getPage == "dashboard") {
+      $getPageStatus = "dashboard";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/marketing/dashboard.php';
+    }
+    //Start of produks
+    elseif ($getPage == "produk") {
+      $getPageStatus = "produk";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/marketing/produk.php';
+    } elseif ($getPage == "tambah-produk") {
+      $getPageStatus = "produk";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/marketing/tambah-produk.php';
+    } elseif ($getPage == "edit-produk") {
+      if (isset($_GET['produk'])) {
+        $getPageStatus = "produk";
+        include $_SERVER['DOCUMENT_ROOT'] . '/pages/marketing/edit-produk.php';
+      } else {
+        $getPageStatus = "dashboard";
+        header("Location: /");
+      }
+    }
+    //End of Produks
+    //Start of pesanan
+    elseif ($getPage == "pesanan") {
+      $getPageStatus = "pesanan";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/marketing/pesanan.php';
+    }
+    //End of Pesanan
+    //Start of Akun
+    elseif ($getPage == "akun") {
+      $getPageStatus = "akun";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/marketing/akun.php';
+    }
+    //End of Akun
+    //Start of Pembayaran
+    elseif ($getPage == "pembayaran") {
+      $getPageStatus = "pembayaran";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/marketing/pembayaran.php';
+    }
+    //End of Pembayaran
+    //Start of Project Monitoring
+    elseif ($getPage == "project") {
+      $getPageStatus = "project";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/marketing/project.php';
+    } elseif ($getPage == "tambah-project") {
+      $getPageStatus = "project";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/marketing/tambah-project.php';
+    } elseif ($getPage == "edit-project") {
+      if (isset($_GET['project'])) {
+        $getPageStatus = "project";
+        include $_SERVER['DOCUMENT_ROOT'] . '/pages/marketing/edit-project.php';
+      } else {
+        $getPageStatus = "dashboard";
+        header("Location: /");
+      }
+    }
+    //End of Project Monitoring
+    //Start of Profil
+    elseif ($getPage == "profil") {
+      $getPageStatus = "profil";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/marketing/profil.php';
+    } else {
+      $getPageStatus = "dashboard";
+      header("Location: /");
+    }
+    //--------------end of marketing pages ---------------------
   } elseif ($getHakAkses == "6") { // CEO
     //--------------CEO pages ---------------------
     if (empty($getPage) || $getPage == "dashboard") {
