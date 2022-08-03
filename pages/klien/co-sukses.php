@@ -26,6 +26,39 @@ while ($x = mysqli_fetch_array($data)) {
 
   </div>
 </div>
+
+<!-- Modal Alasan Batal -->
+<div class="modal fade" id="modalBatal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form data-id="<?= $_GET['pesanan'] ?>" id="formBatalPesanan" action="/app/proses.php?aksi=update-status-pesanan" method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Alasan Batal</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <select class="form-control" name="inputAlasan" id="inputAlasan" required>
+              <option value="" disabled selected>-- Alasan dibatalkan --</option>
+              <option value="Ingin mengubah pesanan">Ingin mengubah pesanan</option>
+              <option value="Tidak bisa melanjutkan pembayaran">Tidak bisa melanjutkan pembayaran</option>
+              <option value="Tertarik dengan barang dari toko lain">Tertarik dengan barang dari toko lain</option>
+              <option value="Tidak ingin membeli lagi">Tidak ingin membeli lagi</option>
+              <option value="Lainnya">Lainnya</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <input class="btn btn-primary" type="submit" value="Batalkan pesanan">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <div class="info-warning">
 
 </div>
@@ -110,7 +143,7 @@ while ($x = mysqli_fetch_array($data)) {
               <td colspan="5">
                 <button class="w-100  btn btn-arture-emas font-weight-bolder mt-3 actionBtn animated-background" data-toggle="modal" data-target="" disabled></button>
 
-                <button class="w-100  btn btn-danger font-weight-bolder mt-3 actionBtn animated-background" disabled></button>
+                <button class="w-100  btn btn-danger font-weight-bolder mt-3 actionBtn animated-background" data-toggle="modal" data-target="#modalBatal" disabled></button>
               </td>
             </tr>
           <?php
@@ -136,7 +169,7 @@ while ($x = mysqli_fetch_array($data)) {
         </div>
         <div class="modal-body">
           <div class="form-floating mb-3">
-            <label for="selectBank">Kategori<span class="text-danger">*</span></label>
+            <label for="selectBank">Bank<span class="text-danger">*</span></label>
             <select name="selectBank" id="selectBank" class="form-control mb-2" required>
               <option value="">--Pilih Bank--</option>
               <option value="bri">BRI</option>

@@ -60,20 +60,6 @@ if ($detailProduk <> false) {
 
                 <div class="btn bg-arture-emas quantity-control" id="plus-quantity"><i class="fa fa-plus" aria-hidden="true"></i></div>
                 <div class="mb-4"></div>
-                <div class="row">
-                  <div class="col">
-                    <div class="border rounded bg-arture-emas p-2 text-center text-white ">
-                      <div class="mx-auto"><i class="fa fa-paper-plane fa-2x" aria-hidden="true"></i></div>
-                      <div class="mx-auto">2 Hari Pengiriman</div>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="border rounded bg-arture-emas p-2 text-center text-white ">
-                      <i class="fa fa-wrench fa-2x" aria-hidden="true"></i>
-                      <div class="mx-auto">2 Hari Produksi</div>
-                    </div>
-                  </div>
-                </div>
                 <hr>
 
                 <div class="mb-4"></div>

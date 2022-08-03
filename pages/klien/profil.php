@@ -27,6 +27,11 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pages/parts/navbars/klien-navbar.php';
           echo '<div class="alert alert-danger">Data tidak masuk, Harap periksa Query Detail Akun Database</div>';
         }
       }
+      if (isset($_GET['sukses'])) {
+        if ($_GET['sukses'] == '1') {
+          echo '<div class="alert alert-success">Profil berhasil diubah</div>';
+        }
+      }
       ?>
       <form id="formEditAkun" action="/app/proses.php?aksi=edit-profil-klien" method="post" enctype="multipart/form-data">
 

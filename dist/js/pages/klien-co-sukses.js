@@ -15,10 +15,31 @@ $(document).ready(function () {
     alert('kode pesanan disalin');
   });
 
-  $('.actionBtn:eq(1)').on("click", function () {
-    alert();
-  });
+  // $('.actionBtn:eq(1)').on("click", function () {
+  //   if (confirm("Anda yakin akan membatalkan pesanan ini?")) {
 
+  //   } else {}
+  // });
+
+  $('#formBatalPesanan').on("submit", function (event) {
+    event.preventDefault();
+    if (confirm("Anda yakin akan membatalkan pesanan ini?")) {
+      let form = $(this);
+      $.ajax({
+        url: form.attr('action') + "&id=" + form.data('id'),
+        type: "POST",
+        data: $('#formBatalPesanan select').serialize(),
+        success: function (response) {
+          if (response) {
+            location.reload();
+          } else {
+            location.href.replace("/?page=pesanan&error=" + response);
+          }
+        }
+      });
+    } else {}
+
+  });
 
 
   function Init(idTarget) {
@@ -103,6 +124,9 @@ $(document).ready(function () {
       case "selesai":
         kondisiSelesai();
         break;
+      case "batal":
+        kondisiSelesai();
+        break;
       default:
         console.log("Status pesanan tidak ditemukan");
         break;
@@ -116,6 +140,7 @@ $(document).ready(function () {
     $("form#formBayar").attr("action", "/app/proses.php?aksi=buat-pembayaran&pesanan=" + GetURLParameter("pesanan"));
     $(".actionBtn").eq(0).attr("data-target", "#pembayaran");
     $("#submitModal").val("Bayar Sekarang");
+    $('#konfirmasiBtn').hide();
     enableButtons();
   }
 
@@ -128,6 +153,7 @@ $(document).ready(function () {
     $(".modal-content.pembayaran .modal-header .modal-title").html("Cara Pembayaran")
     // $("form#formBayar").attr("action", "/app/proses.php?aksi=update-pembayaran&pesanan=" + GetURLParameter("pesanan"));
     $("#submitModal").hide();
+    $('#konfirmasiBtn').hide();
     enableButtons();
     $.ajax({
       url: "/app/proses.php?request=generate-cara-pembayaran",
@@ -157,6 +183,7 @@ $(document).ready(function () {
     $(".modal-content.pembayaran .modal-header .modal-title").html("");
     $(".modal-content.pembayaran .modal-body").html("<div class='text-justify'>Barang Anda sedang dalam proses produksi, Harap menunggu dan cek secara berkala, dan pastikan alamat yang anda punya benar!!</div>");
     $("#submitModal").hide();
+    $('#konfirmasiBtn').hide();
     enableButtons();
   }
 
@@ -198,6 +225,7 @@ $(document).ready(function () {
   }
 
   function kondisiSelesai() {
+    $('#konfirmasiBtn').hide();
     $(".actionBtn").each(function () {
       $(this).hide();
     });

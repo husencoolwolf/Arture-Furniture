@@ -29,6 +29,7 @@ $(document).ready(function () {
       setDetailProjectModal(idProject, loading, isiModal);
     },
     eventRender: function (event, element) {
+      console.log(event.status);
       if (event.status == "menunggu hasil survey" || event.status == "proses produksi" || event.status == "pengiriman") {
         element.addClass("bg-warning");
         element.children().children().addClass("text-dark");

@@ -17,7 +17,13 @@
             } elseif ($_GET['error'] == "2") {
               echo "<div class='alert alert-danger'>Password Salah!</div>";
             }
-          } ?>
+          }
+          if (isset($_GET['daftar'])) {
+            if ($_GET['daftar'] == '1') {
+              echo "<div class='alert alert-success'>Registrasi berhasil, sekarang anda bisa login!</div>";
+            }
+          }
+          ?>
           <form id="formInput" action="/app/proses.php?aksi=login" method="post" enctype="multipart/form-data">
             <div class="form-floating mb-3">
               <input type="username" class="form-control" name="inputUsername" id="inputUsername" placeholder="Username" required autofocus>

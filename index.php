@@ -257,6 +257,118 @@ $getPageStatus = "";
       header("Location: /");
     }
     //--------------end of marketing pages ---------------------
+  } elseif ($getHakAkses == "4") { // produksi
+    //--------------produksi pages ---------------------
+    if (empty($getPage) || $getPage == "dashboard") {
+      $getPageStatus = "dashboard";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/produksi/dashboard.php';
+    }
+    //Start of produks
+    elseif ($getPage == "produk") {
+      $getPageStatus = "produk";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/produksi/produk.php';
+    }
+    //End of Produks
+    //Start of pesanan
+    elseif ($getPage == "pesanan") {
+      $getPageStatus = "pesanan";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/produksi/pesanan.php';
+    }
+    //End of Pesanan
+    //Start of Akun
+    elseif ($getPage == "akun") {
+      $getPageStatus = "akun";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/produksi/akun.php';
+    }
+    //End of Akun
+    //Start of Pembayaran
+    elseif ($getPage == "pembayaran") {
+      $getPageStatus = "pembayaran";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/produksi/pembayaran.php';
+    }
+    //End of Pembayaran
+    //Start of Project Monitoring
+    elseif ($getPage == "project") {
+      $getPageStatus = "project";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/produksi/project.php';
+    } elseif ($getPage == "tambah-project") {
+      $getPageStatus = "project";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/produksi/tambah-project.php';
+    } elseif ($getPage == "edit-project") {
+      if (isset($_GET['project'])) {
+        $getPageStatus = "project";
+        include $_SERVER['DOCUMENT_ROOT'] . '/pages/produksi/edit-project.php';
+      } else {
+        $getPageStatus = "dashboard";
+        header("Location: /");
+      }
+    }
+    //End of Project Monitoring
+    //Start of Profil
+    elseif ($getPage == "profil") {
+      $getPageStatus = "profil";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/produksi/profil.php';
+    } else {
+      $getPageStatus = "dashboard";
+      header("Location: /");
+    }
+    //--------------end of produksi pages ---------------------
+  } elseif ($getHakAkses == "5") { // Akuntansi
+    //--------------akuntansi pages ---------------------
+    if (empty($getPage) || $getPage == "dashboard") {
+      $getPageStatus = "dashboard";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/akuntansi/dashboard.php';
+    }
+    //Start of produks
+    elseif ($getPage == "produk") {
+      $getPageStatus = "produk";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/akuntansi/produk.php';
+    }
+    //End of Produks
+    //Start of pesanan
+    elseif ($getPage == "pesanan") {
+      $getPageStatus = "pesanan";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/akuntansi/pesanan.php';
+    }
+    //End of Pesanan
+    //Start of Akun
+    elseif ($getPage == "akun") {
+      $getPageStatus = "akun";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/akuntansi/akun.php';
+    }
+    //End of Akun
+    //Start of Pembayaran
+    elseif ($getPage == "pembayaran") {
+      $getPageStatus = "pembayaran";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/akuntansi/pembayaran.php';
+    } elseif ($getPage == "tambah-pembayaran") {
+      $getPageStatus = "pembayaran";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/akuntansi/tambah-pembayaran.php';
+    } elseif ($getPage == "edit-pembayaran") {
+      if (isset($_GET['pembayaran'])) {
+        $getPageStatus = "pembayaran";
+        include $_SERVER['DOCUMENT_ROOT'] . '/pages/akuntansi/edit-pembayaran.php';
+      } else {
+        $getPageStatus = "dashboard";
+        header("Location: /");
+      }
+    }
+    //End of Pembayaran
+    //Start of Project Monitoring
+    elseif ($getPage == "project") {
+      $getPageStatus = "project";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/akuntansi/project.php';
+    }
+    //End of Project Monitoring
+    //Start of Profil
+    elseif ($getPage == "profil") {
+      $getPageStatus = "profil";
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/akuntansi/profil.php';
+    } else {
+      $getPageStatus = "dashboard";
+      header("Location: /");
+    }
+    //--------------end of akuntansi pages ---------------------
   } elseif ($getHakAkses == "6") { // CEO
     //--------------CEO pages ---------------------
     if (empty($getPage) || $getPage == "dashboard") {

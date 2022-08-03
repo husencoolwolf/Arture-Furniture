@@ -628,13 +628,13 @@ class database
 						$requestResponse['pesanan'] = $listPesanan;
 						return $requestResponse;
 					} else {
-						return false;
+						return "-1";
 					}
 				} else {
 					return false;
 				}
 			} else {
-				return false;
+				return "-1";
 			}
 		} else {
 			return false;
@@ -1068,7 +1068,13 @@ class database
 		$query = "INSERT INTO pembayaran VALUES ('$idPembayaran', '" . $data['selectPesanan'] . "', '" . $data['selectBank'] . "', '" . $data['inputNorek'] . "', '" . $data['inputNama'] . "', now(), '" . $data['selectKlien'] . "')";
 		$inputPembayaran = mysqli_query($this->koneksi, $query);
 		if ($inputPembayaran) {
-			return true;
+			$queryStatus = "INSERT INTO status_pesanan VALUES('', '" . $data['selectPesanan'] . "', 'menunggu verifikasi bayar', now(), '" . $_SESSION['id_akun'] . "')";
+			$responStatus = mysqli_query($this->koneksi, $queryStatus);
+			if ($responStatus) {
+				return true;
+			} else {
+				return mysqli_error($this->koneksi);
+			}
 		} else {
 			return false;
 		}
@@ -1561,12 +1567,11 @@ class database
             INNER JOIN item_proyek i on i.id_proyek=p.id_proyek
             INNER join status_proyek s on i.id_item_proyek=s.id_item_proyek
             WHERE s.tanggal=(SELECT max(s2.tanggal) from status_proyek s2 where s2.id_item_proyek=i.id_item_proyek)
-            AND MONTH(p.dimulai) <= MONTH(CURRENT_DATE())
-            AND MONTH(p.target_selesai) >= MONTH(CURRENT_DATE())
             AND s.status<>'batal' AND s.status<>'selesai'
             group by id_proyek;";
 			if ($data = mysqli_query($this->koneksi, $query)) {
 				$dataReturn['progress'] = mysqli_num_rows($data);
+				$dataReturn['total'] += mysqli_num_rows($data);
 				$query = "SELECT p.id_proyek, s.status from proyek p 
                 INNER JOIN detail_proyek d USING(id_proyek)
                 INNER JOIN item_proyek i on i.id_proyek=p.id_proyek
@@ -1647,6 +1652,7 @@ class database
         INNER JOIN detail_proyek d USING(id_proyek)
         INNER JOIN item_proyek i on i.id_proyek=p.id_proyek
         INNER join status_proyek s on i.id_item_proyek=s.id_item_proyek
+				WHERE s.tanggal=(SELECT max(s2.tanggal) from status_proyek s2 where s2.id_item_proyek=i.id_item_proyek)
         group by id_proyek;";
 		$dataProject = mysqli_query($this->koneksi, $query);
 		if ($dataProject) {

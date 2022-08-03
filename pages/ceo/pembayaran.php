@@ -153,8 +153,6 @@ $dataPembayaran = $db->getDataPembayaranAdmin();
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-info" id="updateStatus" data-toggle="modal" data-target="#modalUpdateStatus">Update Status Pesanan</button>
-        <button type="button" class="btn btn-danger" id="updateStatus" data-toggle="modal" data-target="#modalBatal">Batalkan Pesanan</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>

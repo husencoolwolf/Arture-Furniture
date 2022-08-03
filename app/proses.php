@@ -24,7 +24,7 @@ if ($aksi == "daftarKlien") {
   );
   $respon = $db->daftarKlien($data);
   if ($respon == "0") {
-    header("Location: /");
+    header("Location: /?page=login&daftar=1");
   } else {
     echo ("Oh no,, Ada yang salah dengan query daftar klien! : " . $respon);
   }

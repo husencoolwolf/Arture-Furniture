@@ -86,6 +86,27 @@ $dataKategori = $db->getDataKategori();
           <input class="form-control" type="file" name="inputGambar" id="inputGambar">
         </div>
         <div class="form-group">
+          <label for="selectKategori">Kategori<span class="text-danger">*</span></label>
+          <select name="selectKategori" id="selectKategori" class="form-control mb-2" required>
+            <option value="">--Pilih Kategori--</option>
+            <?php
+            while ($x = mysqli_fetch_array($dataKategori)) {
+              if ($x['id_kategori'] == $detailProduk['id_kategori']) {
+            ?>
+                <option value="<?= $x['id_kategori'] ?>" selected><?= $x['kategori'] ?></option>
+              <?php
+              } else {
+              ?>
+                <option value="<?= $x['id_kategori'] ?>"><?= $x['kategori'] ?></option>
+            <?php
+              }
+            }
+            ?>
+          </select>
+
+          <div class="btn btn-outline-dark" id="addKategoriBtn" data-toggle="modal" data-target="#modalAddKategori">Tambah Kategori</div>
+        </div>
+        <div class="form-group">
           <label for="inputNamaProduk">Nama Produk<span class="text-danger">*</span></label>
           <input class="form-control" type="text" name="inputNamaProduk" id="inputNamaProduk" required>
         </div>
