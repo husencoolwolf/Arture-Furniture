@@ -1,6 +1,12 @@
+<?php
+
+?>
+<link rel="stylesheet" href="/dist/bootstrap-select/css/bootstrap-select.min.css">
+
+
 <div class="container">
   <div class="row">
-    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+    <div class="mx-auto w-100">
       <div class="card border-0 shadow rounded-3 my-2">
         <div class="card-body p-4 p-sm-5">
           <div class="w-100 text-center">
@@ -30,10 +36,19 @@
               <label for="inputEmail">Email address</label>
               <input type="email" class="form-control" name="inputEmail" id="inputEmail" placeholder="name@example.com">
             </div>
-            <div class="form-floating mb-3">
+            <div>
               <label for="inputNope">Phone Number</label>
-              <input type="number" class="form-control" name="inputNope" id="inputNope" placeholder="08xxxxxxxx">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <select id="selectCodeNegara" name="selectCodeNegara" class="selectpicker" data-width="fit" data-size="5" data-live-search="true">
+                    </select>
+                  </span>
+                </div>
+                <input type="number" class="form-control" name="inputNope" id="inputNope" placeholder="877xxxxxx">
+              </div>
             </div>
+
 
 
             <div class="mb-3">
@@ -49,5 +64,6 @@
   </div>
 </div>
 
+<script src="/dist/bootstrap-select/js/bootstrap-select.min.js"></script>
 <script src="/dist/js/jquery-validate/jquery.validate.min.js"></script>
 <script src="/dist/js/jquery-validate/additional-methods.min.js"></script>

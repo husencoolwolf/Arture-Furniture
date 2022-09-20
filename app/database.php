@@ -181,7 +181,7 @@ class database
         '" . $data['nama'] . "',
         '" . $data['username'] . "',
         '" . md5($data['password']) . "',
-            '1');";
+            '1', '');";
 		$query2 = "INSERT INTO detail_klien VALUES('" . $data['id'] . "',
         '" . $data['id'] . "',
         '" . $data['alamat'] . "',
@@ -1087,7 +1087,8 @@ class database
             '" . $data['nama'] . "',
             '" . $data['username'] . "',
             '" . md5($data['password']) . "',
-            '" . $data['privilege'] . "'
+            '" . $data['privilege'] . "',
+						''
         )";
 		$inputAkun = mysqli_query($this->koneksi, $queryAkun);
 		$err = mysqli_errno($this->koneksi);

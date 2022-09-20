@@ -1,15 +1,21 @@
 <?php
 session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . "/app/init.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/api/telegram.php";
 $db = new database;
 $controller = new controller;
+$tg = new Telegram(file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/private/telegram.json"));
 $aksi = "";
 $request = "";
+$api = "";
 if (isset($_GET['aksi'])) {
   $aksi = $_GET['aksi'];
 }
 if (isset($_GET['request'])) {
   $request = $_GET['request'];
+}
+if (isset($_GET['api'])) {
+  $api = $_GET['api'];
 }
 
 if ($aksi == "daftarKlien") {
@@ -17,7 +23,7 @@ if ($aksi == "daftarKlien") {
     "id" => $controller->pembuatIDUnik($db->getKoneksi(), "akun", "id_akun"),
     "nama" => $_POST['inputNama'],
     "username" => $_POST['inputUsername'],
-    "nope" => $_POST['inputNope'],
+    "nope" => $_POST['selectCodeNegara'] . $_POST['inputNope'],
     "email" => $_POST['inputEmail'],
     "password" => $_POST['inputPassword'],
     "alamat" => $_POST['inputAlamat']
@@ -166,10 +172,11 @@ if ($aksi == "daftarKlien") {
     "norek" => $_POST['inputNorek'],
     "nasabah" => $_POST['inputNasabah']
   );
+  $klien = mysqli_fetch_assoc($db->getDataKlien($_SESSION['id_akun']));
+
   $respon = $db->tambahInfoPembayaran($data);
-  // var_dump($data);
-  echo ($respon);
-  // var_dump($_POST);
+
+  echo (json_encode(array($respon, $data, $klien)));
 } elseif ($aksi == "tambah-pesanan-admin") {
   $respon = $db->tambahPesananAdmin($_POST['pesanan'], $_POST['produk']);
   echo ($respon);
@@ -470,8 +477,69 @@ if ($request == "updateKategori") {
   $respon = $db->getDataPesananKlien($_SESSION['id_akun']);
   echo (json_encode($respon));
 }
+// end of request
 
-if ($aksi = "" && $request == "") {
+//start of API
+switch ($api) {
+  case "telegram-notif-klien-buat-pesanan":
+    $klien = $_POST['dataKlien'];
+    $data = $_POST['dataPembayaran'];
+    $r = $tg->SendMessage(
+      "<b>Pesanan Baru</b>, Atas Nama : " . $klien['nama'] . " dengan ID Pesanan: <code>" . $data['pesanan'] . "</code>.
+      Detail Klien :
+      -No. HP : <code>" . $klien['nomor_hp'] . "</code>
+      -Email : <code>" . $klien['email'] . "</code>
+      Harap untuk verifikasi pembayaran pesanan secara berkala!!!",
+      [1],
+      ['marketing_group', 'akuntansi_group', 'produksi_group']
+    );
+    echo ($r);
+    break;
+  case "telegram-update-status-pesanan":
+    $statusSelanjutnya = "";
+    $keterangan = "";
+    if (isset($_POST['inputAlasan'])) { // kalo batal
+      $statusSelanjutnya = "batal";
+    } else { //kalo tidak batal
+      $statusSelanjutnya = $_POST['selanjutnya'];
+    }
+    $idPesanan = $_GET['id'];
+    switch ($statusSelanjutnya) {
+      case "pembuatan":
+
+        break;
+      case "pengiriman":
+
+        break;
+      case "selesai":
+
+        break;
+
+      case "batal":
+        if (isset($_POST['inputAlasan'])) {
+          $klien = $db->getDataDetailPesananModalAdmin($idPesanan)['detail_pesanan'];
+          $tg->SendMessage(
+            "<b>Ada pesanan yang dibatalkan</b>
+              Dengan ID Pesanan : <code>$idPesanan</code>
+            dengan alasan : " . $_POST['inputAlasan'] . "
+            <u>detail</u>
+            Nama Klien : " . $klien['nama'] . "
+            No.Hp : " . $klien['nomor_hp'] . "
+            Email : " . $klien['email'],
+            [],
+            [
+              "marketing_group",
+              "akuntansi_group",
+              "produksi_group"
+            ]
+          );
+        }
+        break;
+    }
+    break;
+}
+//end of API
+if ($aksi = "" && $request == "" && $api = "") {
   echo ('<div class="alert alert-warning" role="alert">
         Terjadi kesalahan 404: parameter hilang!
         </div>');

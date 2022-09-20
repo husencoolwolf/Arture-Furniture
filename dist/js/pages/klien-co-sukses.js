@@ -31,7 +31,15 @@ $(document).ready(function () {
         data: $('#formBatalPesanan select').serialize(),
         success: function (response) {
           if (response) {
-            location.reload();
+            $.ajax({
+              url: "/app/proses.php?api=telegram-update-status-pesanan&id=" + form.data('id'),
+              type: "POST",
+              data: $('#formBatalPesanan select').serialize(),
+              success: function (response) {
+                // console.log(JSON.parse(response));
+                location.reload();
+              }
+            });
           } else {
             location.href.replace("/?page=pesanan&error=" + response);
           }
@@ -70,7 +78,6 @@ $(document).ready(function () {
 
   function setDataController(dataPesanan) {
     // set info dalam page ketika di panggil init
-    console.log(dataPesanan);
     $(".pesanan-data").each(function () {
       switch ($(this).data("type")) {
         case "noPesanan":
@@ -107,7 +114,6 @@ $(document).ready(function () {
   }
 
   function setKondisiPagePesanan(statusPesanan) {
-    console.log(statusPesanan);
     switch (statusPesanan) {
       case "menunggu info bank":
         kondisiMenungguInfoBank();
@@ -253,16 +259,26 @@ $(document).ready(function () {
       },
 
       submitHandler: function (form) {
+        $("#submitModal").attr("disabled", "disabled");
         $.ajax({
           url: form.action,
           type: form.method,
           data: $(form).serialize(),
           success: function (response) {
-            console.log(response);
-            if (response == true) {
+            // console.log(response);
+            response = JSON.parse(response);
+            if (response[0] == true) {
               $('.toast-body').html("<div class='alert alert-success'>" + "Info Bank telah ditambahkan, silahkan melanjutkan pembayaran pada bank yang dipilih!" + "</div>");
               $('.toast').toast('show');
               $('.modal').modal('hide');
+              $.ajax({
+                url: "/app/proses.php?api=telegram-notif-klien-buat-pesanan",
+                type: "POST",
+                data: {
+                  dataPembayaran: response[1],
+                  dataKlien: response[2]
+                }
+              });
               Init($("#targetSalin").html());
               // kalau berhasil, Jalanin init lagi yang setting info dalam page
               // harap ganti

@@ -32,4 +32,13 @@ textarea {
 
 .error {
   color: red;
+  width: 100%;
+}
+
+/* .filter-option{
+  font-size: 10px;
+} */
+
+.input-group-text{
+  padding: 0;
 }

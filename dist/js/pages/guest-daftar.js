@@ -101,3 +101,51 @@ $(function () {
     }
   });
 });
+
+$(document).ready(function () {
+  var phoneCode = {};
+  var phoneNames = {};
+
+  //init data
+  getDataPhoneCode();
+
+  $('#inputNope').keyup(function () {
+    let char = $(this).val();
+    if (char[0] == 0) {
+      $(this).val(char.substring(1));
+    }
+  });
+
+  function getDataPhoneCode() {
+    $.ajax({
+      'async': false,
+      'global': false,
+      'url': "/dist/json/phone.json",
+      'dataType': "json",
+      'success': function (data) {
+        phoneCode = data;
+      }
+    });
+    $.ajax({
+      'async': false,
+      'global': false,
+      'url': "/dist/json/phoneNames.json",
+      'dataType': "json",
+      'success': function (data) {
+        phoneNames = data;
+      }
+    });
+    setDataPhoneCode();
+  }
+
+  async function setDataPhoneCode() {
+    $.each(phoneCode, function (data) {
+      $('#selectCodeNegara').append($("<option>")
+        .attr("title", "+" + phoneCode[data])
+        .attr("value", phoneCode[data])
+        .text("+" + phoneCode[data] + " " + phoneNames[data])
+      )
+    });
+    $('#selectCodeNegara').val('62').selectpicker('refresh');
+  }
+});

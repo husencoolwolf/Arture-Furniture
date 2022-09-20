@@ -38,7 +38,14 @@ $(document).ready(function () {
       data: $('#formBatalPesanan input').serialize(),
       success: function (response) {
         if (response) {
-          location.reload();
+          $.ajax({
+            url: "/app/proses.php?api=telegram-update-status-pesanan&id=" + form.data('id'),
+            type: "POST",
+            data: $('#formBatalPesanan input').serialize(),
+            success: function () {
+              location.reload();
+            }
+          });
         } else {
           location.href.replace("/?page=pesanan&error=" + response);
         }
@@ -245,7 +252,16 @@ $(document).ready(function () {
       },
       success: function (response) {
         if (response) {
-          location.reload();
+          $.ajax({
+            url: "/app/proses.php?api=telegram-update-status-pesanan&id=" + idTarget,
+            type: "POST",
+            data: {
+              selanjutnya: statusSelanjutnya
+            },
+            success: function (respon) {
+              location.reload();
+            }
+          });
         } else {
           location.href.replace("/?page=pesanan&error=" + response);
         }
