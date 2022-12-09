@@ -1534,6 +1534,16 @@ class database
 		}
 	}
 
+	function deleteProjectAdmin($idProject)
+	{
+		$query = "DELETE FROM proyek where id_proyek='$idProject'";
+		$hapusProject = mysqli_query($this->koneksi, $query);
+		if ($hapusProject) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	// end of admin queries
 
 	function getProjectStatusCount()

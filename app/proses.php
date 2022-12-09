@@ -249,12 +249,12 @@ if ($aksi == "daftarKlien") {
   }
 } elseif ($aksi == "hapus-project") {
   if (isset($_GET['id'])) {
-    $idPesanan = $_GET['id'];
-    $respon = $db->deletePesananAdmin($idPesanan);
+    $idProject = $_GET['id'];
+    $respon = $db->deleteProjectAdmin($idProject);
     if ($respon) {
-      header("Location: /?page=pesanan");
+      header("Location: /?page=project");
     } else {
-      header("Location: /?page=pesanan&error=-1");
+      header("Location: /?page=project&error=-1");
     }
   } else {
     echo (0);

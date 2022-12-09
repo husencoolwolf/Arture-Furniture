@@ -68,47 +68,31 @@ if (isset($_GET['cari'])) {
       <h1 class="mb-5 text-center">Jasa Layanan Kami</h1>
       <div class="row">
         <div class="col-md p-0 mt-2">
-          <div class="card bg-dark text-white border-0">
-            <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
-            <div class="jasa-card" id="furniture">
-              <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
-                <h2 class="text-dark">Furniture</h2>
-              </div>
+          <a href="/?page=furniture">
+            <div class="card bg-dark text-white border-0">
+              <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
+              <div class="jasa-card" id="furniture">
+                <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
+                  <h2 class="text-dark">Furniture</h2>
+                </div>
 
+              </div>
             </div>
-          </div>
+          </a>
         </div>
         <div class="col-md p-0 mt-2">
-          <div class="card bg-dark text-white border-0">
-            <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
-            <div class="jasa-card" id="building">
-              <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
-                <h2 class="text-dark">Building</h2>
+          <a href="/?page=building">
+            <div class="card bg-dark text-white border-0">
+              <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
+              <div class="jasa-card" id="building">
+                <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
+                  <h2 class="text-dark">Building</h2>
+                </div>
               </div>
             </div>
-          </div>
+          </a>
         </div>
-        <div class="col-md p-0 mt-2">
-          <div class="card bg-dark text-white border-0">
-            <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
-            <div class="jasa-card" id="interior">
-              <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
-                <h2 class="text-dark text-center">Design Interior</h2>
-              </div>
 
-            </div>
-          </div>
-        </div>
-        <!-- <div class="col-md p-0 mt-2">
-          <div class="card bg-dark text-white border-0">
-            <div class="jasa-card" id="iot">
-              <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
-                <h2 class="text-dark">IOT</h2>
-              </div>
-
-            </div>
-          </div>
-        </div> -->
       </div>
 
 

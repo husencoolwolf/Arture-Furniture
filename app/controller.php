@@ -1,121 +1,121 @@
 <?php
 class controller
 {
-    var $aktorcss = array("guest", "klien", "administrator", "marketing", "produksi", "akuntansi", "ceo");
-    var $halamancss = array(
-        array("home", "login", "daftar", "produk", "catalog-furniture"),
-        array("home", "produk", "keranjang", "checkout", "co-sukses", "co-gagal", "profil", "pesanan"),
-        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
-        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
-        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
-        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
-        array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil")
-    );
+  var $aktorcss = array("guest", "klien", "administrator", "marketing", "produksi", "akuntansi", "ceo");
+  var $halamancss = array(
+    array("home", "login", "daftar", "produk", "catalog-furniture", "furniture", "building"),
+    array("home", "produk", "keranjang", "checkout", "co-sukses", "co-gagal", "profil", "pesanan"),
+    array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+    array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+    array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+    array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+    array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil")
+  );
 
-    var $aktorjs = array("guest", "klien", "administrator", "marketing", "produksi", "akuntansi", "ceo");
-    var $halamanjs = array(
-        array("daftar", "produk"),
-        array("produk", "keranjang", "co-sukses", "profil", "pesanan"),
-        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
-        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
-        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
-        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
-        array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil")
-    );
+  var $aktorjs = array("guest", "klien", "administrator", "marketing", "produksi", "akuntansi", "ceo");
+  var $halamanjs = array(
+    array("daftar", "produk"),
+    array("produk", "keranjang", "co-sukses", "profil", "pesanan"),
+    array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+    array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+    array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+    array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
+    array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil")
+  );
 
-    function __construct()
-    {
+  function __construct()
+  {
+  }
+
+  function cssImporter($getParam, $getSession)
+  {
+    $css = ""; //output css code
+
+    if (empty($getParam)) {
+      $getParam = "home";
+    }
+    if (empty($getSession)) {
+      $getSession = "guest";
+    } else {
+      $getSession = $this->kodeHakAksesToStringCSS($getSession);
     }
 
-    function cssImporter($getParam, $getSession)
-    {
-        $css = ""; //output css code
 
-        if (empty($getParam)) {
-            $getParam = "home";
+    //
+    for ($i = 0; $i < count($this->aktorcss); $i++) {
+      if ($getSession == $this->aktorcss[$i]) {
+        for ($j = 0; $j < count($this->halamancss[$i]); $j++) {
+          if ($getParam == $this->halamancss[$i][$j]) {  // gk ada parameter
+            $css = '<link rel="stylesheet" href="/dist/css/pages/' . $this->aktorcss[$i] . '-' . $this->halamancss[$i][$j] . '.css">';
+          }
         }
-        if (empty($getSession)) {
-            $getSession = "guest";
-        } else {
-            $getSession = $this->kodeHakAksesToStringCSS($getSession);
-        }
+      }
+    }
+    return $css;
+  }
 
+  function jsImporter($getParam, $getSession)
+  {
+    $js = ""; //output css code
 
-        //
-        for ($i = 0; $i < count($this->aktorcss); $i++) {
-            if ($getSession == $this->aktorcss[$i]) {
-                for ($j = 0; $j < count($this->halamancss[$i]); $j++) {
-                    if ($getParam == $this->halamancss[$i][$j]) {  // gk ada parameter
-                        $css = '<link rel="stylesheet" href="/dist/css/pages/' . $this->aktorcss[$i] . '-' . $this->halamancss[$i][$j] . '.css">';
-                    }
-                }
-            }
-        }
-        return $css;
+    if (empty($getParam)) {
+      $getParam = "home";
+    }
+    if (empty($getSession)) {
+      $getSession = "guest";
+    } else {
+      $getSession = $this->kodeHakAksesToStringJS($getSession);
     }
 
-    function jsImporter($getParam, $getSession)
-    {
-        $js = ""; //output css code
+    //
+    for ($i = 0; $i < count($this->aktorjs); $i++) {
+      if ($getSession == $this->aktorjs[$i]) {
+        for ($j = 0; $j < count($this->halamanjs[$i]); $j++) {
+          if ($getParam == $this->halamanjs[$i][$j]) {  // gk ada parameter
+            $js = '<script src="/dist/js/pages/' . $this->aktorjs[$i] . '-' . $this->halamanjs[$i][$j] . '.js"></script>';
+          }
+        }
+      }
+    }
+    return $js;
+  }
 
-        if (empty($getParam)) {
-            $getParam = "home";
-        }
-        if (empty($getSession)) {
-            $getSession = "guest";
-        } else {
-            $getSession = $this->kodeHakAksesToStringJS($getSession);
-        }
+  function kodeHakAksesToStringCSS($index)
+  {
+    $index = (int)$index;
+    // var_dump($index);
+    return $this->aktorcss[$index];
+  }
 
-        //
-        for ($i = 0; $i < count($this->aktorjs); $i++) {
-            if ($getSession == $this->aktorjs[$i]) {
-                for ($j = 0; $j < count($this->halamanjs[$i]); $j++) {
-                    if ($getParam == $this->halamanjs[$i][$j]) {  // gk ada parameter
-                        $js = '<script src="/dist/js/pages/' . $this->aktorjs[$i] . '-' . $this->halamanjs[$i][$j] . '.js"></script>';
-                    }
-                }
-            }
-        }
-        return $js;
+  function kodeHakAksesToStringJS($index)
+  {
+    $index = (int)$index;
+    // var_dump($index);
+    return $this->aktorjs[$index];
+  }
+
+  function pembuatIDUnik($connection, $tabelName, $fieldID, $id = null, $max = 6)
+  {
+    if ($id == null) {
+      $id = '';
+      for ($i = 0; $i < $max; $i++) {
+        $id = $id . rand(0, 9);
+      }
     }
 
-    function kodeHakAksesToStringCSS($index)
-    {
-        $index = (int)$index;
-        // var_dump($index);
-        return $this->aktorcss[$index];
+    //
+    $cekid = mysqli_query($connection, "SELECT $fieldID FROM $tabelName WHERE $fieldID = '$id'");
+    if (mysqli_num_rows($cekid) == 0) {
+      return $id;
+    } else {
+      $id2 = createId(8);
+      $this->pembuatIDUnik($connection, $tabelName, $fieldID, $id);
     }
+  }
 
-    function kodeHakAksesToStringJS($index)
-    {
-        $index = (int)$index;
-        // var_dump($index);
-        return $this->aktorjs[$index];
-    }
-
-    function pembuatIDUnik($connection, $tabelName, $fieldID, $id = null, $max = 6)
-    {
-        if ($id == null) {
-            $id = '';
-            for ($i = 0; $i < $max; $i++) {
-                $id = $id . rand(0, 9);
-            }
-        }
-
-        //
-        $cekid = mysqli_query($connection, "SELECT $fieldID FROM $tabelName WHERE $fieldID = '$id'");
-        if (mysqli_num_rows($cekid) == 0) {
-            return $id;
-        } else {
-            $id2 = createId(8);
-            $this->pembuatIDUnik($connection, $tabelName, $fieldID, $id);
-        }
-    }
-
-    function intToRupiah($angka)
-    {
-        $hasil_rupiah = "Rp. " . number_format($angka, 0, ',', '.');
-        return $hasil_rupiah;
-    }
+  function intToRupiah($angka)
+  {
+    $hasil_rupiah = "Rp. " . number_format($angka, 0, ',', '.');
+    return $hasil_rupiah;
+  }
 }

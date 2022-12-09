@@ -1,0 +1,166 @@
+/* navbar ats */
+#navbar-atas.navbar {
+  background-color: #d0b10e;
+}
+
+.bg-emas-arture {
+  background-color: #d0b10e;
+  color: #483b39;
+}
+
+.text-emas-arture {
+  color: #d0b10e;
+}
+
+.bg-kuning {
+  background-color: #f0cf18;
+}
+
+.garis-kuning {
+  position: relative;
+  background-color: #f0cf18;
+  /* top: 0;
+      left: 4%; */
+  width: 100%;
+  height: 10px;
+  z-index: 1000;
+}
+
+.badge.cart-notification {
+  border-radius: 50%;
+  left: -10px;
+  top: -10px;
+}
+
+ul.link-navbar-atas > li > a {
+  color: white;
+  font-weight: bold;
+}
+
+ul.link-navbar-atas > li > a:hover {
+  color: #483b39 !important;
+  font-weight: bold;
+}
+
+#jasa > .container {
+  padding-right: 20%;
+  padding-left: 20%;
+}
+
+.text-jasa {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.card:hover > .jasa-card > .text-jasa {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.card {
+  height: 30rem;
+}
+
+.jasa-card {
+  cursor: pointer;
+  /* opacity: 0.5; */
+  height: 30rem;
+  /* background-color: black; */
+  /* background-position: center; */
+
+  background-repeat: no-repeat;
+
+  /* background-attachment: fixed; */
+
+  background-size: cover;
+  /* background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
+}
+
+#furniture {
+  background-image: url("/assets/bg-trial/Furniture.jpg");
+  background-position: 40% top;
+}
+
+#building {
+  background-image: url("/assets/bg-trial/Building.jpg");
+  background-position: 45% top;
+}
+
+#interior {
+  background-image: url("/assets/bg-trial/Interior\ Design.jpg");
+  background-position: 45% top;
+}
+
+#iot {
+  background-image: url("/assets/bg-trial/IOT.jpg");
+  background-position: 40% top;
+}
+
+/* #navbar-bawah.navbar {
+    background-color: #483b39;
+} */
+
+.cariProduk-input-grup {
+  width: 20rem;
+}
+
+.jumbotron {
+  background-image: url("/assets/material/download.jpg");
+  /* background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
+
+  background-position: center center;
+
+  background-repeat: no-repeat;
+
+  background-attachment: fixed;
+
+  background-size: cover;
+  background-color: #464646;
+  /* height: 576px; */
+  /* width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center; */
+}
+
+.spaces {
+  margin-top: 10rem;
+  margin-bottom: 10rem;
+}
+
+#quote {
+  font-size: 70px;
+  color: white;
+}
+
+.card-footer > p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+#waContact {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  right: 50px;
+  bottom: 50px;
+  color: white;
+}
+
+.background.konsepruangan1 {
+  background-size: cover;
+  background-image: url("/assets/material/konsep1.jpeg");
+}
+
+.backgroud.half-bg {
+  min-height: 500vh;
+}

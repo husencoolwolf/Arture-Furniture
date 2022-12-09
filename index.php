@@ -55,6 +55,10 @@ $getPageStatus = "";
       }
     } elseif ($getPage == "catalog-furniture") {
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/guest/catalog-furniture.php';
+    } elseif ($getPage == "furniture") {
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/guest/furniture.php';
+    } elseif ($getPage == "building") {
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/guest/building.php';
     } else {
       header("Location: /");
     }
