@@ -23,7 +23,7 @@ if (isset($_GET['cari'])) {
   <div class="container">
 
     <div class="row py-3" id="daftarHarga">
-      <div class="col-8">
+      <div class="col">
         <table class="table table-sm">
           <tbody>
             <tr>
