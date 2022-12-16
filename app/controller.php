@@ -14,7 +14,7 @@ class controller
 
   var $aktorjs = array("guest", "klien", "administrator", "marketing", "produksi", "akuntansi", "ceo");
   var $halamanjs = array(
-    array("daftar", "produk"),
+    array("home", "daftar", "produk"),
     array("produk", "keranjang", "co-sukses", "profil", "pesanan"),
     array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
     array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
