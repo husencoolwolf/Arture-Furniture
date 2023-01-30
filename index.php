@@ -27,6 +27,7 @@ $getPageStatus = "";
   <link rel="stylesheet" href="/dist/css/bootstrap.css">
   <link rel="stylesheet" href="/dist/font-awesome-4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/dist/DataTables/datatables.min.css">
+  <link rel="stylesheet" href="/dist/css/styles.css">
   <?php echo ($ctr->cssImporter($getPage, $getHakAkses)); ?>
 
   <script src="/dist/js/jquery-3.5.1.js"></script>

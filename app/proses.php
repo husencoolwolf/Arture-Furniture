@@ -485,13 +485,14 @@ switch ($api) {
     $klien = $_POST['dataKlien'];
     $data = $_POST['dataPembayaran'];
     $r = $tg->SendMessage(
-      "<b>Pesanan Baru</b>, Atas Nama : " . $klien['nama'] . " dengan ID Pesanan: <code>" . $data['pesanan'] . "</code>.
-      Detail Klien :
-      -No. HP : <code>" . $klien['nomor_hp'] . "</code>
-      -Email : <code>" . $klien['email'] . "</code>
-      Harap untuk verifikasi pembayaran pesanan secara berkala!!!",
+      "<b><u>Pesanan Baru<u></b>" .
+        "\nAtas Nama : " . $klien['nama'] . " dengan ID Pesanan: <code>" . $data['pesanan'] . "</code>." .
+        "\nDetail Klien :" .
+        "\n-No. HP : <code>" . $klien['nomor_hp'] . "</code>" .
+        "\n-Email : <code>" . $klien['email'] . "</code>" .
+        "\nHarap untuk verifikasi pembayaran pesanan secara berkala!!!",
       [1],
-      ['marketing_group', 'akuntansi_group', 'produksi_group']
+      ['akuntansi_group']
     );
     echo ($r);
     break;
@@ -518,14 +519,14 @@ switch ($api) {
       case "batal":
         if (isset($_POST['inputAlasan'])) {
           $klien = $db->getDataDetailPesananModalAdmin($idPesanan)['detail_pesanan'];
-          $tg->SendMessage(
-            "<b>Ada pesanan yang dibatalkan</b>
-              Dengan ID Pesanan : <code>$idPesanan</code>
-            dengan alasan : " . $_POST['inputAlasan'] . "
-            <u>detail</u>
-            Nama Klien : " . $klien['nama'] . "
-            No.Hp : " . $klien['nomor_hp'] . "
-            Email : " . $klien['email'],
+          $response = $tg->SendMessage(
+            "<b>Ada pesanan yang dibatalkan</b>\n" .
+              "Dengan ID Pesanan : <code>$idPesanan</code>\n" .
+              "dengan alasan : " . $_POST['inputAlasan'] . "\n" .
+              "<u>detail</u>\n" .
+              "Nama Klien : " . $klien['nama'] . "\n" .
+              "No.Hp : " . $klien['nomor_hp'] . "\n" .
+              "Email : " . $klien['email'],
             [],
             [
               "marketing_group",
