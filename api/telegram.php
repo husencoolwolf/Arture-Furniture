@@ -12,7 +12,6 @@ class Telegram
   {
     $data = json_decode($data);
     $this->_telegramData = $data;
-    // $this->_telegramData->token = "5438148499:AAEoXDPqr_A5ihXyD_2nfrZ7zSrzHwJQHkc";
   }
 
   function __getData()
