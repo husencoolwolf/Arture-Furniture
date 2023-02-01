@@ -63,10 +63,11 @@ if ($aksi == "daftarKlien") {
   } else {
     // ada file
     $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/assets/produk/';
-    $uploadfile = $uploaddir . basename($_FILES['inputGambar']['name']);
     $namaFile = $_FILES['inputGambar']['name'];
     $respon = $db->tambahProduk($_POST, $namaFile);
-    if ($respon == "0") {
+    // Return array[@keberhasilan, @encryptednamefile]
+    if ($respon[0] == "0") {
+      $uploadfile = $uploaddir . $respon[1];
       if (move_uploaded_file($_FILES['inputGambar']['tmp_name'], $uploadfile)) {
         // echo "File is valid, and was successfully uploaded.\n";
         header("Location: /?page=produk");
@@ -105,10 +106,12 @@ if ($aksi == "daftarKlien") {
     }
   }
 } elseif ($aksi == "hapus-produk") {
-  if (isset($_GET['id'])) {
+  if (isset($_GET['id']) && $_SESSION['id_hak_akses'] == "2") {
     $respon = $db->hapusProduk($_GET['id']);
     if ($respon == "0") {
       header("Location: /?page=produk");
+    } elseif ($respon == "1") {
+      header("Location: /?page=produk&error=2");
     } else {
       header("Location: /?page=produk&error=1");
     }
@@ -180,10 +183,19 @@ if ($aksi == "daftarKlien") {
 } elseif ($aksi == "tambah-pesanan-admin") {
   $respon = $db->tambahPesananAdmin($_POST['pesanan'], $_POST['produk']);
   echo ($respon);
+  if ($respon) {
+    header("Location: /?page=pesanan");
+  } else {
+    header("Location: /?page=tambah-pesanan&error=$respon");
+  }
 } elseif ($aksi == "tambah-project-admin") {
   $respon = $db->tambahProjectAdmin($_POST['project'], $_POST['item']);
   // var_dump($_POST);\
-  echo ($respon);
+  if ($respon) {
+    header("Location: /?page=project");
+  } else {
+    header("Location: /?page=tambah-project&error=$respon");
+  }
 } elseif ($aksi == "tambah-pembayaran-admin") {
   $idPembayaran = $controller->pembuatIDUnik($db->getKoneksi(), "pembayaran", "id_pembayaran");
   $respon = $db->tambahPembayaranAdmin($_POST, $idPembayaran);
@@ -259,9 +271,9 @@ if ($aksi == "daftarKlien") {
     $idPesanan = $_GET['id'];
     $respon = $db->deletePesananAdmin($idPesanan);
     if ($respon) {
-      header("Location: /?page=pesanan");
+      header("Location: /?page=project");
     } else {
-      header("Location: /?page=pesanan&error=-1");
+      header("Location: /?page=project&error=-1");
     }
   } else {
     echo (0);

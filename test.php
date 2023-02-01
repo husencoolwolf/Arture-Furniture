@@ -1,4 +1,2 @@
 <?php
-$data = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/private/telegram.json");
-$parsed = json_decode($data);
-var_dump($parsed->id);
+unlink($_SERVER['DOCUMENT_ROOT'] . "/assets/produk/5b8abfc51cc901647fa346676267e55f.jpg");

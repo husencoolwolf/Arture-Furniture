@@ -8,6 +8,7 @@ class database
   var $username = "root";
   var $password = "";
   var $db = "arture_furniture";
+  var $koneksi;
 
   // query nyari latest status project
   //select * from proyek p INNER JOIN item_proyek i on i.id_proyek=p.id_proyek RIGHT JOIN status_proyek s on i.id_item_proyek=s.id_item_proyek where s.tanggal=(select max(tanggal) from status_proyek s2);
@@ -218,10 +219,13 @@ class database
     $idProduk = $this->pembuatIDUnik($this->koneksi, "produk", "id_produk");
     $deskripsi = $data['inputDeskripsi'];
     $deskripsi = str_replace("\n", "<br>", $deskripsi);
-    $query = "INSERT INTO produk values ('$idProduk', '" . $data['selectKategori'] . "', '" . $data['inputNamaProduk'] . "', '" . $this->rupiahToInt($data['inputHargaProduk']) . "', '" . $deskripsi . "', '$gambar', DEFAULT)";
+    $fileExtension = explode(".", $gambar);
+    $namaFileBaru = md5($idProduk) . "." . $fileExtension[1];
+    $query = "INSERT INTO produk values ('$idProduk', '" . $data['selectKategori'] . "', '" . $data['inputNamaProduk'] . "', '" . $this->rupiahToInt($data['inputHargaProduk']) . "', '" . $deskripsi . "', '$namaFileBaru', DEFAULT)";
     $inputProduk = mysqli_query($this->koneksi, $query);
     if ($inputProduk) {
-      return "0";
+      // Return Array(@keberhasilan, @encryptedName)
+      return array("0", $namaFileBaru);
     } else {
       return mysqli_error($this->koneksi);
     }
@@ -376,10 +380,20 @@ class database
 
   function hapusProduk($id)
   {
+    //query ambil nama file gamber yang dihapus
+    $queryGetGambarName = "SELECT gambar FROM produk where id_produk='$id'";
+    $getGambarName = mysqli_query($this->koneksi, $queryGetGambarName);
+    $namaGambar = mysqli_fetch_assoc($getGambarName);
+    //query hapus
     $query = "DELETE FROM produk where id_produk='$id'";
     $deleteProduk = mysqli_query($this->koneksi, $query);
-    if ($deleteProduk) {
-      return "0";
+    if ($deleteProduk) { //Kalau berhasil Delete
+      if (mysqli_num_rows($getGambarName) > 0) { //kalau query gambar ada hasil
+        unlink($_SERVER['DOCUMENT_ROOT'] . "/assets/produk/" . $namaGambar['gambar']); //hapus
+        return "0";
+      } else {
+        return "1";
+      }
     } else {
       return mysqli_error($this->koneksi);
     }
