@@ -1,6 +1,10 @@
 <?php
+
+use Services\EnvParser;
+
 session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . "/app/init.php";
+(new EnvParser(__DIR__ . '/.env'))->load(); //Environment Parser
 $db = new database;
 $ctr = new controller;
 $getPage = "";
@@ -38,7 +42,6 @@ $getPageStatus = "";
 </head>
 
 <body class="bg-light">
-
   <?php
   if (empty($getHakAkses)) { // guest
     //--------------guest pages ---------------------

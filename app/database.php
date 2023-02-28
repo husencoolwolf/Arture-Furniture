@@ -1818,6 +1818,32 @@ class database
     }
   }
 
+  function getDetailProdukWithIDs($id, $separator = ',')
+  {
+    $idList = [];
+    $DetailProdukList = [];
+    if (!is_array($id)) {
+      $idList = explode($separator, $id);
+    } else {
+      $idList = $id;
+    }
+    // Proses Ambil semua id dan loop setiap id
+    foreach ($idList as $idProduk) {
+      if ($DetailProduk = mysqli_query($this->koneksi, "SELECT p.id_produk, p.nama_produk, p.harga_produk, k.kategori from produk p inner join kategori k on k.id_kategori=p.id_kategori where id_produk='$idProduk'")) {
+        if (mysqli_num_rows($DetailProduk) > 0) {
+          while ($x = mysqli_fetch_assoc($DetailProduk)) {
+            // Setiap data yang di fetch masuk ke variable DetailProdukList dengan format array[idproduk]->array() dimana array didalamnya berisi detail produk
+            $DetailProdukList[] = $x;
+          }
+        }
+      } else {
+        return "-1";
+      }
+    }
+    // return Data detail produk
+    return $DetailProdukList;
+  }
+
   function getHargaJumlahProdukAll($idKostumer)
   {
     $query = "SELECT produk.harga_produk, keranjang.jumlah, keranjang.id_akun_kostumer from keranjang INNER JOIN produk ON produk.id_produk=keranjang.id_produk where keranjang.id_akun_kostumer='$idKostumer'";
