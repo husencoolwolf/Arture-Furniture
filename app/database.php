@@ -203,6 +203,22 @@ class database
     }
   }
 
+  function tambahAlamatKlien($data)
+  {
+    $query = "INSERT INTO `alamat_klien` (`id_akun`, `alamat`, `provinsi`, `kota`, `kecamatan`, `is_main`) VALUES ('" . $data['idAkun'] . "',
+     '" . $data['alamat'] . "', 
+     '" . $data['provinsi'] . "', 
+     '" . $data['kota'] . "', 
+     '" . $data['kecamatan'] . "', 
+     '1')";
+    $inputAlamat = mysqli_query($this->koneksi, $query);
+    if ($inputAlamat) {
+      return "0";
+    } else {
+      return mysqli_error($this->koneksi);
+    }
+  }
+
   function tambahKategori($data)
   {
     $query = "Insert into kategori values(DEFAULT, '" . $data['inputKategori'] . "')";

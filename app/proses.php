@@ -19,8 +19,9 @@ if (isset($_GET['api'])) {
 }
 
 if ($aksi == "daftarKlien") {
+  $idAkun = $controller->pembuatIDUnik($db->getKoneksi(), "akun", "id_akun");
   $data = array(
-    "id" => $controller->pembuatIDUnik($db->getKoneksi(), "akun", "id_akun"),
+    "id" => $idAkun,
     "nama" => $_POST['inputNama'],
     "username" => $_POST['inputUsername'],
     "nope" => $_POST['selectCodeNegara'] . $_POST['inputNope'],
@@ -28,7 +29,16 @@ if ($aksi == "daftarKlien") {
     "password" => $_POST['inputPassword'],
     "alamat" => $_POST['inputAlamat']
   );
-  $respon = $db->daftarKlien($data);
+  $dataAlamat = array(
+    "idAkun" => $idAkun,
+    "alamat" => $_POST['inputAlamat'],
+    "provinsi" => $_POST['selectProvinsi'],
+    "kota" => $_POST['selectKota'],
+    "kecamatan" => $_POST['selectKecamatan']
+  );
+  $respon1 = $db->daftarKlien($data);
+  $respon2 = $db->tambahAlamatKlien($dataAlamat);
+  ($respon1 && $respon2) == "0" ? $respon = "0" : $respon = $respon1 . $respon2;
   if ($respon == "0") {
     header("Location: /?page=login&daftar=1");
   } else {
