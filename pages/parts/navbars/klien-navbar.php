@@ -12,9 +12,12 @@
         <?php echo $_SESSION['nama']; ?>
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <a class="dropdown-item" href="/?page=profil">Profil</a>
-        <a class="dropdown-item" href="/?page=pesanan">Pesanan</a>
-        <a class="dropdown-item bg-danger text-white" href="/logout.php">Logout</a>
+        <a class="dropdown-item" href="/?page=profil">Profil <span class="float-right"><i class="fa fa-user" aria-hidden="true"></i>
+          </span></a>
+        <a class="dropdown-item" href="/?page=pesanan">Pesanan <span class="float-right"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
+          </span></a>
+        <a class="dropdown-item bg-danger text-white" href="/logout.php">Logout <span class="float-right"><i class="fa fa-sign-out" aria-hidden="true"></i>
+          </span></a>
       </div>
     </li>
     <li>
@@ -36,7 +39,7 @@
 
   <!--  Show this only on mobile to medium screens  -->
   <a class="navbar-brand d-lg-none" href="/">
-    <img class="" src="/assets/material/arture logo.png" alt="Arture Furniture" style="width: 100px">
+    <img class="" src="/assets/material/Arture-header-transparent.png" alt="Arture Furniture" style="width: 100px">
   </a>
 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +52,7 @@
     <!--   Show this only lg screens and up   -->
     <ul class="navbar-nav">
       <a class="navbar-brand d-none d-lg-block" href="/">
-        <img class="" src="/assets/material/arture logo panjang.png" alt="Arture Furniture" style="width: 200px">
+        <img class="" src="/assets/material/Arture-header-transparent.png" alt="Arture Furniture" style="width: 200px">
       </a>
     </ul>
     <ul class="navbar-nav ml-auto">

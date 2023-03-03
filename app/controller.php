@@ -3,7 +3,7 @@ class controller
 {
   var $aktorcss = array("guest", "klien", "administrator", "marketing", "produksi", "akuntansi", "ceo");
   var $halamancss = array(
-    array("home", "login", "daftar", "produk", "catalog-furniture", "furniture", "building"),
+    array("home", "login", "daftar", "produk", "catalog-furniture"),
     array("home", "produk", "keranjang", "checkout", "co-sukses", "co-gagal", "profil", "pesanan"),
     array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
     array("dashboard", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
@@ -14,7 +14,7 @@ class controller
 
   var $aktorjs = array("guest", "klien", "administrator", "marketing", "produksi", "akuntansi", "ceo");
   var $halamanjs = array(
-    array("home", "daftar", "produk"),
+    array("daftar", "produk"),
     array("produk", "keranjang", "co-sukses", "profil", "pesanan"),
     array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
     array("dashboard", "produk", "tambah-produk", "edit-produk", "pesanan", "tambah-pesanan", "edit-pesanan", "akun", "tambah-akun", "edit-akun", "pembayaran", "tambah-pembayaran", "edit-pembayaran", "project", "tambah-project", "edit-project", "profil"),
@@ -117,5 +117,91 @@ class controller
   {
     $hasil_rupiah = "Rp. " . number_format($angka, 0, ',', '.');
     return $hasil_rupiah;
+  }
+
+  function WhatsappSentMany($noTarget)
+  {
+    // coolwolf wa token : EAALB4wBPZA4sBAKrSbwlqoVyR5Jhq5fbAsIRpc8oM9eN3mx9wLnmqdueWg8JxqrDMt7X9tEi5uHDxbxEgE3QxWu3ZBVdIEXjPC8YjDQeZAB81yLGZB0wQPyRN2malbORaiJm23zsLjyn1nQOpBCf5KqTBsM4MjAPYFUk1ZCj14pOz4o0IS1QV
+    $waToken = "EAALB4wBPZA4sBAKrSbwlqoVyR5Jhq5fbAsIRpc8oM9eN3mx9wLnmqdueWg8JxqrDMt7X9tEi5uHDxbxEgE3QxWu3ZBVdIEXjPC8YjDQeZAB81yLGZB0wQPyRN2malbORaiJm23zsLjyn1nQOpBCf5KqTBsM4MjAPYFUk1ZCj14pOz4o0IS1QV";
+    // coolwolf wa id : 111896601660196 
+    //wa test id : 103874192471361
+    $phoneId = "111896601660196";
+
+    $header = array(
+      "Authorization: Bearer $waToken",
+      'Content-Type: application/json'
+    );
+
+    $lang = array(
+      'code' => "en_US"
+    );
+
+    $templateArr = array(
+      'name' => "hello_world",
+      'language' => $lang
+    );
+
+    // $fields = array(
+    //   'messaging_product' => 'whatsapp',
+    //   'recipient_type' => 'individual',
+    //   'to' => '6287771236822',
+    //   'type' => 'text',
+    //   'text' => $text_arr
+    // );
+    $fields = array(
+      'messaging_product' => 'whatsapp',
+      'recipient_type' => 'individual',
+      'to' => $noTarget,
+      'type' => 'template',
+      'template' => $templateArr
+    );
+    // persiapkan curl
+    $ch = curl_init();
+
+    // set url 
+    // curl_setopt($ch, CURLOPT_URL, "https://graph.facebook.com/v14.0/103874192471361/messages");
+
+    // return the transfer as a string 
+    curl_setopt_array($ch, array(
+      CURLOPT_URL => "https://graph.facebook.com/v13.0/$phoneId/messages",
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => "",
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => "POST",
+      CURLOPT_POSTFIELDS => json_encode($fields),
+      CURLOPT_HTTPHEADER => $header,
+    ));
+
+    // $output contains the output string 
+    // $output = curl_exec($ch);
+    $response = json_decode(curl_exec($ch), true);
+
+    // tutup curl 
+    curl_close($ch);
+    if (!isset($response['error'])) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function blurEmail($email)
+  {
+    $em   = explode("@", $email);
+    $name = implode('@', array_slice($em, 0, count($em) - 1));
+    $len  = floor(strlen($name) / 2);
+
+    return substr($name, 0, $len) . str_repeat('*', $len) . "@" . end($em);
+  }
+
+  function blurNomorHP($nomor)
+  {
+    for ($i = 4; $i < strlen($nomor) - 2; $i++) {
+      $nomor = substr_replace($nomor, "*", $i, 1);
+    }
+    return $nomor;
   }
 }

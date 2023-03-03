@@ -1,28 +1,44 @@
 <?php
 session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . "/app/init.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/api/telegram.php";
 $db = new database;
 $controller = new controller;
+$tg = new Telegram(file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/private/telegram.json"));
 $aksi = "";
 $request = "";
+$api = "";
 if (isset($_GET['aksi'])) {
   $aksi = $_GET['aksi'];
 }
 if (isset($_GET['request'])) {
   $request = $_GET['request'];
 }
+if (isset($_GET['api'])) {
+  $api = $_GET['api'];
+}
 
 if ($aksi == "daftarKlien") {
+  $idAkun = $controller->pembuatIDUnik($db->getKoneksi(), "akun", "id_akun");
   $data = array(
-    "id" => $controller->pembuatIDUnik($db->getKoneksi(), "akun", "id_akun"),
+    "id" => $idAkun,
     "nama" => $_POST['inputNama'],
     "username" => $_POST['inputUsername'],
-    "nope" => $_POST['inputNope'],
+    "nope" => $_POST['selectCodeNegara'] . $_POST['inputNope'],
     "email" => $_POST['inputEmail'],
     "password" => $_POST['inputPassword'],
     "alamat" => $_POST['inputAlamat']
   );
-  $respon = $db->daftarKlien($data);
+  $dataAlamat = array(
+    "idAkun" => $idAkun,
+    "alamat" => $_POST['inputAlamat'],
+    "provinsi" => $_POST['selectProvinsi'],
+    "kota" => $_POST['selectKota'],
+    "kecamatan" => $_POST['selectKecamatan']
+  );
+  $respon1 = $db->daftarKlien($data);
+  $respon2 = $db->tambahAlamatKlien($dataAlamat);
+  ($respon1 && $respon2) == "0" ? $respon = "0" : $respon = $respon1 . $respon2;
   if ($respon == "0") {
     header("Location: /?page=login&daftar=1");
   } else {
@@ -57,10 +73,11 @@ if ($aksi == "daftarKlien") {
   } else {
     // ada file
     $uploaddir = $_SERVER['DOCUMENT_ROOT'] . '/assets/produk/';
-    $uploadfile = $uploaddir . basename($_FILES['inputGambar']['name']);
     $namaFile = $_FILES['inputGambar']['name'];
     $respon = $db->tambahProduk($_POST, $namaFile);
-    if ($respon == "0") {
+    // Return array[@keberhasilan, @encryptednamefile]
+    if ($respon[0] == "0") {
+      $uploadfile = $uploaddir . $respon[1];
       if (move_uploaded_file($_FILES['inputGambar']['tmp_name'], $uploadfile)) {
         // echo "File is valid, and was successfully uploaded.\n";
         header("Location: /?page=produk");
@@ -99,10 +116,12 @@ if ($aksi == "daftarKlien") {
     }
   }
 } elseif ($aksi == "hapus-produk") {
-  if (isset($_GET['id'])) {
+  if (isset($_GET['id']) && $_SESSION['id_hak_akses'] == "2") {
     $respon = $db->hapusProduk($_GET['id']);
     if ($respon == "0") {
       header("Location: /?page=produk");
+    } elseif ($respon == "1") {
+      header("Location: /?page=produk&error=2");
     } else {
       header("Location: /?page=produk&error=1");
     }
@@ -166,17 +185,27 @@ if ($aksi == "daftarKlien") {
     "norek" => $_POST['inputNorek'],
     "nasabah" => $_POST['inputNasabah']
   );
+  $klien = mysqli_fetch_assoc($db->getDataKlien($_SESSION['id_akun']));
+
   $respon = $db->tambahInfoPembayaran($data);
-  // var_dump($data);
-  echo ($respon);
-  // var_dump($_POST);
+
+  echo (json_encode(array($respon, $data, $klien)));
 } elseif ($aksi == "tambah-pesanan-admin") {
   $respon = $db->tambahPesananAdmin($_POST['pesanan'], $_POST['produk']);
   echo ($respon);
+  if ($respon) {
+    header("Location: /?page=pesanan");
+  } else {
+    header("Location: /?page=tambah-pesanan&error=$respon");
+  }
 } elseif ($aksi == "tambah-project-admin") {
   $respon = $db->tambahProjectAdmin($_POST['project'], $_POST['item']);
   // var_dump($_POST);\
-  echo ($respon);
+  if ($respon) {
+    header("Location: /?page=project");
+  } else {
+    header("Location: /?page=tambah-project&error=$respon");
+  }
 } elseif ($aksi == "tambah-pembayaran-admin") {
   $idPembayaran = $controller->pembuatIDUnik($db->getKoneksi(), "pembayaran", "id_pembayaran");
   $respon = $db->tambahPembayaranAdmin($_POST, $idPembayaran);
@@ -470,8 +499,70 @@ if ($request == "updateKategori") {
   $respon = $db->getDataPesananKlien($_SESSION['id_akun']);
   echo (json_encode($respon));
 }
+// end of request
 
-if ($aksi = "" && $request == "") {
+//start of API
+switch ($api) {
+  case "telegram-notif-klien-buat-pesanan":
+    $klien = $_POST['dataKlien'];
+    $data = $_POST['dataPembayaran'];
+    $r = $tg->SendMessage(
+      "<b><u>Pesanan Baru<u></b>" .
+        "\nAtas Nama : " . $klien['nama'] . " dengan ID Pesanan: <code>" . $data['pesanan'] . "</code>." .
+        "\nDetail Klien :" .
+        "\n-No. HP : <code>" . $klien['nomor_hp'] . "</code>" .
+        "\n-Email : <code>" . $klien['email'] . "</code>" .
+        "\nHarap untuk verifikasi pembayaran pesanan secara berkala!!!",
+      [1],
+      ['akuntansi_group']
+    );
+    echo ($r);
+    break;
+  case "telegram-update-status-pesanan":
+    $statusSelanjutnya = "";
+    $keterangan = "";
+    if (isset($_POST['inputAlasan'])) { // kalo batal
+      $statusSelanjutnya = "batal";
+    } else { //kalo tidak batal
+      $statusSelanjutnya = $_POST['selanjutnya'];
+    }
+    $idPesanan = $_GET['id'];
+    switch ($statusSelanjutnya) {
+      case "pembuatan":
+
+        break;
+      case "pengiriman":
+
+        break;
+      case "selesai":
+
+        break;
+
+      case "batal":
+        if (isset($_POST['inputAlasan'])) {
+          $klien = $db->getDataDetailPesananModalAdmin($idPesanan)['detail_pesanan'];
+          $response = $tg->SendMessage(
+            "<b>Ada pesanan yang dibatalkan</b>\n" .
+              "Dengan ID Pesanan : <code>$idPesanan</code>\n" .
+              "dengan alasan : " . $_POST['inputAlasan'] . "\n" .
+              "<u>detail</u>\n" .
+              "Nama Klien : " . $klien['nama'] . "\n" .
+              "No.Hp : " . $klien['nomor_hp'] . "\n" .
+              "Email : " . $klien['email'],
+            [],
+            [
+              "marketing_group",
+              "akuntansi_group",
+              "produksi_group"
+            ]
+          );
+        }
+        break;
+    }
+    break;
+}
+//end of API
+if ($aksi = "" && $request == "" && $api = "") {
   echo ('<div class="alert alert-warning" role="alert">
         Terjadi kesalahan 404: parameter hilang!
         </div>');

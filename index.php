@@ -1,6 +1,10 @@
 <?php
+
+use Services\EnvParser;
+
 session_start();
 require_once $_SERVER['DOCUMENT_ROOT'] . "/app/init.php";
+(new EnvParser(__DIR__ . '/.env'))->load(); //Environment Parser
 $db = new database;
 $ctr = new controller;
 $getPage = "";
@@ -27,6 +31,7 @@ $getPageStatus = "";
   <link rel="stylesheet" href="/dist/css/bootstrap.css">
   <link rel="stylesheet" href="/dist/font-awesome-4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/dist/DataTables/datatables.min.css">
+  <link rel="stylesheet" href="/dist/css/styles.css">
   <?php echo ($ctr->cssImporter($getPage, $getHakAkses)); ?>
 
   <script src="/dist/js/jquery-3.5.1.js"></script>
@@ -37,7 +42,6 @@ $getPageStatus = "";
 </head>
 
 <body class="bg-light">
-
   <?php
   if (empty($getHakAkses)) { // guest
     //--------------guest pages ---------------------

@@ -89,8 +89,8 @@ $dataKeranjang = $db->getDataKeranjangUser($_SESSION['id_akun']);
           <p class="font-weight-bold rupiah" id="subtotal">Rp.0</p>
         </div>
         <div class="d-flex justify-content-between">
-          <p class="font-weight-bold">Pajak </p>
-          <p class="font-weight-bold rupiah">Rp.0</p>
+          <p class="font-weight-bold">Admin </p>
+          <p class="font-weight-bold rupiah">Rp.7.000</p>
         </div>
         <hr>
         <div class="d-flex justify-content-between">
