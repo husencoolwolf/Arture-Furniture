@@ -326,6 +326,23 @@ class database
     $query = "SELECT alamat from akun where id_produk='$idKlien'";
   }
 
+  function getAlamatKlienUser($idKlien)
+  {
+    $query = "SELECT * from alamat_klien where id_akun='$idKlien'";
+  }
+
+  function getAlamatAktifKlienUser($idKlien)
+  {
+    $query = "SELECT * from alamat_klien where id_akun='$idKlien' AND is_main='1'";
+    $alamatAktif = mysqli_query($this->koneksi, $query);
+    if ($alamatAktif && mysqli_num_rows($alamatAktif) > 0) {
+      return mysqli_fetch_assoc($alamatAktif);
+    } else {
+      return mysqli_error($this->koneksi);
+    }
+  }
+
+
   function getPersentaseProgresProduksiProject($idProject)
   {
     $idItem = $this->getIdItemWithIdProject($idProject);

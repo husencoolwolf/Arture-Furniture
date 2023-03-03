@@ -187,4 +187,21 @@ class controller
       return false;
     }
   }
+
+  function blurEmail($email)
+  {
+    $em   = explode("@", $email);
+    $name = implode('@', array_slice($em, 0, count($em) - 1));
+    $len  = floor(strlen($name) / 2);
+
+    return substr($name, 0, $len) . str_repeat('*', $len) . "@" . end($em);
+  }
+
+  function blurNomorHP($nomor)
+  {
+    for ($i = 4; $i < strlen($nomor) - 2; $i++) {
+      $nomor = substr_replace($nomor, "*", $i, 1);
+    }
+    return $nomor;
+  }
 }
