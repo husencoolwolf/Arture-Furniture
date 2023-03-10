@@ -1,3 +1,58 @@
+:root {
+	font-size: 14px;
+}
+
 .vh-80 {
-  height: 85vh;
+	height: 85vh;
+}
+
+.productName {
+	font-size: 0.86rem;
+}
+
+.productPrice {
+	font-size: 1rem;
+}
+
+.productDesc {
+	font-size: 0.86rem;
+}
+
+/* navbar ats */
+#navbar-atas.navbar {
+	background-color: #d0b10e;
+}
+
+.bg-emas-arture {
+	background-color: #d0b10e;
+	color: #483b39;
+}
+
+.text-emas-arture {
+	color: #d0b10e;
+}
+
+.badge.cart-notification {
+	border-radius: 50%;
+	left: -10px;
+	top: -10px;
+}
+
+ul.link-navbar-atas > li > a {
+	color: white;
+	font-weight: bold;
+}
+
+ul.link-navbar-atas > li > a:hover {
+	color: #483b39 !important;
+	font-weight: bold;
+}
+
+#jasa > .container {
+	padding-right: 20%;
+	padding-left: 20%;
+}
+
+.error {
+	color: red;
 }

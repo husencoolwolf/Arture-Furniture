@@ -77,6 +77,8 @@ $getPageStatus = "";
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/keranjang.php';
     } elseif ($getPage == "profil") {
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/profil.php';
+    } elseif ($getPage == "edit-akun") {
+      include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/edit-akun.php';
     } elseif ($getPage == "checkout") {
       include $_SERVER['DOCUMENT_ROOT'] . '/pages/klien/checkout.php';
     } elseif ($getPage == "co-sukses") {

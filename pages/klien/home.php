@@ -89,15 +89,12 @@ if (isset($_GET['cari'])) {
             ?>
               <div class="col-lg-4 col-md-4 col-sm-6 mb-3 justify-content-center">
                 <a class="text-decoration-none text-dark" href="/?page=produk&produk=<?= $x['id_produk'] ?>">
-                  <div class="card h-100">
+                  <div class="card">
                     <img src="/assets/produk/<?= $x['gambar'] ?>" class="card-img-top img-fluid" alt="<?= $x['nama_produk'] ?>">
                     <div class="card-body">
-                      <h4 class="card-title font-weight-bold"><?= $x['nama_produk'] ?></h4>
-                      <p class="font-weight-bold"><?= $db->intToRupiah($x['harga_produk']) ?></p>
+                      <p class="card-title font-weight-bold productName"><?= $x['nama_produk'] ?></p>
+                      <p class="font-weight-bold productPrice"><?= $db->intToRupiah($x['harga_produk']) ?></p>
 
-                    </div>
-                    <div class="card-footer">
-                      <p class="card-text"><?= $x['deskripsi'] ?></p>
                     </div>
                   </div>
                 </a>

@@ -13,12 +13,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pages/parts/navbars/klien-navbar.php';
 
 <div class="container">
   <div class="row">
-
-
-
     <main role="main" class="col-md">
-
-
       <?php
       if (isset($_GET['error'])) {
         if ($_GET['error'] == -1) {
@@ -60,7 +55,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/pages/parts/navbars/klien-navbar.php';
                 </tr>
               </table>
               <div class="d-flex justify-content-center">
-                <a href="#" class="btn btn-dark">Edit Akun<span> | <i class="fa fa-pencil" aria-hidden="true"></i></span></a>
+                <a href="/?page=edit-akun" class="btn btn-dark">Edit Akun<span> | <i class="fa fa-pencil" aria-hidden="true"></i></span></a>
               </div>
             </div>
           </div>
