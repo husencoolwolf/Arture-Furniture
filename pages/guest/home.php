@@ -28,17 +28,9 @@ if (isset($_GET['cari'])) {
 
       <div class="col-md-7 shadow-lg bg-white rounded">
         <div class="container mx-2">
-          <div class="row m-0">
-            <div class="col-md-8">
-              <h2 class="title"><strong>Tentang Perusahaan</strong></h2>
-              <h3 class="subtitle"><strong>Arture (Art</strong> in <strong>Future)</strong></h3>
-              <h5>CV. SHANDY MEGAH PERSADA</h5>
-            </div>
-            <div class="col-md-4">
-              <img src="/assets/material/cv-shandy-megah-persada-tr-dark.png" alt="CV Shandy Megah Persada" class="img-fluid">
-            </div>
-          </div>
-
+          <h2 class="title"><strong>Tentang Perusahaan</strong></h2>
+          <h3 class="subtitle"><strong>Arture (Art</strong> in <strong>Living)</strong></h3>
+          <h5>CV. SHANDY MEGAH PERSADA</h5>
           <br>
           <p class="text-justify">Kami memulai usaha ini sejak tahun 2015, kami bergerak
             di bidang interior yang mencakup pekerjaan furniture. Awal
@@ -72,40 +64,40 @@ if (isset($_GET['cari'])) {
   </section>
 
   <section id="jasa" class="mt-5 mb-5 bg-bg-primary">
-    <!-- <div class="container"> -->
-    <h1 class="mb-5 text-center">Jasa Layanan Kami</h1>
-    <div class="row mx-2">
-      <div class="col-md p-0 mt-2">
-        <a href="/?page=furniture">
-          <div class="card bg-dark text-white border-0">
-            <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
-            <div class="jasa-card" id="furniture">
-              <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
-                <h2 class="text-dark">Furniture</h2>
-              </div>
+    <div class="container">
+      <h1 class="mb-5 text-center">Jasa Layanan Kami</h1>
+      <div class="row">
+        <div class="col-md p-0 mt-2">
+          <a href="/?page=furniture">
+            <div class="card bg-dark text-white border-0">
+              <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
+              <div class="jasa-card" id="furniture">
+                <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
+                  <h2 class="text-dark">Furniture</h2>
+                </div>
 
-            </div>
-          </div>
-        </a>
-      </div>
-      <div class="col-md p-0 mt-2">
-        <a href="/?page=building">
-          <div class="card bg-dark text-white border-0">
-            <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
-            <div class="jasa-card" id="building">
-              <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
-                <h2 class="text-dark">Building</h2>
               </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
+        <div class="col-md p-0 mt-2">
+          <a href="/?page=building">
+            <div class="card bg-dark text-white border-0">
+              <!-- <img src="/assets/material/login-bg.jpg" class="card-img" alt="Furniture"> -->
+              <div class="jasa-card" id="building">
+                <div class="d-flex h-100 justify-content-center align-items-center text-jasa">
+                  <h2 class="text-dark">Building</h2>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
       </div>
+
+
 
     </div>
-
-
-
-    <!-- </div> -->
   </section>
 
 
@@ -135,7 +127,7 @@ if (isset($_GET['cari'])) {
   </section>
 
   <section id="contact">
-    <div class="row bg-kuning text-center mt-4 w-100">
+    <div class="row bg-kuning text-center mt-4">
       <div class="garis-kuning bg-dark"></div>
 
       <div class="col my-3">
@@ -148,7 +140,9 @@ if (isset($_GET['cari'])) {
       <div class="row justify-content-between">
         <div class="col-6">
           <H5>ALAMAT KANTOR</H5>
-          <p>Jl. Delima 1 No. 15, Jakarta Timur</p>
+          <p>Jl. Vini Vidi Vici No. 40 RW.08, Klp Dua
+            Wetan, Kec. Ciracas, Jakarta Timur,
+            13730</p>
         </div>
         <div class="col-6">
           <H5>INSTAGRAM</H5>
@@ -215,22 +209,6 @@ if (isset($_GET['cari'])) {
   </div>
 </div>
 
-<!-- Modal Promo -->
-<div class="modal fade" id="promoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header bg-warning">
-        <buttons type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </buttons>
-      </div>
-      <div class="modal-body">
-        <img class="img-fluid" src="/assets/promo/2022-12-06.jpg" alt="Promo">
-      </div>
-
-    </div>
-  </div>
-</div>
 <button type="button" id="waContact" class="btn btn-white bg-white border rounded-circle p-0">
   <span class="fa fa-whatsapp fa-3x text-success text-center" role="button">
   </span>

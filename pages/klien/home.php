@@ -38,8 +38,8 @@ if (isset($_GET['cari'])) {
         </div>
       </form>
     </div>
-    <div class="row w-100">
-      <div class="col-lg-2 d-none d-lg-block p-0 mx-auto">
+    <div class="row">
+      <div class="d-none d-lg-block col-lg-2 p-0 mx-auto">
         <div class="list-group">
           <?php
 
@@ -62,7 +62,7 @@ if (isset($_GET['cari'])) {
         </div>
       </div>
       <div class="col-lg-9 col-md-12 col-sm-12 mx-auto">
-        <div class="row w-100">
+        <div class="row">
 
 
           <?php
@@ -87,10 +87,15 @@ if (isset($_GET['cari'])) {
           } else {
             while ($x = mysqli_fetch_array($dataProduk)) {
             ?>
-              <div class="col-lg-4 col-md-4 col-sm-6 mb-3 justify-content-center">
+              <div class="col-lg-4 col-md-4 col-sm-6 mb-3">
                 <a class="text-decoration-none text-dark" href="/?page=produk&produk=<?= $x['id_produk'] ?>">
+<<<<<<< HEAD
                   <div class="card">
                     <img src="/assets/produk/<?= $x['gambar'] ?>" class="card-img-top img-fluid" alt="<?= $x['nama_produk'] ?>">
+=======
+                  <div class="card h-100 border-dark">
+                    <img src="/assets/produk/<?= $x['gambar'] ?>" class="card-img-top" alt="<?= $x['nama_produk'] ?>">
+>>>>>>> parent of 5d4150d (update mistake)
                     <div class="card-body">
                       <p class="card-title font-weight-bold productName"><?= $x['nama_produk'] ?></p>
                       <p class="font-weight-bold productPrice"><?= $db->intToRupiah($x['harga_produk']) ?></p>
